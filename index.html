@@ -22,12 +22,19 @@
       color: #ff4081;
       margin-bottom: 20px;
     }
-    #roulette {
+    #game-area {
+      position: relative;
+      width: 100vw;
+      height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #cap {
       width: 200px;
-      height: 200px;
-      background: url('soju_cap.png') no-repeat center center;
-      background-size: contain;
+      height: auto;
       transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+      cursor: pointer;
     }
     #info {
       margin-top: 20px;
@@ -39,17 +46,19 @@
 <body>
 
 <h1>🍾 소주뚜껑 룰렛 🍾</h1>
-<div id="roulette"></div>
+<div id="game-area">
+  <img id="cap" src="soju_cap.png" alt="소주뚜껑" />
+</div>
 <div id="info">소주뚜껑을 터치해서 돌려보세요!</div>
 
 <script>
-  const roulette = document.getElementById("roulette");
+  const cap = document.getElementById("cap");
   let currentRotation = 0;
 
-  roulette.addEventListener("click", () => {
+  cap.addEventListener("click", () => {
     const spin = Math.floor(Math.random() * 1800) + 1440;
     currentRotation += spin;
-    roulette.style.transform = `rotate(${currentRotation}deg)`;
+    cap.style.transform = `rotate(${currentRotation}deg)`;
   });
 </script>
 
