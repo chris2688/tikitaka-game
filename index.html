@@ -47,7 +47,7 @@
   let currentRotation = 0;
 
   roulette.addEventListener("click", () => {
-    const spin = Math.floor(Math.random() * 1800) + 1440; // 4~5회전
+    const spin = Math.floor(Math.random() * 1800) + 1440;
     currentRotation += spin;
     roulette.style.transform = `rotate(${currentRotation}deg)`;
   });
