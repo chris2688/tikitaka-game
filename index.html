@@ -136,6 +136,10 @@
       document.getElementById("stop4"),
     ];
     let rotation = 0;
+document.addEventListener("DOMContentLoaded", () => {
+  const img = document.getElementById("cap");
+  img.style.transform = "rotate(30deg)";
+});
 if (document.getElementById("cap").src.includes("soju_bottle")) {
   document.getElementById("cap").style.transform = "rotate(30deg)";
 }
@@ -192,6 +196,18 @@ stopSoundTimeout = setTimeout(() => {
     }
 
     function handleGameChange() {
+  // cancel ongoing rotation and sounds
+  if (stopSoundTimeout) {
+    clearTimeout(stopSoundTimeout);
+    stopSoundTimeout = null;
+  }
+  spinSound.pause();
+  spinSound.currentTime = 0;
+  if (selectedSound) {
+    selectedSound.pause();
+    selectedSound.currentTime = 0;
+  }
+  isSpinning = false;
       const alcoholVal = document.getElementById("alcoholGames").value;
       const coupleVal = document.getElementById("coupleGames").value;
       const funVal = document.getElementById("funGames").value;
@@ -199,9 +215,11 @@ stopSoundTimeout = setTimeout(() => {
       if (alcoholVal === "soju") {
     document.getElementById("gameTitle").innerText = "소주뚜껑 룰렛";
     document.getElementById("cap").src = "soju_cap.png";
+    document.getElementById("cap").style.transform = "rotate(30deg)";
   } else if (alcoholVal === "sojubottle") {
     document.getElementById("gameTitle").innerText = "소주병 룰렛";
     document.getElementById("cap").src = "real_soju_bottle.png";
+    document.getElementById("cap").style.transform = "rotate(30deg)";
     document.getElementById("cap").style.transform = "rotate(30deg)";
   } else {
         document.getElementById("gameTitle").innerText = "게임 준비 중...";
