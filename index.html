@@ -39,6 +39,7 @@
       align-items: center;
       font-size: 32px;
       user-select: none;
+      transition: left 0.5s ease, top 0.5s ease;
     }
     #mission {
       margin-top: 20px;
@@ -68,6 +69,7 @@
   const bomb = document.getElementById("bomb");
   const mission = document.getElementById("mission");
   const result = document.getElementById("result");
+  const gameArea = document.getElementById("game-area");
 
   const missions = [
     "오늘 있었던 TMI 한 가지",
@@ -87,11 +89,19 @@
     return Math.floor(Math.random() * 8000) + 7000; // 7~15초
   }
 
+  function centerBomb() {
+    const areaRect = gameArea.getBoundingClientRect();
+    bomb.style.left = (areaRect.width / 2 - bomb.offsetWidth / 2) + 'px';
+    bomb.style.top = (areaRect.height / 2 - bomb.offsetHeight / 2) + 'px';
+  }
+
   function resetGame() {
     result.textContent = "";
     mission.textContent = "미션: " + missions[Math.floor(Math.random() * missions.length)];
     clearTimeout(timer);
     timeout = randomTimeout();
+    centerBomb();
+    bomb.style.backgroundColor = "#ff4081";
     timer = setTimeout(() => {
       result.textContent = "💥 폭탄이 터졌어요! 벌칙 수행!";
       bomb.style.backgroundColor = "#550000";
@@ -103,12 +113,12 @@
 
   function startDrag(e) {
     e.preventDefault();
-    const shiftX = (e.clientX || e.touches[0].clientX) - bomb.getBoundingClientRect().left - bomb.offsetWidth / 2;
-    const shiftY = (e.clientY || e.touches[0].clientY) - bomb.getBoundingClientRect().top - bomb.offsetHeight / 2;
+    const shiftX = (e.clientX || e.touches[0].clientX) - bomb.getBoundingClientRect().left;
+    const shiftY = (e.clientY || e.touches[0].clientY) - bomb.getBoundingClientRect().top;
 
     function moveAt(pageX, pageY) {
-      bomb.style.left = pageX - shiftX + 'px';
-      bomb.style.top = pageY - shiftY + 'px';
+      bomb.style.left = (pageX - shiftX) + 'px';
+      bomb.style.top = (pageY - shiftY) + 'px';
     }
 
     function onMouseMove(e) {
@@ -127,6 +137,7 @@
   }
 
   resetGame();
+  window.addEventListener('resize', centerBomb);
 </script>
 
 </body>
