@@ -3,56 +3,71 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>TIKI TAKA 소주뚜껑 룰렛</title>
+  <title>TIKI TAKA 게임</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    html, body {
+    * { box-sizing: border-box; }
+    body {
       margin: 0;
       padding: 0;
-      background: #1a1a1a;
       font-family: 'Arial', sans-serif;
+      background: #1a1a1a;
       color: white;
-      overflow-x: hidden;
     }
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      box-sizing: border-box;
+    #header {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+    #modeSelect {
+      padding: 8px;
+      font-size: 16px;
+      background: #333;
+      color: white;
+      border: none;
+      border-radius: 4px;
     }
     #logo {
-      margin-top: 30px;
+      display: block;
+      margin: 60px auto 8px;
       width: 180px;
-      height: auto;
     }
-    h2 {
+    #gameTitle {
+      text-align: center;
       color: #88f5e1;
-      margin-top: 8px;
       font-size: 28px;
       font-weight: bold;
     }
-    #game-area {
-      position: relative;
-      flex: 1;
-      width: 100%;
-      max-height: 60vh;
+    #gameList {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .gameButton {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #444;
+      border: none;
+      color: #fff;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    #gameArea {
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: visible;
-      padding: 20px;
-      box-sizing: border-box;
+      margin-top: 40px;
     }
     #cap {
       width: min(80vw, 400px);
-      height: auto;
+      transform-origin: 52% 65%;
       transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
       cursor: pointer;
-      transform-origin: 52% 65%;
     }
     #info {
-      margin: 30px 0;
+      text-align: center;
+      margin-top: 30px;
       font-size: 20px;
       color: #ccc;
     }
@@ -60,24 +75,76 @@
 </head>
 <body>
 
-<img id="logo" src="tikitaka_logo.png" alt="TIKI TAKA 로고" />
-<h2>소주뚜껑 룰렛</h2>
-
-<div id="game-area">
-  <img id="cap" src="soju_cap.png" alt="소주뚜껑" />
+<div id="header">
+  <select id="modeSelect">
+    <option value="">모드 선택</option>
+    <option value="alcohol">술게임</option>
+    <option value="couple">커플게임</option>
+    <option value="fun">재미게임</option>
+  </select>
 </div>
 
-<div id="info">👆 소주뚜껑을 터치해서 돌려보세요!</div>
+<img id="logo" src="tikitaka_logo.png" alt="TIKI TAKA 로고" />
+<h2 id="gameTitle">TIKI TAKA 게임</h2>
+
+<div id="gameList"></div>
+<div id="gameArea"></div>
+<div id="info"></div>
 
 <script>
-  const cap = document.getElementById("cap");
-  let currentRotation = 0;
+  const modeSelect = document.getElementById("modeSelect");
+  const gameList = document.getElementById("gameList");
+  const gameArea = document.getElementById("gameArea");
+  const info = document.getElementById("info");
 
-  cap.addEventListener("click", () => {
-    const spin = Math.floor(Math.random() * 1800) + 1440;
-    currentRotation += spin;
-    cap.style.transform = `rotate(${currentRotation}deg)`;
+  const games = {
+    alcohol: [
+      { name: "소주뚜껑 룰렛", id: "sojuCap" }
+    ],
+    couple: [
+      { name: "공감 퀴즈 (준비 중)", id: "coupleQuiz" }
+    ],
+    fun: [
+      { name: "웃음 참기 (준비 중)", id: "funLaugh" }
+    ]
+  };
+
+  modeSelect.addEventListener("change", () => {
+    const selected = modeSelect.value;
+    gameArea.innerHTML = "";
+    info.innerHTML = "";
+    gameList.innerHTML = "";
+
+    if (games[selected]) {
+      games[selected].forEach(game => {
+        const btn = document.createElement("button");
+        btn.className = "gameButton";
+        btn.innerText = game.name;
+        btn.onclick = () => loadGame(game.id);
+        gameList.appendChild(btn);
+      });
+    }
   });
+
+  function loadGame(id) {
+    gameArea.innerHTML = "";
+    info.innerHTML = "";
+    if (id === "sojuCap") {
+      const img = document.createElement("img");
+      img.src = "soju_cap.png";
+      img.id = "cap";
+      let rotation = 0;
+      img.onclick = () => {
+        const spin = Math.floor(Math.random() * 1800) + 1440;
+        rotation += spin;
+        img.style.transform = `rotate(${rotation}deg)`;
+      };
+      gameArea.appendChild(img);
+      info.innerHTML = "👆 소주뚜껑을 터치해서 돌려보세요!";
+    } else {
+      gameArea.innerHTML = "<p>게임 준비 중입니다...</p>";
+    }
+  }
 </script>
 
 </body>
