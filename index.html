@@ -64,8 +64,7 @@
       max-height: 65vh;
       cursor: pointer;
       transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
-    
-  animation: idleTilt 4s ease-in-out infinite;
+    }
     #instruction {
       position: absolute;
       bottom: 30px;
@@ -87,18 +86,11 @@
       border: 1px solid #88f5e1;
       border-radius: 4px;
     }
-  
-@keyframes idleTilt {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(30deg); }
-  100% { transform: rotate(0deg); }
-}
-</style>
+  </style>
 </head>
 <body>
   <div id="container">
     
-
 <div id="topLeftMenu">
   <select id="modeSelect" onchange="handleModeChange()">
     <option value="alcohol" selected>술게임</option>
@@ -116,7 +108,6 @@
     <option value="comingsoon">Coming Soon</option>
   </select>
 </div>
-
 
     <div id="logoBar">
       <img src="tikitaka_logo.png" alt="TIKI TAKA Logo" />
@@ -158,7 +149,6 @@ let isSpinning = false;
 
     
 cap.addEventListener("click", async () => {
-  cap.style.animation = "none";
   if (selectedSound) {
     selectedSound.pause();
     selectedSound.currentTime = 0;
@@ -206,20 +196,6 @@ stopSoundTimeout = setTimeout(() => {
     }
 
     function handleGameChange() {
-  if (stopSoundTimeout) {
-    clearTimeout(stopSoundTimeout);
-    stopSoundTimeout = null;
-  }
-  spinSound.pause();
-  spinSound.currentTime = 0;
-  if (selectedSound) {
-    selectedSound.pause();
-    selectedSound.currentTime = 0;
-  }
-  isSpinning = false;
-  const cap = document.getElementById("cap");
-  cap.style.animation = "idleTilt 4s ease-in-out infinite";
-  cap.style.transform = "rotate(0deg)";
   // cancel ongoing rotation and sounds
   if (stopSoundTimeout) {
     clearTimeout(stopSoundTimeout);
