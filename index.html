@@ -161,43 +161,18 @@
     if (game.id === "sojuCap") {
       const img = document.createElement("img");
       img.src = "soju_cap.png";
-      img.alt = "소주뚜껑";
-      img.style.display = "block";
       img.id = "cap";
       let rotation = 0;
-      
-let spinTimeout = null;
-img.onclick = () => {
+      img.onclick = () => {
         spinSound.currentTime = 0;
         spinSound.loop = true;
         spinSound.play();
         const spin = Math.floor(Math.random() * 1800) + 1440;
         rotation += spin;
         img.style.transform = `rotate(${rotation}deg)`;
-        if (spinTimeout) clearTimeout(spinTimeout);
-        spinTimeout = setTimeout(() => {
-            spinSound.pause();
-            spinSound.currentTime = 0;
-        }, 4000);
-};
-
+        setTimeout(() => { spinSound.pause(); spinSound.currentTime = 0; }, 4000);
       };
-      gameArea.innerHTML = '<img id="cap" src="soju_cap.png" alt="소주뚜껑" style="width: min(80vw, 400px); transform-origin: 52% 65%; transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67); cursor: pointer;">';
-      const imgEl = document.getElementById("cap");
-      let rotation = 0;
-      imgEl.onclick = () => {
-        spinSound.currentTime = 0;
-        spinSound.loop = true;
-        spinSound.play();
-        const spin = Math.floor(Math.random() * 1800) + 1440;
-        rotation += spin;
-        imgEl.style.transform = `rotate(${rotation}deg)`;
-        if (window.spinTimeout) clearTimeout(window.spinTimeout);
-        window.spinTimeout = setTimeout(() => {
-          spinSound.pause();
-          spinSound.currentTime = 0;
-        }, 4000);
-      };
+      gameArea.appendChild(img);
       info.innerHTML = "👆 소주뚜껑을 터치해서 돌려보세요!";
     } else {
       gameArea.innerHTML = "<p>게임 준비 중입니다...</p>";
