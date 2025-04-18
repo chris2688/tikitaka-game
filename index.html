@@ -98,8 +98,8 @@
         <option value="fun">재미게임</option>
       </select>
       <select id="alcoholGames" style="display: inline-block;" onchange="handleGameChange()">
-        <option value="soju" selected>소주뚜껑 룰렛</option>
-      </select>
+        <option value="soju" selected>소주병 룰렛</option>
+      <option value="sojubottle">소주병 룰렛</option></select>
       <select id="coupleGames" style="display: none;" onchange="handleGameChange()">
         <option value="comingsoon">Coming Soon</option>
       </select>
@@ -111,11 +111,11 @@
       <img src="tikitaka_logo.png" alt="TIKI TAKA Logo" />
       <span id="gameLabel">Game</span>
     </div>
-    <div id="gameTitle">소주뚜껑 룰렛</div>
+    <div id="gameTitle">소주병 룰렛</div>
     <div id="gameArea">
-      <img id="cap" src="soju_cap.png" alt="Soju Cap" />
+      <img id="cap" src="soju_bottle.png" alt="Soju Cap" />
     </div>
-    <div id="instruction">👆 소주뚜껑을 터치해서 돌려보세요!</div>
+    <div id="instruction">👆 소주병을 터치해서 돌려보세요!</div>
   </div>
 
   <audio id="spinSound" src="spin.wav"></audio>
@@ -192,8 +192,12 @@ stopSoundTimeout = setTimeout(() => {
       const funVal = document.getElementById("funGames").value;
 
       if (alcoholVal === "soju") {
-        document.getElementById("gameTitle").innerText = "소주뚜껑 룰렛";
-      } else {
+    document.getElementById("gameTitle").innerText = "소주뚜껑 룰렛";
+    document.getElementById("cap").src = "soju_cap.png";
+  } else if (alcoholVal === "sojubottle") {
+    document.getElementById("gameTitle").innerText = "소주병 룰렛";
+    document.getElementById("cap").src = "soju_bottle.png";
+  } else {
         document.getElementById("gameTitle").innerText = "게임 준비 중...";
       }
     }
