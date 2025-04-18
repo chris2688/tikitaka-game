@@ -3,141 +3,54 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>TIKI TAKA 폭탄 패스</title>
+  <title>TIKI TAKA 소주뚜껑 룰렛</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       margin: 0;
-      padding: 0;
+      background: #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
       font-family: 'Arial', sans-serif;
-      background: linear-gradient(to right, #000000, #1a1a1a);
-      color: #fff;
-      text-align: center;
       overflow: hidden;
     }
     h1 {
-      margin-top: 20px;
       color: #ff4081;
+      margin-bottom: 20px;
     }
-    #game-area {
-      position: relative;
-      width: 100vw;
-      height: 80vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    #roulette {
+      width: 200px;
+      height: 200px;
+      background: url('soju_cap.png') no-repeat center center;
+      background-size: contain;
+      transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
     }
-    #bomb {
-      width: 100px;
-      height: 100px;
-      background-color: #ff4081;
-      border-radius: 50%;
-      position: absolute;
-      cursor: grab;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 32px;
-      user-select: none;
-      transition: left 0.5s ease, top 0.5s ease;
-    }
-    #mission {
+    #info {
       margin-top: 20px;
       font-size: 20px;
-      background-color: #333;
-      display: inline-block;
-      padding: 10px 20px;
-      border-radius: 12px;
-    }
-    #result {
-      margin-top: 20px;
-      font-size: 24px;
-      color: #ff4f4f;
+      color: #ccc;
     }
   </style>
 </head>
 <body>
 
-<h1>🔥 TIKI TAKA 폭탄 패스 🔥</h1>
-<div id="mission">미션: 게임을 시작해보세요!</div>
-<div id="game-area">
-  <div id="bomb">💣</div>
-</div>
-<div id="result"></div>
+<h1>🍾 소주뚜껑 룰렛 🍾</h1>
+<div id="roulette"></div>
+<div id="info">소주뚜껑을 터치해서 돌려보세요!</div>
 
 <script>
-  const bomb = document.getElementById("bomb");
-  const mission = document.getElementById("mission");
-  const result = document.getElementById("result");
-  const gameArea = document.getElementById("game-area");
+  const roulette = document.getElementById("roulette");
+  let currentRotation = 0;
 
-  const missions = [
-    "오늘 있었던 TMI 한 가지",
-    "옆 사람 칭찬 한마디",
-    "이상형 말해보기",
-    "3초 동안 표정 안 바꾸기",
-    "하트 손가락 하기",
-    "성대모사 한마디",
-    "YES or NO만 말하기",
-    "왼쪽 or 오른쪽 중 택1"
-  ];
-
-  let timer;
-  let timeout = randomTimeout();
-
-  function randomTimeout() {
-    return Math.floor(Math.random() * 8000) + 7000; // 7~15초
-  }
-
-  function centerBomb() {
-    const areaRect = gameArea.getBoundingClientRect();
-    bomb.style.left = (areaRect.width / 2 - bomb.offsetWidth / 2) + 'px';
-    bomb.style.top = (areaRect.height / 2 - bomb.offsetHeight / 2) + 'px';
-  }
-
-  function resetGame() {
-    result.textContent = "";
-    mission.textContent = "미션: " + missions[Math.floor(Math.random() * missions.length)];
-    clearTimeout(timer);
-    timeout = randomTimeout();
-    centerBomb();
-    bomb.style.backgroundColor = "#ff4081";
-    timer = setTimeout(() => {
-      result.textContent = "💥 폭탄이 터졌어요! 벌칙 수행!";
-      bomb.style.backgroundColor = "#550000";
-    }, timeout);
-  }
-
-  bomb.addEventListener("mousedown", startDrag);
-  bomb.addEventListener("touchstart", startDrag);
-
-  function startDrag(e) {
-    e.preventDefault();
-    const shiftX = (e.clientX || e.touches[0].clientX) - bomb.getBoundingClientRect().left;
-    const shiftY = (e.clientY || e.touches[0].clientY) - bomb.getBoundingClientRect().top;
-
-    function moveAt(pageX, pageY) {
-      bomb.style.left = (pageX - shiftX) + 'px';
-      bomb.style.top = (pageY - shiftY) + 'px';
-    }
-
-    function onMouseMove(e) {
-      moveAt(e.clientX || e.touches[0].clientX, e.clientY || e.touches[0].clientY);
-    }
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('touchmove', onMouseMove);
-
-    bomb.onmouseup = bomb.ontouchend = function() {
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('touchmove', onMouseMove);
-      bomb.onmouseup = bomb.ontouchend = null;
-      resetGame();
-    };
-  }
-
-  resetGame();
-  window.addEventListener('resize', centerBomb);
+  roulette.addEventListener("click", () => {
+    const spin = Math.floor(Math.random() * 1800) + 1440; // 4~5회전
+    currentRotation += spin;
+    roulette.style.transform = `rotate(${currentRotation}deg)`;
+  });
 </script>
 
 </body>
