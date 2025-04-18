@@ -10,7 +10,7 @@
     html, body {
       margin: 0;
       padding: 0;
-      background: black;
+      background: url('background.jpg') center/cover no-repeat;
       height: 100%;
       overflow: hidden;
       font-family: Arial, sans-serif;
@@ -21,19 +21,20 @@
       align-items: center;
       justify-content: start;
       height: 100%;
+      position: relative;
     }
     #logoBar {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       margin-top: 40px;
-      gap: 8px;
+      gap: 10px;
     }
     #logoBar img {
-      height: 40px;
+      height: 60px;
     }
     #gameLabel {
-      font-size: 20px;
+      font-size: 28px;
       font-weight: bold;
       color: #88f5e1;
       opacity: 0;
@@ -48,17 +49,34 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: -30px;
+      margin-top: -20px;
     }
     #cap {
-      width: 160px;
+      width: 200px;
       cursor: pointer;
       transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
+    }
+    #instruction {
+      position: absolute;
+      bottom: 40px;
+      color: white;
+      font-size: 20px;
+      text-align: center;
+      animation: fadeInUp 1s ease-out 1s forwards;
+    }
+    #topLeftMode {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #88f5e1;
+      font-size: 16px;
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
   <div id="container">
+    <div id="topLeftMode">술게임 - 소주뚜껑 룰렛</div>
     <div id="logoBar">
       <img src="tikitaka_logo.png" alt="TIKI TAKA Logo" />
       <span id="gameLabel">Game</span>
@@ -66,6 +84,7 @@
     <div id="gameArea">
       <img id="cap" src="soju_cap.png" alt="Soju Cap" />
     </div>
+    <div id="instruction">소주뚜껑을 터치해서 돌려보세요!</div>
   </div>
 
   <audio id="spinSound" src="spin.wav"></audio>
@@ -83,11 +102,9 @@
       document.getElementById("stop3"),
       document.getElementById("stop4"),
     ];
-
     let rotation = 0;
 
     cap.addEventListener("click", async () => {
-      // 사운드 미리 선택 + 허용 확보
       const selected = stopSounds[Math.floor(Math.random() * stopSounds.length)];
       try {
         selected.volume = 0;
@@ -97,22 +114,21 @@
         selected.volume = 1;
       } catch (_) {}
 
-      // 회전 소리 시작
       spinSound.pause();
       spinSound.currentTime = 0;
       spinSound.loop = true;
       spinSound.play().catch(() => {});
 
-      // 회전 동작
       const spin = Math.floor(Math.random() * 1800) + 1440;
       rotation += spin;
       cap.style.transform = `rotate(${rotation}deg)`;
 
-      // 회전 멈춤 + 효과음
       setTimeout(() => {
         spinSound.pause();
         spinSound.currentTime = 0;
-        selected.play().catch(e => console.log("Stop sound error:", e));
+        selected.pause();
+        selected.currentTime = 0;
+        selected.play().catch(e => console.log("stop sound error", e));
       }, 4000);
     });
   </script>
