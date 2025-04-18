@@ -102,10 +102,6 @@
 </head>
 <body>
   <audio id="spinSound" src="spin.wav"></audio>
-<audio id="stopSound0" src="stop0.wav"></audio>
-<audio id="stopSound1" src="stop1.ogg"></audio>
-<audio id="stopSound2" src="stop2.mp3"></audio>
-<audio id="stopSound3" src="stop3.wav"></audio>
 
   <div id="overlay"></div>
   <div id="content">
@@ -163,28 +159,20 @@
     subtitle.innerHTML = game.name;
 
     if (game.id === "sojuCap") {
-      gameArea.innerHTML = '<img id="cap" src="soju_cap.png" alt="소주뚜껑" style="width: min(80vw, 400px); transform-origin: 52% 65%; transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67); cursor: pointer;">';
-      const imgEl = document.getElementById("cap");
+      const img = document.createElement("img");
+      img.src = "soju_cap.png";
+      img.id = "cap";
       let rotation = 0;
-      if (window.spinTimeout) clearTimeout(window.spinTimeout);
-      imgEl.onclick = () => {
+      img.onclick = () => {
         spinSound.currentTime = 0;
         spinSound.loop = true;
         spinSound.play();
         const spin = Math.floor(Math.random() * 1800) + 1440;
         rotation += spin;
-        imgEl.style.transform = `rotate(${rotation}deg)`;
-        if (window.spinTimeout) clearTimeout(window.spinTimeout);
-        window.spinTimeout = if (window.spinTimeout) clearTimeout(window.spinTimeout);
-        window.spinTimeout = setTimeout(() => {
-          spinSound.pause();
-          spinSound.currentTime = 0;
-          const stopIndex = Math.floor(Math.random() * 4);
-          const stopSound = document.getElementById(`stopSound${stopIndex}`);
-          stopSound.currentTime = 0;
-          stopSound.play();
-        }, 4000);
+        img.style.transform = `rotate(${rotation}deg)`;
+        setTimeout(() => { spinSound.pause(); spinSound.currentTime = 0; }, 4000);
       };
+      gameArea.appendChild(img);
       info.innerHTML = "👆 소주뚜껑을 터치해서 돌려보세요!";
     } else {
       gameArea.innerHTML = "<p>게임 준비 중입니다...</p>";
