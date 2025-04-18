@@ -10,7 +10,7 @@
     html, body {
       margin: 0;
       padding: 0;
-      background: url('background.jpg') center/cover no-repeat;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('background.jpg') center/cover no-repeat;
       height: 100%;
       overflow: hidden;
       font-family: Arial, sans-serif;
@@ -134,34 +134,41 @@
       document.getElementById("stop4"),
     ];
     let rotation = 0;
+let selectedSound = null;
 
-    cap.addEventListener("click", async () => {
-      const selected = stopSounds[Math.floor(Math.random() * stopSounds.length)];
-      try {
-        selected.volume = 0;
-        await selected.play();
-        selected.pause();
-        selected.currentTime = 0;
-        selected.volume = 1;
-      } catch (_) {}
+    
+cap.addEventListener("click", async () => {
+  // Pick and preload one random stop sound
+  selectedSound = stopSounds[Math.floor(Math.random() * stopSounds.length)];
+  try {
+    selectedSound.volume = 0;
+    await selectedSound.play();
+    selectedSound.pause();
+    selectedSound.currentTime = 0;
+    selectedSound.volume = 1;
+  } catch (_) {}
 
-      spinSound.pause();
-      spinSound.currentTime = 0;
-      spinSound.loop = true;
-      spinSound.play().catch(() => {});
+  spinSound.pause();
+  spinSound.currentTime = 0;
+  spinSound.loop = true;
+  spinSound.play().catch(() => {});
 
-      const spin = Math.floor(Math.random() * 1800) + 1440;
-      rotation += spin;
-      cap.style.transform = `rotate(${rotation}deg)`;
+  const spin = Math.floor(Math.random() * 1800) + 1440;
+  rotation += spin;
+  cap.style.transform = `rotate(${rotation}deg)`;
 
-      setTimeout(() => {
-        spinSound.pause();
-        spinSound.currentTime = 0;
-        selected.pause();
-        selected.currentTime = 0;
-        selected.play().catch(e => console.log("stop sound error", e));
-      }, 4000);
-    });
+  setTimeout(() => {
+    spinSound.pause();
+    spinSound.currentTime = 0;
+
+    if (selectedSound) {
+      selectedSound.pause();
+      selectedSound.currentTime = 0;
+      selectedSound.play().catch(e => console.log("stop sound error", e));
+    }
+  }, 4000);
+});
+
 
     function handleModeChange() {
       const mode = document.getElementById("modeSelect").value;
