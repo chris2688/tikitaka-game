@@ -41,10 +41,10 @@
       animation: fadeInUp 1s ease-out 0.5s forwards;
     }
     #gameTitle {
-      margin-top: 10px;
-      font-size: 22px;
+      margin-top: 4px;
+      font-size: 26px;
       color: white;
-      font-weight: 600;
+      font-weight: bold;
       text-align: center;
     }
     @keyframes fadeInUp {
@@ -90,10 +90,20 @@
 <body>
   <div id="container">
     <div id="topLeftMenu">
-      <select>
-        <option selected>술게임</option>
-        <option>커플게임</option>
-        <option>재미게임</option>
+      <select id="modeSelect" onchange="handleModeChange()">
+        <option value="default" selected>게임선택</option>
+        <option value="alcohol">술게임</option>
+        <option value="couple">커플게임</option>
+        <option value="fun">재미게임</option>
+      </select>
+      <select id="alcoholGames" style="display: inline-block;" onchange="handleGameChange()">
+        <option value="soju" selected>소주뚜껑 룰렛</option>
+      </select>
+      <select id="coupleGames" style="display: none;" onchange="handleGameChange()">
+        <option value="comingsoon">Coming Soon</option>
+      </select>
+      <select id="funGames" style="display: none;" onchange="handleGameChange()">
+        <option value="comingsoon">Coming Soon</option>
       </select>
     </div>
     <div id="logoBar">
@@ -151,6 +161,25 @@
         selected.play().catch(e => console.log("stop sound error", e));
       }, 4000);
     });
+
+    function handleModeChange() {
+      const mode = document.getElementById("modeSelect").value;
+      document.getElementById("alcoholGames").style.display = mode === "alcohol" ? "inline-block" : "none";
+      document.getElementById("coupleGames").style.display = mode === "couple" ? "inline-block" : "none";
+      document.getElementById("funGames").style.display = mode === "fun" ? "inline-block" : "none";
+    }
+
+    function handleGameChange() {
+      const alcoholVal = document.getElementById("alcoholGames").value;
+      const coupleVal = document.getElementById("coupleGames").value;
+      const funVal = document.getElementById("funGames").value;
+
+      if (alcoholVal === "soju") {
+        document.getElementById("gameTitle").innerText = "소주뚜껑 룰렛";
+      } else {
+        document.getElementById("gameTitle").innerText = "게임 준비 중...";
+      }
+    }
   </script>
 </body>
 </html>
