@@ -102,6 +102,10 @@
 </head>
 <body>
   <audio id="spinSound" src="spin.wav"></audio>
+<audio id="stopSound0" src="stop0.wav"></audio>
+<audio id="stopSound1" src="stop1.ogg"></audio>
+<audio id="stopSound2" src="stop2.mp3"></audio>
+<audio id="stopSound3" src="stop3.wav"></audio>
 
   <div id="overlay"></div>
   <div id="content">
@@ -171,9 +175,14 @@
         rotation += spin;
         imgEl.style.transform = `rotate(${rotation}deg)`;
         if (window.spinTimeout) clearTimeout(window.spinTimeout);
+        window.spinTimeout = if (window.spinTimeout) clearTimeout(window.spinTimeout);
         window.spinTimeout = setTimeout(() => {
           spinSound.pause();
           spinSound.currentTime = 0;
+          const stopIndex = Math.floor(Math.random() * 4);
+          const stopSound = document.getElementById(`stopSound${stopIndex}`);
+          stopSound.currentTime = 0;
+          stopSound.play();
         }, 4000);
       };
       info.innerHTML = "👆 소주뚜껑을 터치해서 돌려보세요!";
