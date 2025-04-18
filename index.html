@@ -99,7 +99,33 @@
       color: #ccc;
       z-index: 1;
     }
-  </style>
+  
+
+#logoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 60px;
+}
+
+#gameLabel {
+  margin-left: 14px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #88f5e1;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 1s ease-in-out 0.5s forwards;
+  font-family: 'Arial', sans-serif;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
 </head>
 <body>
   <audio id="spinSound" src="spin.wav"></audio>
@@ -119,7 +145,12 @@
       </select>
     </div>
 
-    <img id="logo" src="tikitaka_logo.png" alt="TIKI TAKA 로고" />
+    
+<div id="logoContainer">
+  <img id="logo" src="tikitaka_logo.png" alt="TIKI TAKA 로고" />
+  <span id="gameLabel">Game</span>
+</div>
+
     <div id="subtitle"></div>
     <div id="gameList"></div>
     <div id="mainContent">
