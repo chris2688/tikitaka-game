@@ -7,12 +7,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     * { box-sizing: border-box; }
-    body {
+    html, body {
       margin: 0;
       padding: 0;
-      font-family: 'Arial', sans-serif;
+      height: 100%;
       background: #1a1a1a;
       color: white;
+      font-family: 'Arial', sans-serif;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
     }
     #header {
       position: absolute;
@@ -54,6 +59,14 @@
       border-radius: 6px;
       cursor: pointer;
     }
+    #mainContent {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 60px; /* give room for footer */
+    }
     #gameArea {
       display: flex;
       justify-content: center;
@@ -67,8 +80,10 @@
       cursor: pointer;
     }
     #info {
+      width: 100%;
       text-align: center;
-      margin-top: 30px;
+      position: fixed;
+      bottom: 10px;
       font-size: 20px;
       color: #ccc;
     }
@@ -89,7 +104,9 @@
 <div id="subtitle"></div>
 
 <div id="gameList"></div>
-<div id="gameArea"></div>
+<div id="mainContent">
+  <div id="gameArea"></div>
+</div>
 <div id="info"></div>
 
 <script>
@@ -149,7 +166,6 @@
     }
   }
 
-  // Load default game on page load
   window.onload = () => {
     loadGame({ name: "소주뚜껑 룰렛", id: "sojuCap" });
   };
