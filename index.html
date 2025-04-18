@@ -6,20 +6,85 @@
   <title>TIKI TAKA 리듬 게임</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: 'Arial', sans-serif; background: #fef3f3; text-align: center; padding: 40px; }
-    .btn { padding: 20px 40px; margin: 20px; font-size: 24px; cursor: pointer; background: #ff4081; border: none; color: white; border-radius: 10px; }
-    .box { font-size: 28px; margin-top: 30px; }
-    .circle { width: 100px; height: 100px; background: #ff4081; border-radius: 50%; margin: 40px auto; animation: beat 1s infinite; }
-    @keyframes beat {
+    @import url('https://fonts.googleapis.com/css2?family=Pretendard&display=swap');
+
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      color: #ffffff;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 36px;
+      color: #ff4081;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      padding: 20px 50px;
+      font-size: 24px;
+      cursor: pointer;
+      background: #ff4081;
+      border: none;
+      color: white;
+      border-radius: 50px;
+      box-shadow: 0 0 20px #ff4081aa;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #ff5c95;
+      box-shadow: 0 0 30px #ff4081;
+      transform: scale(1.05);
+    }
+
+    .circle {
+      width: 120px;
+      height: 120px;
+      background: #ffffff11;
+      border-radius: 50%;
+      margin: 40px auto;
+      animation: pulse 1s infinite;
+      box-shadow: 0 0 20px #ff4081aa;
+    }
+
+    @keyframes pulse {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.3); }
     }
-    .mode-select { margin-bottom: 20px; }
+
+    .box {
+      font-size: 24px;
+      margin-top: 30px;
+      background: #222;
+      padding: 20px;
+      border-radius: 20px;
+      width: 80%;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 0 10px #ff4081aa;
+    }
+
+    .mode-select {
+      margin-bottom: 20px;
+    }
+
+    select {
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      font-size: 18px;
+      background: #333;
+      color: #fff;
+    }
   </style>
 </head>
 <body>
 
-  <h1>🥁 TIKI TAKA 리듬 게임 🍻</h1>
+  <h1>🥁 TIKI TAKA 리듬 게임</h1>
   <div class="mode-select">
     <label>모드 선택: </label>
     <select id="mode">
@@ -52,13 +117,12 @@
       ]
     };
 
-    let lastClick = 0;
     const beatInterval = 1000; // 1초 간격
 
     function checkTiming() {
       const now = Date.now();
       const diff = now % beatInterval;
-      const tolerance = 200; // +/- 200ms
+      const tolerance = 200;
 
       if (diff < tolerance || diff > beatInterval - tolerance) {
         document.getElementById("result").innerText = "🎯 굿 타이밍! 다음 사람에게 넘기세요!";
