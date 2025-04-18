@@ -64,7 +64,8 @@
       max-height: 65vh;
       cursor: pointer;
       transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
-    }
+    
+  animation: idleSwing 4s ease-in-out infinite;
     #instruction {
       position: absolute;
       bottom: 30px;
@@ -86,7 +87,15 @@
       border: 1px solid #88f5e1;
       border-radius: 4px;
     }
-  </style>
+  
+
+@keyframes idleSwing {
+  0% { transform: rotate(30deg); }
+  50% { transform: rotate(-30deg); }
+  100% { transform: rotate(30deg); }
+}
+
+</style>
 </head>
 <body>
   <div id="container">
@@ -149,6 +158,7 @@ let isSpinning = false;
 
     
 cap.addEventListener("click", async () => {
+  cap.style.animation = "none";
   if (selectedSound) {
     selectedSound.pause();
     selectedSound.currentTime = 0;
@@ -196,6 +206,21 @@ stopSoundTimeout = setTimeout(() => {
     }
 
     function handleGameChange() {
+  // cancel spin and reset
+  if (stopSoundTimeout) {
+    clearTimeout(stopSoundTimeout);
+    stopSoundTimeout = null;
+  }
+  spinSound.pause();
+  spinSound.currentTime = 0;
+  if (selectedSound) {
+    selectedSound.pause();
+    selectedSound.currentTime = 0;
+  }
+  isSpinning = false;
+  const cap = document.getElementById("cap");
+  cap.style.animation = "idleSwing 4s ease-in-out infinite";
+  cap.style.transform = "rotate(30deg)";
   // cancel ongoing rotation and sounds
   if (stopSoundTimeout) {
     clearTimeout(stopSoundTimeout);
