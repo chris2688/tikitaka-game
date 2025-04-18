@@ -3,145 +3,131 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>TIKI TAKA 리듬 게임</title>
+  <title>TIKI TAKA 폭탄 패스</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Pretendard&display=swap');
-
     body {
-      font-family: 'Pretendard', sans-serif;
-      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
-      color: #ffffff;
-      text-align: center;
-      padding: 40px;
-    }
-
-    h1 {
-      font-size: 36px;
-      color: #ff4081;
-      margin-bottom: 20px;
-    }
-
-    .btn {
-      padding: 20px 50px;
-      font-size: 24px;
-      cursor: pointer;
-      background: #ff4081;
-      border: none;
-      color: white;
-      border-radius: 50px;
-      box-shadow: 0 0 20px #ff4081aa;
-      transition: all 0.3s ease;
-    }
-
-    .btn:hover {
-      background: #ff5c95;
-      box-shadow: 0 0 30px #ff4081;
-      transform: scale(1.05);
-    }
-
-    .circle {
-      width: 120px;
-      height: 120px;
-      background: #ffffff11;
-      border-radius: 50%;
-      margin: 40px auto;
-      animation: pulse 1s infinite;
-      box-shadow: 0 0 20px #ff4081aa;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.3); }
-    }
-
-    .box {
-      font-size: 24px;
-      margin-top: 30px;
-      background: #222;
-      padding: 20px;
-      border-radius: 20px;
-      width: 80%;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-      box-shadow: 0 0 10px #ff4081aa;
-    }
-
-    .mode-select {
-      margin-bottom: 20px;
-    }
-
-    select {
-      padding: 10px;
-      border-radius: 10px;
-      border: none;
-      font-size: 18px;
-      background: #333;
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #000000, #1a1a1a);
       color: #fff;
+      text-align: center;
+      overflow: hidden;
+    }
+    h1 {
+      margin-top: 20px;
+      color: #ff4081;
+    }
+    #game-area {
+      position: relative;
+      width: 100vw;
+      height: 80vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #bomb {
+      width: 100px;
+      height: 100px;
+      background-color: #ff4081;
+      border-radius: 50%;
+      position: absolute;
+      cursor: grab;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+      user-select: none;
+    }
+    #mission {
+      margin-top: 20px;
+      font-size: 20px;
+      background-color: #333;
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 12px;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 24px;
+      color: #ff4f4f;
     }
   </style>
 </head>
 <body>
 
-  <h1>🥁 TIKI TAKA 리듬 게임</h1>
-  <div class="mode-select">
-    <label>모드 선택: </label>
-    <select id="mode">
-      <option value="normal">기본 모드</option>
-      <option value="drunk">술자리 모드</option>
-      <option value="cute">커플 모드</option>
-    </select>
-  </div>
+<h1>🔥 TIKI TAKA 폭탄 패스 🔥</h1>
+<div id="mission">미션: 게임을 시작해보세요!</div>
+<div id="game-area">
+  <div id="bomb">💣</div>
+</div>
+<div id="result"></div>
 
-  <div class="circle" id="beatCircle"></div>
-  <button class="btn" onclick="checkTiming()">리듬에 맞춰 클릭!</button>
-  <div class="box" id="result">비트에 맞춰 클릭해보세요!</div>
+<script>
+  const bomb = document.getElementById("bomb");
+  const mission = document.getElementById("mission");
+  const result = document.getElementById("result");
 
-  <audio id="clickSound" src="click_real_sound.mp3"></audio>
-  <audio id="failSound" src="fail_real_sound.mp3"></audio>
+  const missions = [
+    "오늘 있었던 TMI 한 가지",
+    "옆 사람 칭찬 한마디",
+    "이상형 말해보기",
+    "3초 동안 표정 안 바꾸기",
+    "하트 손가락 하기",
+    "성대모사 한마디",
+    "YES or NO만 말하기",
+    "왼쪽 or 오른쪽 중 택1"
+  ];
 
-  <script>
-    const punishments = {
-      normal: [
-        "왼쪽 사람에게 TMI 폭로하기",
-        "옆 사람과 눈싸움 10초",
-        "반대쪽 사람에게 댄스 요청하기"
-      ],
-      drunk: [
-        "원샷!",
-        "성대모사 3종 세트!",
-        "오늘의 흑역사 말하기"
-      ],
-      cute: [
-        "하트 손가락 보내기",
-        "애교 3종 세트!",
-        "서로 닉네임 지어주기"
-      ]
-    };
+  let timer;
+  let timeout = randomTimeout();
 
-    const beatInterval = 1000;
+  function randomTimeout() {
+    return Math.floor(Math.random() * 8000) + 7000; // 7~15초
+  }
 
-    function checkTiming() {
-      const clickAudio = document.getElementById("clickSound");
-      const failAudio = document.getElementById("failSound");
-      clickAudio.play();
+  function resetGame() {
+    result.textContent = "";
+    mission.textContent = "미션: " + missions[Math.floor(Math.random() * missions.length)];
+    clearTimeout(timer);
+    timeout = randomTimeout();
+    timer = setTimeout(() => {
+      result.textContent = "💥 폭탄이 터졌어요! 벌칙 수행!";
+      bomb.style.backgroundColor = "#550000";
+    }, timeout);
+  }
 
-      const now = Date.now();
-      const diff = now % beatInterval;
-      const tolerance = 200;
+  bomb.addEventListener("mousedown", startDrag);
+  bomb.addEventListener("touchstart", startDrag);
 
-      if (diff < tolerance || diff > beatInterval - tolerance) {
-        document.getElementById("result").innerText = "🎯 굿 타이밍! 다음 사람에게 넘기세요!";
-      } else {
-        failAudio.play();
-        const mode = document.getElementById("mode").value;
-        const list = punishments[mode];
-        const random = Math.floor(Math.random() * list.length);
-        document.getElementById("result").innerText = "❗ 벌칙! → " + list[random];
-      }
+  function startDrag(e) {
+    e.preventDefault();
+    const shiftX = (e.clientX || e.touches[0].clientX) - bomb.getBoundingClientRect().left - bomb.offsetWidth / 2;
+    const shiftY = (e.clientY || e.touches[0].clientY) - bomb.getBoundingClientRect().top - bomb.offsetHeight / 2;
+
+    function moveAt(pageX, pageY) {
+      bomb.style.left = pageX - shiftX + 'px';
+      bomb.style.top = pageY - shiftY + 'px';
     }
-  </script>
+
+    function onMouseMove(e) {
+      moveAt(e.clientX || e.touches[0].clientX, e.clientY || e.touches[0].clientY);
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('touchmove', onMouseMove);
+
+    bomb.onmouseup = bomb.ontouchend = function() {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('touchmove', onMouseMove);
+      bomb.onmouseup = bomb.ontouchend = null;
+      resetGame();
+    };
+  }
+
+  resetGame();
+</script>
 
 </body>
 </html>
