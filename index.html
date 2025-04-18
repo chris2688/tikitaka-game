@@ -184,6 +184,28 @@
     transform: translateY(0);
   }
 }
+
+
+#logoContainer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 60px;
+}
+
+#gameLabel {
+  font-size: 22px;
+  font-weight: 600;
+  color: #88f5e1;
+  opacity: 0;
+  animation: fadeInUp 0.5s ease-in-out 0.4s forwards;
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
 </style>
 </head>
 <body>
@@ -206,10 +228,12 @@
 
     
 
+
 <div id="logoContainer">
   <img id="logo" src="tikitaka_logo.png" alt="TIKI TAKA 로고" />
   <span id="gameLabel">Game</span>
 </div>
+
 
 
     <div id="subtitle"></div>
