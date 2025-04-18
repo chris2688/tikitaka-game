@@ -78,7 +78,7 @@
 
 <div id="header">
   <select id="modeSelect">
-    <option value="">모드 선택</option>
+    <option value="">게임 선택</option>
     <option value="alcohol">술게임</option>
     <option value="couple">커플게임</option>
     <option value="fun">재미게임</option>
@@ -113,10 +113,7 @@
 
   modeSelect.addEventListener("change", () => {
     const selected = modeSelect.value;
-    gameArea.innerHTML = "";
-    info.innerHTML = "";
     gameList.innerHTML = "";
-    subtitle.innerHTML = "";
 
     if (games[selected]) {
       games[selected].forEach(game => {
@@ -152,7 +149,7 @@
     }
   }
 
-  // Load default game on startup
+  // Load default game on page load
   window.onload = () => {
     loadGame({ name: "소주뚜껑 룰렛", id: "sojuCap" });
   };
