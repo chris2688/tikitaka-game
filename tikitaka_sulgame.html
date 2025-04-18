@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>TIKI TAKA 술게임</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: 'Arial', sans-serif; background: #fff0f5; text-align: center; padding: 40px; }
+    .btn { padding: 20px 40px; margin: 20px; font-size: 24px; cursor: pointer; background: #ff69b4; border: none; color: white; border-radius: 10px; }
+    .box { font-size: 28px; margin-top: 30px; }
+    .mode-select { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+
+  <h1>🎉 TIKI TAKA 술게임 🍻</h1>
+  <div class="mode-select">
+    <label>모드 선택: </label>
+    <select id="mode">
+      <option value="normal">기본 모드</option>
+      <option value="drunk">술자리 모드</option>
+      <option value="cute">커플 모드</option>
+    </select>
+  </div>
+  
+  <button class="btn" onclick="playGame()">리듬 클릭!</button>
+  <div class="box" id="result">👇 클릭하면 게임 시작 👇</div>
+
+  <script>
+    const punishments = {
+      normal: [
+        "왼쪽 사람에게 TMI 폭로하기",
+        "옆 사람과 눈싸움 10초",
+        "반대쪽 사람에게 댄스 요청하기"
+      ],
+      drunk: [
+        "원샷!",
+        "성대모사 3종 세트!",
+        "오늘의 흑역사 말하기"
+      ],
+      cute: [
+        "하트 손가락 보내기",
+        "애교 3종 세트",
+        "서로 닉네임 지어주기"
+      ]
+    };
+
+    let clickCount = 0;
+    function playGame() {
+      clickCount++;
+      if (clickCount % 5 === 0) {
+        const mode = document.getElementById("mode").value;
+        const list = punishments[mode];
+        const random = Math.floor(Math.random() * list.length);
+        document.getElementById("result").innerText = "❗ 벌칙! → " + list[random];
+      } else {
+        document.getElementById("result").innerText = "리듬에 맞춰 패스! 🔄";
+      }
+    }
+  </script>
+
+</body>
+</html>
