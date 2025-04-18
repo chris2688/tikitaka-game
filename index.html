@@ -82,7 +82,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100%;
+      height: calc(100% - 80px);
+      margin-top: -30px;
     }
     #cap {
       width: min(80vw, 400px);
@@ -125,6 +126,35 @@
     transform: translateY(0);
   }
 }
+
+
+#logoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 60px;
+}
+
+#gameLabel {
+  margin-left: 14px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #88f5e1;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 1s ease-out 0.3s forwards;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 </style>
 </head>
 <body>
@@ -146,10 +176,12 @@
     </div>
 
     
+
 <div id="logoContainer">
   <img id="logo" src="tikitaka_logo.png" alt="TIKI TAKA 로고" />
   <span id="gameLabel">Game</span>
 </div>
+
 
     <div id="subtitle"></div>
     <div id="gameList"></div>
