@@ -135,6 +135,7 @@
     ];
     let rotation = 0;
 let selectedSound = null;
+let stopSoundTimeout = null;
 let isSpinning = false;
 
     
@@ -158,16 +159,19 @@ cap.addEventListener("click", async () => {
   rotation += spin;
   cap.style.transform = `rotate(${rotation}deg)`;
 
-  setTimeout(() => {
-    spinSound.pause();
-    spinSound.currentTime = 0;
+  
+if (stopSoundTimeout) clearTimeout(stopSoundTimeout);
+stopSoundTimeout = setTimeout(() => {
+  spinSound.pause();
+  spinSound.currentTime = 0;
+  if (selectedSound) {
+    selectedSound.pause();
+    selectedSound.currentTime = 0;
+    selectedSound.play().catch(e => console.log("stop sound error", e));
+  }
+  stopSoundTimeout = null;
+}, 4000);
 
-    if (selectedSound) {
-      selectedSound.pause();
-      selectedSound.currentTime = 0;
-      selectedSound.play().catch(e => console.log("stop sound error", e));
-    }
-  }, 4000);
 });
 
 
