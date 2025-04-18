@@ -11,11 +11,25 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      background: #1a1a1a;
-      color: white;
       font-family: 'Arial', sans-serif;
     }
     body {
+      display: flex;
+      flex-direction: column;
+      background: url('background.jpg') center/cover no-repeat;
+      color: white;
+    }
+    #overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.55);
+      z-index: 0;
+    }
+    #content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
     }
@@ -65,7 +79,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding-bottom: 60px; /* give room for footer */
+      padding-bottom: 60px;
     }
     #gameArea {
       display: flex;
@@ -86,28 +100,30 @@
       bottom: 10px;
       font-size: 20px;
       color: #ccc;
+      z-index: 1;
     }
   </style>
 </head>
 <body>
+  <div id="overlay"></div>
+  <div id="content">
+    <div id="header">
+      <select id="modeSelect">
+        <option value="">게임 선택</option>
+        <option value="alcohol">술게임</option>
+        <option value="couple">커플게임</option>
+        <option value="fun">재미게임</option>
+      </select>
+    </div>
 
-<div id="header">
-  <select id="modeSelect">
-    <option value="">게임 선택</option>
-    <option value="alcohol">술게임</option>
-    <option value="couple">커플게임</option>
-    <option value="fun">재미게임</option>
-  </select>
-</div>
-
-<img id="logo" src="tikitaka_logo.png" alt="TIKI TAKA 로고" />
-<div id="subtitle"></div>
-
-<div id="gameList"></div>
-<div id="mainContent">
-  <div id="gameArea"></div>
-</div>
-<div id="info"></div>
+    <img id="logo" src="tikitaka_logo.png" alt="TIKI TAKA 로고" />
+    <div id="subtitle"></div>
+    <div id="gameList"></div>
+    <div id="mainContent">
+      <div id="gameArea"></div>
+    </div>
+  </div>
+  <div id="info"></div>
 
 <script>
   const modeSelect = document.getElementById("modeSelect");
@@ -117,15 +133,9 @@
   const subtitle = document.getElementById("subtitle");
 
   const games = {
-    alcohol: [
-      { name: "소주뚜껑 룰렛", id: "sojuCap" }
-    ],
-    couple: [
-      { name: "공감 퀴즈 (준비 중)", id: "coupleQuiz" }
-    ],
-    fun: [
-      { name: "웃음 참기 (준비 중)", id: "funLaugh" }
-    ]
+    alcohol: [{ name: "소주뚜껑 룰렛", id: "sojuCap" }],
+    couple: [{ name: "공감 퀴즈 (준비 중)", id: "coupleQuiz" }],
+    fun: [{ name: "웃음 참기 (준비 중)", id: "funLaugh" }]
   };
 
   modeSelect.addEventListener("change", () => {
