@@ -12,10 +12,6 @@
       padding: 0;
       height: 100%;
       font-family: 'Arial', sans-serif;
-    }
-    body {
-      display: flex;
-      flex-direction: column;
       background: url('background.jpg') center/cover no-repeat;
       color: white;
     }
@@ -105,6 +101,8 @@
   </style>
 </head>
 <body>
+  <audio id="spinSound" src="spin.wav"></audio>
+
   <div id="overlay"></div>
   <div id="content">
     <div id="header">
@@ -131,6 +129,7 @@
   const gameArea = document.getElementById("gameArea");
   const info = document.getElementById("info");
   const subtitle = document.getElementById("subtitle");
+  const spinSound = document.getElementById("spinSound");
 
   const games = {
     alcohol: [{ name: "소주뚜껑 룰렛", id: "sojuCap" }],
@@ -165,6 +164,8 @@
       img.id = "cap";
       let rotation = 0;
       img.onclick = () => {
+        spinSound.currentTime = 0;
+        spinSound.play();
         const spin = Math.floor(Math.random() * 1800) + 1440;
         rotation += spin;
         img.style.transform = `rotate(${rotation}deg)`;
