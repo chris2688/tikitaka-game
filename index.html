@@ -142,15 +142,15 @@ cap.addEventListener("click", async () => {
   // Pick and preload one random stop sound
   selectedSound = stopSounds[Math.floor(Math.random() * stopSounds.length)];
   try {
-    selectedSound.volume = 0;
-    await selectedSound.play();
+    selectedSound.volume = 0.7;
+  await selectedSound.play();
     selectedSound.pause();
-    selectedSound.currentTime = 0;
-    selectedSound.volume = 1;
+  selectedSound.currentTime = 0;
   } catch (_) {}
 
   spinSound.pause();
   spinSound.currentTime = 0;
+  spinSound.volume = 0.7;
   spinSound.loop = true;
   spinSound.play().catch(() => {});
 
