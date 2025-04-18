@@ -163,14 +163,22 @@
       img.src = "soju_cap.png";
       img.id = "cap";
       let rotation = 0;
-      img.onclick = () => {
+      
+let spinTimeout = null;
+img.onclick = () => {
         spinSound.currentTime = 0;
         spinSound.loop = true;
         spinSound.play();
         const spin = Math.floor(Math.random() * 1800) + 1440;
         rotation += spin;
         img.style.transform = `rotate(${rotation}deg)`;
-        setTimeout(() => { spinSound.pause(); spinSound.currentTime = 0; }, 4000);
+        if (spinTimeout) clearTimeout(spinTimeout);
+        spinTimeout = setTimeout(() => {
+            spinSound.pause();
+            spinSound.currentTime = 0;
+        }, 4000);
+};
+
       };
       gameArea.appendChild(img);
       info.innerHTML = "👆 소주뚜껑을 터치해서 돌려보세요!";
