@@ -17,10 +17,15 @@
       font-family: 'Arial', sans-serif;
       overflow: hidden;
     }
-    h1 {
-      color: #ff4081;
-      margin-top: 40px;
-      font-size: 28px;
+    #logo {
+      margin-top: 30px;
+      width: 180px;
+      height: auto;
+    }
+    h2 {
+      color: #dddddd;
+      margin-top: 10px;
+      font-size: 22px;
     }
     #game-area {
       position: relative;
@@ -47,10 +52,13 @@
 </head>
 <body>
 
-<h1>TIKI TAKA 소주뚜껑 룰렛</h1>
+<img id="logo" src="tikitaka_logo.png" alt="TIKI TAKA 로고" />
+<h2>소주뚜껑 룰렛</h2>
+
 <div id="game-area">
   <img id="cap" src="soju_cap.png" alt="소주뚜껑" />
 </div>
+
 <div id="info">👆 소주뚜껑을 터치해서 돌려보세요!</div>
 
 <script>
