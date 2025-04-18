@@ -18,6 +18,9 @@
       position: absolute;
       top: 10px;
       left: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
     #modeSelect {
       padding: 8px;
@@ -27,16 +30,21 @@
       border: none;
       border-radius: 4px;
     }
+    #breadcrumb {
+      font-size: 14px;
+      color: #88f5e1;
+    }
     #logo {
       display: block;
       margin: 60px auto 8px;
       width: 180px;
     }
-    #gameTitle {
+    #subtitle {
       text-align: center;
       color: #88f5e1;
-      font-size: 28px;
+      font-size: 24px;
       font-weight: bold;
+      margin-top: 4px;
     }
     #gameList {
       text-align: center;
@@ -82,10 +90,11 @@
     <option value="couple">커플게임</option>
     <option value="fun">재미게임</option>
   </select>
+  <div id="breadcrumb"></div>
 </div>
 
 <img id="logo" src="tikitaka_logo.png" alt="TIKI TAKA 로고" />
-<h2 id="gameTitle">TIKI TAKA 게임</h2>
+<div id="subtitle"></div>
 
 <div id="gameList"></div>
 <div id="gameArea"></div>
@@ -96,6 +105,8 @@
   const gameList = document.getElementById("gameList");
   const gameArea = document.getElementById("gameArea");
   const info = document.getElementById("info");
+  const subtitle = document.getElementById("subtitle");
+  const breadcrumb = document.getElementById("breadcrumb");
 
   const games = {
     alcohol: [
@@ -114,22 +125,28 @@
     gameArea.innerHTML = "";
     info.innerHTML = "";
     gameList.innerHTML = "";
+    subtitle.innerHTML = "";
+    breadcrumb.innerText = "";
 
     if (games[selected]) {
       games[selected].forEach(game => {
         const btn = document.createElement("button");
         btn.className = "gameButton";
         btn.innerText = game.name;
-        btn.onclick = () => loadGame(game.id);
+        btn.onclick = () => loadGame(selected, game);
         gameList.appendChild(btn);
       });
     }
   });
 
-  function loadGame(id) {
+  function loadGame(mode, game) {
     gameArea.innerHTML = "";
     info.innerHTML = "";
-    if (id === "sojuCap") {
+    gameList.innerHTML = "";
+    subtitle.innerHTML = game.name;
+    breadcrumb.innerText = modeToLabel(mode) + " - " + game.name;
+
+    if (game.id === "sojuCap") {
       const img = document.createElement("img");
       img.src = "soju_cap.png";
       img.id = "cap";
@@ -144,6 +161,12 @@
     } else {
       gameArea.innerHTML = "<p>게임 준비 중입니다...</p>";
     }
+  }
+
+  function modeToLabel(mode) {
+    return mode === "alcohol" ? "술게임" :
+           mode === "couple" ? "커플게임" :
+           mode === "fun" ? "재미게임" : "";
   }
 </script>
 
