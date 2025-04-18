@@ -151,6 +151,11 @@
       gameArea.innerHTML = "<p>게임 준비 중입니다...</p>";
     }
   }
+
+  // Load default game on startup
+  window.onload = () => {
+    loadGame({ name: "소주뚜껑 룰렛", id: "sojuCap" });
+  };
 </script>
 
 </body>
