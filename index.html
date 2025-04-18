@@ -98,6 +98,9 @@
   <button class="btn" onclick="checkTiming()">리듬에 맞춰 클릭!</button>
   <div class="box" id="result">비트에 맞춰 클릭해보세요!</div>
 
+  <audio id="clickSound" src="click.mp3"></audio>
+  <audio id="failSound" src="fail.mp3"></audio>
+
   <script>
     const punishments = {
       normal: [
@@ -120,6 +123,10 @@
     const beatInterval = 1000; // 1초 간격
 
     function checkTiming() {
+      const clickAudio = document.getElementById("clickSound");
+      const failAudio = document.getElementById("failSound");
+      clickAudio.play();
+
       const now = Date.now();
       const diff = now % beatInterval;
       const tolerance = 200;
@@ -127,6 +134,7 @@
       if (diff < tolerance || diff > beatInterval - tolerance) {
         document.getElementById("result").innerText = "🎯 굿 타이밍! 다음 사람에게 넘기세요!";
       } else {
+        failAudio.play();
         const mode = document.getElementById("mode").value;
         const list = punishments[mode];
         const random = Math.floor(Math.random() * list.length);
