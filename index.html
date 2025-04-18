@@ -11,7 +11,6 @@
       background: #1a1a1a;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
       height: 100vh;
       color: white;
@@ -20,7 +19,8 @@
     }
     h1 {
       color: #ff4081;
-      margin-bottom: 20px;
+      margin-top: 40px;
+      font-size: 28px;
     }
     #game-area {
       position: relative;
@@ -29,6 +29,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      margin-top: 20px;
     }
     #cap {
       width: 200px;
@@ -37,7 +38,7 @@
       cursor: pointer;
     }
     #info {
-      margin-top: 20px;
+      margin-top: 40px;
       font-size: 20px;
       color: #ccc;
     }
@@ -45,11 +46,11 @@
 </head>
 <body>
 
-<h1>🍾 소주뚜껑 룰렛 🍾</h1>
+<h1>TIKI TAKA 소주뚜껑 룰렛</h1>
 <div id="game-area">
   <img id="cap" src="soju_cap.png" alt="소주뚜껑" />
 </div>
-<div id="info">소주뚜껑을 터치해서 돌려보세요!</div>
+<div id="info">👇 소주뚜껑을 터치해서 돌려보세요!</div>
 
 <script>
   const cap = document.getElementById("cap");
