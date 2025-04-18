@@ -2,195 +2,202 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>TIKI TAKA 게임</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TIKI TAKA - Soju Cap Game</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <style>
-    * { box-sizing: border-box; }
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
-      font-family: 'Arial', sans-serif;
       background: url('background.jpg') center/cover no-repeat;
-      color: white;
-    }
-    #overlay {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 0;
-    }
-    #content {
-      position: relative;
-      z-index: 1;
-      width: 100%;
       height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+    #container {
       display: flex;
       flex-direction: column;
-    }
-    #header {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-    }
-    #modeSelect {
-      padding: 8px;
-      font-size: 16px;
-      background: #333;
-      color: white;
-      border: none;
-      border-radius: 4px;
-    }
-    #logo {
-      display: block;
-      margin: 60px auto 8px;
-      width: 180px;
-    }
-    #subtitle {
-      text-align: center;
-      color: #88f5e1;
-      font-size: 24px;
-      font-weight: bold;
-      margin-top: 4px;
-    }
-    #gameList {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .gameButton {
-      display: inline-block;
-      margin: 10px;
-      padding: 10px 20px;
-      font-size: 16px;
-      background: #444;
-      border: none;
-      color: #fff;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    #mainContent {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
-      padding-bottom: 60px;
+      justify-content: start;
+      height: 100%;
+      position: relative;
+    }
+    #logoBar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 80px;
+      gap: 4px;
+    }
+    #logoBar img {
+      height: 60px;
+    }
+    #gameLabel {
+      font-size: 26px;
+      font-weight: bold;
+      color: #88f5e1;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 0.5s forwards;
+    }
+    #gameTitle {
+      margin-top: 4px;
+      font-size: 26px;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
     #gameArea {
+      flex: 1;
       display: flex;
-      justify-content: center;
       align-items: center;
-      margin-top: 40px;
+      justify-content: center;
+      margin-top: -20px;
     }
     #cap {
-      width: min(80vw, 400px);
-      transform-origin: 52% 65%;
-      transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+      width: 320px;
+      max-width: 90vw;
+      max-height: 65vh;
       cursor: pointer;
+      transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
     }
-    #info {
-      width: 100%;
-      text-align: center;
-      position: fixed;
-      bottom: 10px;
+    #instruction {
+      position: absolute;
+      bottom: 30px;
+      color: white;
       font-size: 20px;
-      color: #ccc;
-      z-index: 1;
+      text-align: center;
+      animation: fadeInUp 1s ease-out 1s forwards;
+    }
+    #topLeftMenu {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+    #topLeftMenu select {
+      background: black;
+      color: #88f5e1;
+      font-size: 15px;
+      padding: 6px 10px;
+      border: 1px solid #88f5e1;
+      border-radius: 4px;
     }
   </style>
 </head>
 <body>
-  <audio id="spinSound" src="spin.wav"></audio>
-
-  <div id="overlay"></div>
-  <div id="content">
-    <div id="header">
-      <select id="modeSelect">
-        <option value="">게임 선택</option>
-        <option value="alcohol">술게임</option>
-        <option value="couple">커플게임</option>
-        <option value="fun">재미게임</option>
+  <div id="container">
+    <div id="topLeftMenu">
+      <select id="gameSelect" style="display: inline-block;" onchange="handleGameChange()"><option value="soju" selected>소주뚜껑 룰렛</option>
+<option value="sojubottle">소주병 룰렛</option></select>
+      <select id="coupleGames" style="display: none;" onchange="handleGameChange()">
+        <option value="comingsoon">Coming Soon</option>
+      </select>
+      <select id="funGames" style="display: none;" onchange="handleGameChange()">
+        <option value="comingsoon">Coming Soon</option>
       </select>
     </div>
-
-    <img id="logo" src="tikitaka_logo.png" alt="TIKI TAKA 로고" />
-    <div id="subtitle"></div>
-    <div id="gameList"></div>
-    <div id="mainContent">
-      <div id="gameArea"></div>
+    <div id="logoBar">
+      <img src="tikitaka_logo.png" alt="TIKI TAKA Logo" />
+      <span id="gameLabel">Game</span>
     </div>
+    <div id="gameTitle">소주뚜껑 룰렛</div>
+    <div id="gameArea">
+      <img id="cap" src="soju_cap.png" alt="Soju Cap" />
+    </div>
+    <div id="instruction">👆 소주병을 터치해서 돌려보세요!</div>
   </div>
-  <div id="info"></div>
 
-<script>
-  const modeSelect = document.getElementById("modeSelect");
-  const gameList = document.getElementById("gameList");
-  const gameArea = document.getElementById("gameArea");
-  const info = document.getElementById("info");
-  const subtitle = document.getElementById("subtitle");
-  const spinSound = document.getElementById("spinSound");
+  <audio id="spinSound" src="spin.wav"></audio>
+  <audio id="stop1" src="stop1.mp3"></audio>
+  <audio id="stop2" src="stop2.mp3"></audio>
+  <audio id="stop3" src="stop3.mp3"></audio>
+  <audio id="stop4" src="stop4.mp3"></audio>
 
-  const games = {
-    alcohol: [{ name: "소주뚜껑 룰렛", id: "sojuCap" }],
-    couple: [{ name: "공감 퀴즈 (준비 중)", id: "coupleQuiz" }],
-    fun: [{ name: "웃음 참기 (준비 중)", id: "funLaugh" }]
-  };
-
-  modeSelect.addEventListener("change", () => {
-    const selected = modeSelect.value;
-    gameList.innerHTML = "";
-
-    if (games[selected]) {
-      games[selected].forEach(game => {
-        const btn = document.createElement("button");
-        btn.className = "gameButton";
-        btn.innerText = game.name;
-        btn.onclick = () => loadGame(game);
-        gameList.appendChild(btn);
-      });
-    }
-  });
-
-  function loadGame(game) {
-    gameArea.innerHTML = "";
-    info.innerHTML = "";
-    gameList.innerHTML = "";
-    subtitle.innerHTML = game.name;
-
-    if (game.id === "sojuCap") {
-      const img = document.createElement("img");
-      img.src = "soju_cap.png";
-      img.id = "cap";
-      let rotation = 0;
-      img.onclick = () => {
-        spinSound.currentTime = 0;
-        spinSound.loop = true;
-        spinSound.play();
-        const spin = Math.floor(Math.random() * 1800) + 1440;
-        rotation += spin;
-        img.style.transform = `rotate(${rotation}deg)`;
-        setTimeout(() => { spinSound.pause(); spinSound.currentTime = 0; }, 4000);
-      };
-      gameArea.appendChild(img);
-      info.innerHTML = "👆 소주뚜껑을 터치해서 돌려보세요!";
-    } else {
-      gameArea.innerHTML = "<p>게임 준비 중입니다...</p>";
-    }
-  }
-
-  window.onload = () => {
-    loadGame({ name: "소주뚜껑 룰렛", id: "sojuCap" });
-  };
-
-function handleModeChange() {
-  const mode = document.getElementById("modeSelect").value;
-  document.getElementById("alcoholGames").style.display = mode === "alcohol" ? "inline-block" : "none";
-  document.getElementById("coupleGames").style.display = mode === "couple" ? "inline-block" : "none";
-  document.getElementById("funGames").style.display = mode === "fun" ? "inline-block" : "none";
+  <script>
+    const cap = document.getElementById("cap");
+    const spinSound = document.getElementById("spinSound");
+    const stopSounds = [
+      document.getElementById("stop1"),
+      document.getElementById("stop2"),
+      document.getElementById("stop3"),
+      document.getElementById("stop4"),
+    ];
+    let rotation = 0;
+if (document.getElementById("cap").src.includes("soju_bottle")) {
+  document.getElementById("cap").style.transform = "rotate(30deg)";
 }
-</script>
+let selectedSound = null;
+let stopSoundTimeout = null;
+let isSpinning = false;
+
+    
+cap.addEventListener("click", async () => {
+  if (selectedSound) {
+    selectedSound.pause();
+    selectedSound.currentTime = 0;
+  }
+  // Pick and preload one random stop sound
+  selectedSound = stopSounds[Math.floor(Math.random() * stopSounds.length)];
+  try {
+    selectedSound.volume = 0.7;
+  await selectedSound.play();
+    selectedSound.pause();
+  selectedSound.currentTime = 0;
+  } catch (_) {}
+
+  spinSound.pause();
+  spinSound.currentTime = 0;
+  spinSound.volume = 0.7;
+  spinSound.loop = true;
+  spinSound.play().catch(() => {});
+
+  const spin = Math.floor(Math.random() * 1800) + 1440;
+  rotation += spin;
+  cap.style.transform = `rotate(${rotation}deg)`;
+
+  
+if (stopSoundTimeout) clearTimeout(stopSoundTimeout);
+stopSoundTimeout = setTimeout(() => {
+  spinSound.pause();
+  spinSound.currentTime = 0;
+  if (selectedSound) {
+    selectedSound.pause();
+    selectedSound.currentTime = 0;
+    selectedSound.play().catch(e => console.log("stop sound error", e));
+  }
+  stopSoundTimeout = null;
+}, 4000);
+
+});
 
 
+    function handleModeChange() {
+      const mode = document.getElementById("modeSelect").value;
+      document.getElementById("alcoholGames").style.display = mode === "alcohol" ? "inline-block" : "none";
+      document.getElementById("coupleGames").style.display = mode === "couple" ? "inline-block" : "none";
+      document.getElementById("funGames").style.display = mode === "fun" ? "inline-block" : "none";
+    }
+
+    function handleGameChange() {
+      const alcoholVal = document.getElementById("alcoholGames").value;
+      const coupleVal = document.getElementById("coupleGames").value;
+      const funVal = document.getElementById("funGames").value;
+
+      if (alcoholVal === "soju") {
+    document.getElementById("gameTitle").innerText = "소주뚜껑 룰렛";
+    document.getElementById("cap").src = "soju_cap.png";
+  } else if (alcoholVal === "sojubottle") {
+    document.getElementById("gameTitle").innerText = "소주병 룰렛";
+    document.getElementById("cap").src = "real_soju_bottle.png";
+    document.getElementById("cap").style.transform = "rotate(30deg)";
+  } else {
+        document.getElementById("gameTitle").innerText = "게임 준비 중...";
+      }
+    }
+  </script>
 </body>
 </html>
