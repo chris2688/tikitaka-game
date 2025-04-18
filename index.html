@@ -64,8 +64,7 @@
       max-height: 65vh;
       cursor: pointer;
       transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
-    
-  animation: tiltSwing 3s ease-in-out infinite;
+    }
     #instruction {
       position: absolute;
       bottom: 30px;
@@ -87,13 +86,19 @@
       border: 1px solid #88f5e1;
       border-radius: 4px;
     }
-  
+  </style>
+
+<style>
 @keyframes tiltSwing {
   0% { transform: rotate(0deg); }
   50% { transform: rotate(30deg); }
   100% { transform: rotate(0deg); }
 }
+#cap {
+  animation: tiltSwing 3s ease-in-out infinite;
+}
 </style>
+
 </head>
 <body>
   <div id="container">
