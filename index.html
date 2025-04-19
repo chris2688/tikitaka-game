@@ -5,9 +5,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TIKI TAKA - Soju Cap Game</title>
-  <link rel="icon" href="games/soju_cap_roulette/assets/favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="games/soju_cap_roulette/games/soju_cap_roulette/assets/favicon.ico" type="image/x-icon" />
   <style>body {
-  background-image: url("games/soju_cap_roulette/assets/background.jpg");
+  background-image: url("games/soju_cap_roulette/games/soju_cap_roulette/assets/background.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -71,7 +71,10 @@
       max-height: 65vh;
       cursor: pointer;
       transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
-    }
+    
+  pointer-events: auto;
+  z-index: 10;
+}
     #instruction {
       position: absolute;
       bottom: 30px;
@@ -96,7 +99,7 @@
   </style>
 
 <style>body {
-  background-image: url("games/soju_cap_roulette/assets/background.jpg");
+  background-image: url("games/soju_cap_roulette/games/soju_cap_roulette/assets/background.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -110,6 +113,9 @@
 }
 #cap {
   animation: tiltSwing 3s ease-in-out infinite;
+
+  pointer-events: auto;
+  z-index: 10;
 }
 </style>
 
@@ -136,19 +142,19 @@
 </div>
 
     <div id="logoBar">
-      <img src="games/soju_cap_roulette/assets/tikitaka_logo.png" alt="TIKI TAKA Logo" />
+      <img src="games/soju_cap_roulette/games/soju_cap_roulette/assets/tikitaka_logo.png" alt="TIKI TAKA Logo" />
       <span id="gameLabel">Game</span>
     </div>
     <div id="gameTitle">소주뚜껑 룰렛</div>
     <div id="gameArea">
-      <img id="cap" src="games/soju_cap_roulette/assets/soju_cap.png" alt="Soju Cap" />
+      <img id="cap" src="games/soju_cap_roulette/games/soju_cap_roulette/assets/soju_cap.png" alt="Soju Cap" />
     </div>
     <div id="instruction">👆 소주뚜껑을 터치해서 돌려보세요!</div>
   </div>
 
-  <audio id="spinSound" src="games/soju_cap_roulette/assets/spin.wav"></audio>
-  <audio id="stop1" src="games/soju_cap_roulette/assets/stop1.mp3"></audio>
-  <audio id="stop2" src="games/soju_cap_roulette/assets/stop2.mp3"></audio>
+  <audio id="spinSound" src="games/soju_cap_roulette/games/soju_cap_roulette/assets/spin.wav"></audio>
+  <audio id="stop1" src="games/soju_cap_roulette/games/soju_cap_roulette/assets/stop1.mp3"></audio>
+  <audio id="stop2" src="games/soju_cap_roulette/games/soju_cap_roulette/assets/stop2.mp3"></audio>
   <audio id="stop3" src="stop3.mp3"></audio>
   <audio id="stop4" src="stop4.mp3"></audio>
 
@@ -175,6 +181,7 @@ let isSpinning = false;
 
     
 cap.addEventListener("click", async () => {
+  cap.addEventListener("touchstart", async () => { cap.click(); });
   cap.style.animation = "none";
   if (selectedSound) {
     selectedSound.pause();
@@ -262,7 +269,7 @@ stopSoundTimeout = setTimeout(() => {
 
       if (alcoholVal === "soju") {
     document.getElementById("gameTitle").innerText = "소주뚜껑 룰렛";
-    document.getElementById("cap").src = "games/soju_cap_roulette/assets/soju_cap.png";
+    document.getElementById("cap").src = "games/soju_cap_roulette/games/soju_cap_roulette/assets/soju_cap.png";
     document.getElementById("cap").style.transform = "rotate(30deg)";
   } else if (alcoholVal === "sojubottle") {
     document.getElementById("gameTitle").innerText = "소주병 룰렛";
