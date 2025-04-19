@@ -95,7 +95,10 @@ input {
 }
 
 .choice-button {
-  margin-bottom: 8px;
+  margin: 0 8px;
+  min-width: 100px;
+  max-width: 140px;
+  flex-shrink: 0; /* ✅ 줄어들지 않게 고정 */
 }
 
     
@@ -115,10 +118,11 @@ input {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap; /* 모바일에서 공간 부족 시 줄바꿈 허용 */
   justify-content: center;
+  flex-wrap: nowrap; /* ✅ 줄바꿈 금지 */
+  gap: 8px;
   margin-bottom: 20px;
+  flex-shrink: 0;
 }
 
 #nameForm .button {
@@ -130,16 +134,40 @@ input {
     
 #buttonGroup {
   display: flex;
-  flex-direction: row;
-  gap: 10px;
   justify-content: center;
   flex-wrap: nowrap; /* ✅ 한 줄 유지 */
+  gap: 12px;
 }
 
+.form-inline {
+  display: flex;
+  flex-wrap: wrap; /* 작은 화면에서는 줄바꿈 허용 */
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.form-inline input {
+  flex: 1 1 auto;
+  min-width: 120px;
+}
+    
 @media (max-width: 480px) {
-  #result {
-    font-size: 24px;
+  .form-inline {
+    flex-direction: row; /* 모바일에서도 줄바꿈 방지 */
+    flex-wrap: nowrap;
   }
+
+  .form-inline input {
+    width: 100px; /* 모바일에서 너무 넓지 않게 */
+  }
+
+  .form-inline .button {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+}
 
   input {
     width: 120px; /* 모바일에서 input 길이 줄임 */
@@ -169,7 +197,7 @@ input {
 
   <h1>너와 나의 TIKI TAKA</h1>
 
-<div id="nameForm">
+<div id="nameForm" class="form-inline">
   <input id="player1Name" placeholder="당신의 이름">
   <input id="player2Name" placeholder="옆사람의 이름">
   <button class="button" onclick="saveNames()">입력 완료</button>
