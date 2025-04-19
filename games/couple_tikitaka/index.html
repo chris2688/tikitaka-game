@@ -40,6 +40,10 @@
       border-radius: 6px;
       cursor: pointer;
       margin: 12px;
+      word-break: keep-all;
+      white-space: nowrap;
+      min-width: 120px;
+      max-width: 200px;
     }
     input {
       padding: 10px;
@@ -77,8 +81,8 @@
 
   <div id="questionBox">
     <div id="question"></div>
-    <button class="button" onclick="choose('나')">나</button>
-    <button class="button" onclick="choose('너')">너</button>
+<button class="button choice-button" id="btn1" onclick="">선택 1</button>
+<button class="button choice-button" id="btn2" onclick="">선택 2</button>
     <div id="result"></div>
   </div>
 
@@ -90,7 +94,7 @@
       "데이트 장소를 더<br>자주 정하는 사람은?",
       "연락을 더 자주 하는 사람은?",
       "더 질투가 많은 사람은?",
-      "잠들기 전에 마지막으로<br>메시지 보내는 사람은?"
+      "잠들기 전에 마지막으로<br>메시지 보내는 사람은?",
       "영화를 볼 때 더 먼저 <br>울컥하는 사람은?",
       "더 오래 연락이 안 되면 <br>서운해하는 사람은?",
       "더 자주 웃게 <br>만들어주는 사람은?",
@@ -123,16 +127,33 @@
       document.getElementById("startText").innerText = `${p1}님이 먼저 시작하세요!`;
     }
 
+
+    function startExtraRound() {
+  alert("계속 TIKI TAKA 기능은 아직 구현되지 않았어요!");
+}
+
+function captureResult() {
+  alert("공유하기 기능은 준비 중입니다!");
+}
+    
     function startGame() {
       document.getElementById("startPrompt").style.display = "none";
       document.getElementById("questionBox").style.display = "block";
       showQuestion();
     }
 
-    function showQuestion() {
-      document.getElementById("question").innerHTML = `<h1>질문 ${index + 1}</h1><p>${questions[index]}</p>`;
-      document.getElementById("result").innerText = "";
-    }
+function showQuestion() {
+  document.getElementById("question").innerHTML = `<h2>질문 ${index + 1}</h2><p>${questions[index]}</p>`;
+  document.getElementById("result").innerText = "";
+
+  const btn1 = document.getElementById("btn1");
+  const btn2 = document.getElementById("btn2");
+
+  btn1.innerText = p1;
+  btn2.innerText = p2;
+  btn1.onclick = () => choose(p1);
+  btn2.onclick = () => choose(p2);
+}
 
     function choose(choice) {
       if (isFirst) {
