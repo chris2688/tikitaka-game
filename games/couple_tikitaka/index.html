@@ -214,7 +214,7 @@ function choose(choice) {
     if (match) score++;
 const resultEl = document.getElementById("result");
 resultEl.innerText = `${p1}님은 '${firstAnswers[index]}'를 선택했어요!`;
-resultEl.style.color = match ? "#4CAF50" : "#F44336";  // ✅ 맞춤/오답 색상 설정
+resultEl.style.color = match ? "#1B5E20" : "#B71C1C";  // ✅ 맞춤/오답 색상 설정
 resultEl.classList.remove("animate");  
 void resultEl.offsetWidth;  
 resultEl.classList.add("animate");
@@ -227,7 +227,7 @@ resultEl.classList.add("animate");
     showQuestion();
         btn1.disabled = false;
         btn2.disabled = false;
-      }, 1500);
+      }, 3000);
     } else {
       // 👉 마지막 질문일 때도 결과 메시지 잠깐 보여주고 다음 화면으로
       setTimeout(() => {
