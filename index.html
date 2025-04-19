@@ -88,38 +88,38 @@
     }
   </style>
 
-<style>
-@keyframes tiltSwing {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(30deg); }
-  100% { transform: rotate(0deg); }
-}
-#cap {
-  animation: tiltSwing 3s ease-in-out infinite;
-}
-</style>
+  <style>
+  @keyframes tiltSwing {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(30deg); }
+    100% { transform: rotate(0deg); }
+  }
+  #cap {
+    animation: tiltSwing 3s ease-in-out infinite;
+  }
+  </style>
 
 </head>
 <body>
   <div id="container">
-    
-<div id="topLeftMenu">
-  <select id="modeSelect" onchange="handleModeChange()">
-    <option value="alcohol" selected>술게임</option>
-    <option value="couple">커플게임</option>
-    <option value="fun">재미게임</option>
-  </select>
-  <select id="alcoholGames" style="display: inline-block;" onchange="handleGameChange()">
-    <option value="soju" selected>소주뚜껑 룰렛</option>
-    <option value="sojubottle">소주병 룰렛</option>
-  </select>
-  <select id="coupleGames" style="display: none;" onchange="handleGameChange()">
-    <option value="comingsoon">Coming Soon</option>
-  </select>
-  <select id="funGames" style="display: none;" onchange="handleGameChange()">
-    <option value="comingsoon">Coming Soon</option>
-  </select>
-</div>
+
+  <div id="topLeftMenu">
+    <select id="modeSelect" onchange="handleModeChange()">
+      <option value="alcohol" selected>술게임</option>
+      <option value="couple">커플게임</option>
+      <option value="fun">재미게임</option>
+    </select>
+    <select id="alcoholGames" style="display: inline-block;" onchange="handleGameChange()">
+      <option value="soju" selected>소주뚜껑 룰렛</option>
+      <option value="sojubottle">소주병 룰렛</option>
+    </select>
+    <select id="coupleGames" style="display: none;" onchange="handleGameChange()">
+      <option value="comingsoon">Coming Soon</option>
+    </select>
+    <select id="funGames" style="display: none;" onchange="handleGameChange()">
+      <option value="comingsoon">Coming Soon</option>
+    </select>
+  </div>
 
     <div id="logoBar">
       <img src="tikitaka_logo.png" alt="TIKI TAKA Logo" />
@@ -148,58 +148,52 @@
       document.getElementById("stop4"),
     ];
     let rotation = 0;
-document.addEventListener("DOMContentLoaded", () => {
-  const img = document.getElementById("cap");
-  img.style.transform = "rotate(30deg)";
-});
-if (document.getElementById("cap").src.includes("soju_bottle")) {
-  document.getElementById("cap").style.transform = "rotate(30deg)";
-}
-let selectedSound = null;
-let stopSoundTimeout = null;
-let isSpinning = false;
+    document.addEventListener("DOMContentLoaded", () => {
+      const img = document.getElementById("cap");
+      img.style.transform = "rotate(30deg)";
+    });
 
-    
-cap.addEventListener("click", async () => {
-  cap.style.animation = "none";
-  if (selectedSound) {
-    selectedSound.pause();
-    selectedSound.currentTime = 0;
-  }
-  // Pick and preload one random stop sound
-  selectedSound = stopSounds[Math.floor(Math.random() * stopSounds.length)];
-  try {
-    selectedSound.volume = 0.7;
-  await selectedSound.play();
-    selectedSound.pause();
-  selectedSound.currentTime = 0;
-  } catch (_) {}
+    let selectedSound = null;
+    let stopSoundTimeout = null;
+    let isSpinning = false;
 
-  spinSound.pause();
-  spinSound.currentTime = 0;
-  spinSound.volume = 0.7;
-  spinSound.loop = true;
-  spinSound.play().catch(() => {});
+    cap.addEventListener("click", async () => {
+      cap.style.animation = "none";
+      if (selectedSound) {
+        selectedSound.pause();
+        selectedSound.currentTime = 0;
+      }
 
-  const spin = Math.floor(Math.random() * 1800) + 1440;
-  rotation += spin;
-  cap.style.transform = `rotate(${rotation}deg)`;
+      selectedSound = stopSounds[Math.floor(Math.random() * stopSounds.length)];
+      try {
+        selectedSound.volume = 0.7;
+        await selectedSound.play();
+        selectedSound.pause();
+        selectedSound.currentTime = 0;
+      } catch (_) {}
 
-  
-if (stopSoundTimeout) clearTimeout(stopSoundTimeout);
-stopSoundTimeout = setTimeout(() => {
-  spinSound.pause();
-  spinSound.currentTime = 0;
-  if (selectedSound) {
-    selectedSound.pause();
-    selectedSound.currentTime = 0;
-    selectedSound.play().catch(e => console.log("stop sound error", e));
-  }
-  stopSoundTimeout = null;
-}, 4000);
+      spinSound.pause();
+      spinSound.currentTime = 0;
+      spinSound.volume = 0.7;
+      spinSound.loop = true;
+      spinSound.play().catch(() => {});
 
-});
+      const spin = Math.floor(Math.random() * 1800) + 1440;
+      rotation += spin;
+      cap.style.transform = `rotate(${rotation}deg)`;
 
+      if (stopSoundTimeout) clearTimeout(stopSoundTimeout);
+      stopSoundTimeout = setTimeout(() => {
+        spinSound.pause();
+        spinSound.currentTime = 0;
+        if (selectedSound) {
+          selectedSound.pause();
+          selectedSound.currentTime = 0;
+          selectedSound.play().catch(e => console.log("stop sound error", e));
+        }
+        stopSoundTimeout = null;
+      }, 4000);
+    });
 
     function handleModeChange() {
       const mode = document.getElementById("modeSelect").value;
@@ -209,47 +203,40 @@ stopSoundTimeout = setTimeout(() => {
     }
 
     function handleGameChange() {
-  if (stopSoundTimeout) {
-    clearTimeout(stopSoundTimeout);
-    stopSoundTimeout = null;
-  }
-  spinSound.pause();
-  spinSound.currentTime = 0;
-  if (selectedSound) {
-    selectedSound.pause();
-    selectedSound.currentTime = 0;
-  }
-  isSpinning = false;
-  const cap = document.getElementById("cap");
-  cap.style.animation = "tiltSwing 3s ease-in-out infinite";
-  cap.style.transform = "rotate(0deg)";
-  // cancel ongoing rotation and sounds
-  if (stopSoundTimeout) {
-    clearTimeout(stopSoundTimeout);
-    stopSoundTimeout = null;
-  }
-  spinSound.pause();
-  spinSound.currentTime = 0;
-  if (selectedSound) {
-    selectedSound.pause();
-    selectedSound.currentTime = 0;
-  }
-  isSpinning = false;
+      if (stopSoundTimeout) {
+        clearTimeout(stopSoundTimeout);
+        stopSoundTimeout = null;
+      }
+      spinSound.pause();
+      spinSound.currentTime = 0;
+      if (selectedSound) {
+        selectedSound.pause();
+        selectedSound.currentTime = 0;
+      }
+      isSpinning = false;
+
+      const cap = document.getElementById("cap");
+      const instruction = document.getElementById("instruction");
+      cap.style.animation = "tiltSwing 3s ease-in-out infinite";
+      cap.style.transform = "rotate(0deg)";
+
       const alcoholVal = document.getElementById("alcoholGames").value;
       const coupleVal = document.getElementById("coupleGames").value;
       const funVal = document.getElementById("funGames").value;
 
       if (alcoholVal === "soju") {
-    document.getElementById("gameTitle").innerText = "소주뚜껑 룰렛";
-    document.getElementById("cap").src = "soju_cap.png";
-    document.getElementById("cap").style.transform = "rotate(30deg)";
-  } else if (alcoholVal === "sojubottle") {
-    document.getElementById("gameTitle").innerText = "소주병 룰렛";
-    document.getElementById("cap").src = "soju_bottle.png";
-    document.getElementById("cap").style.transform = "rotate(30deg)";
-    document.getElementById("cap").style.transform = "rotate(30deg)";
-  } else {
+        document.getElementById("gameTitle").innerText = "소주뚜껑 룰렛";
+        cap.src = "soju_cap.png";
+        cap.style.transform = "rotate(30deg)";
+        instruction.innerText = "👆 소주뚜껑을 터치해서 돌려보세요!";
+      } else if (alcoholVal === "sojubottle") {
+        document.getElementById("gameTitle").innerText = "소주병 룰렛";
+        cap.src = "soju_bottle.png";
+        cap.style.transform = "rotate(30deg)";
+        instruction.innerText = "👆 소주병을 터치해서 돌려보세요!";
+      } else {
         document.getElementById("gameTitle").innerText = "게임 준비 중...";
+        instruction.innerText = "게임을 선택해주세요!";
       }
     }
   </script>
