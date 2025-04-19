@@ -2,190 +2,146 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TIKI TAKA Game</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>너와 나의 티키타카</title>
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
   <style>
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
+      font-family: 'Arial', sans-serif;
       background: url('assets/background.jpg') center/cover no-repeat;
-      height: 100%;
-      font-family: Arial, sans-serif;
+      height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: center;
+      text-align: center;
       color: white;
     }
     h1 {
-      margin-top: 40px;
-      font-size: 32px;
-      text-align: center;
+      font-size: 28px;
+      margin-bottom: 40px;
     }
-    #nameForm, #game-container, #resultCard, .result-buttons {
-      width: 90%;
-      max-width: 500px;
-      margin-top: 20px;
-    }
-    #nameForm input {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-      padding: 10px;
-      font-size: 18px;
-      border-radius: 6px;
-      border: none;
+    #nameForm, #startPrompt, #questionBox, #finalResult {
+      display: none;
     }
     .button {
-      padding: 12px 20px;
-      font-size: 18px;
-      border: none;
-      border-radius: 6px;
       background-color: #88f5e1;
       color: black;
+      border: none;
+      padding: 12px 24px;
+      font-size: 18px;
+      border-radius: 6px;
       cursor: pointer;
-      margin-top: 10px;
-      width: 100%;
+      margin: 12px;
     }
-    #game-container, #resultCard, .result-buttons {
-      display: none;
-      background: rgba(0,0,0,0.6);
-      padding: 20px;
-      border-radius: 16px;
+    input {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: none;
     }
-    #questionText {
+    #question {
       font-size: 22px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    #resultCard {
-      display: none;
-      width: 100%;
-      background: white;
-      color: black;
-      border-radius: 16px;
-      padding: 40px;
-      text-align: center;
-    }
-    #resultCard h2 {
-      font-size: 28px;
-      margin-bottom: 20px;
-    }
-    #resultCard p {
-      font-size: 20px;
-    }
-    @media screen and (min-width: 768px) {
-      html, body {
-        background-attachment: fixed;
-      }
-      #nameForm, #game-container, #resultCard, .result-buttons {
-        max-width: 600px;
-      }
+      margin-bottom: 30px;
     }
   </style>
 </head>
 <body>
-  <h1>너와 나의 TIKI TAKA</h1>
+
+  <h1>너와 나의 티키타카</h1>
 
   <div id="nameForm">
-    <input type="text" id="player1" placeholder="플레이어 1 이름" />
-    <input type="text" id="player2" placeholder="플레이어 2 이름" />
-    <button class="button" onclick="startGame()">입력 완료</button>
+    <input id="player1Name" placeholder="플레이어 1 이름">
+    <input id="player2Name" placeholder="플레이어 2 이름">
+    <button class="button" onclick="saveNames()">입력 완료</button>
   </div>
 
-  <div id="game-container">
-    <div id="questionText"></div>
-    <button class="button" onclick="answer('나')">나</button>
-    <button class="button" onclick="answer('너')">너</button>
+  <div id="startPrompt">
+    <p id="startText"></p>
+    <button class="button" onclick="startGame()">나 먼저 시작할게!</button>
   </div>
 
-  <div id="resultCard">
-    <h2 id="resultScore"></h2>
-    <p id="resultMessage"></p>
+  <div id="questionBox">
+    <div id="question"></div>
+    <button class="button" onclick="choose('나')">나</button>
+    <button class="button" onclick="choose('너')">너</button>
+    <div id="result"></div>
   </div>
 
-  <div class="result-buttons" style="display: none;">
-    <button class="button" onclick="restartGame()">다시 하기</button>
-    <button class="button" onclick="capture()">📸 공유하기</button>
-  </div>
+  <div id="finalResult"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
     const questions = [
       "더 먼저 사과하는 사람은?",
       "데이트 장소를 더 자주 정하는 사람은?",
       "더 연락을 자주 하는 사람은?",
       "더 질투가 많은 사람은?",
-      "잠들기 전에 마지막으로 메시지 보내는 사람은?",
-      "더 많이 웃게 해주는 사람은?",
-      "주말 계획을 더 많이 세우는 사람은?",
-      "먼저 보고 싶다고 말하는 사람은?",
-      "더 서프라이즈를 좋아하는 사람은?",
-      "먼저 좋아졌던 사람은?"
+      "잠들기 전에 마지막으로 메시지 보내는 사람은?"
     ];
-    let current = 0;
-    let player1 = "", player2 = "";
-    let score = 0;
-    let answers1 = [], answers2 = [];
-    let turn = 1;
+
+    const endings = [
+      "우리의 티키타카 멋졌어요! 찰떡궁합 커플이네요!",
+      "이 정도면 운명 아닐까요? 💘",
+      "두 분, 티키타카 챔피언입니다!",
+      "완벽 그 자체! 💯",
+      "이런 공감, 흔치 않아요~!"
+    ];
+
+    let p1 = "", p2 = "";
+    let isFirst = true, index = 0;
+    let firstAnswers = [], score = 0;
+
+    document.getElementById("nameForm").style.display = "block";
+
+    function saveNames() {
+      p1 = document.getElementById("player1Name").value;
+      p2 = document.getElementById("player2Name").value;
+      if (!p1 || !p2) return alert("두 이름을 모두 입력해주세요!");
+      document.getElementById("nameForm").style.display = "none";
+      document.getElementById("startPrompt").style.display = "block";
+      document.getElementById("startText").innerText = `${p1}님이 먼저 시작하세요!`;
+    }
 
     function startGame() {
-      player1 = document.getElementById("player1").value.trim();
-      player2 = document.getElementById("player2").value.trim();
-      if (!player1 || !player2) {
-        alert("두 플레이어의 이름을 입력해주세요.");
-        return;
-      }
-      document.getElementById("nameForm").style.display = "none";
-      document.getElementById("game-container").style.display = "block";
+      document.getElementById("startPrompt").style.display = "none";
+      document.getElementById("questionBox").style.display = "block";
       showQuestion();
     }
 
     function showQuestion() {
-      document.getElementById("questionText").innerText = `질문 ${current+1}: ${questions[current]}`;
+      document.getElementById("question").innerText = `질문 ${index + 1}:\n${questions[index]}`;
+      document.getElementById("result").innerText = "";
     }
 
-    function answer(choice) {
-      if (turn === 1) {
-        answers1.push(choice);
+    function choose(choice) {
+      if (isFirst) {
+        firstAnswers.push(choice);
+        index++;
+        if (index < 5) {
+          showQuestion();
+        } else {
+          isFirst = false;
+          index = 0;
+          alert(`${p2}님의 차례입니다!`);
+          showQuestion();
+        }
       } else {
-        answers2.push(choice);
-        if (answers2[answers2.length - 1] === answers1[answers2.length - 1]) {
-          score++;
+        let match = choice === firstAnswers[index];
+        if (match) score++;
+        document.getElementById("result").innerText = `${p1}님은 '${firstAnswers[index]}'를 선택했어요!`;
+        index++;
+        if (index < 5) {
+          setTimeout(showQuestion, 2000);
+        } else {
+          document.getElementById("questionBox").style.display = "none";
+          const ending = endings[Math.floor(Math.random() * endings.length)];
+          document.getElementById("finalResult").innerHTML = `<h2>총 ${score}개 맞췄어요!</h2><p>${ending}</p><button class='button' onclick='location.reload()'>다시 하기</button>`;
+          document.getElementById("finalResult").style.display = "block";
         }
       }
-
-      current++;
-      if (current < 10) {
-        showQuestion();
-      } else {
-        endGame();
-      }
-    }
-
-    function endGame() {
-      document.getElementById("game-container").style.display = "none";
-      document.getElementById("resultCard").style.display = "block";
-      document.querySelector(".result-buttons").style.display = "block";
-      document.getElementById("resultScore").innerText = `총 10개 중 ${score}개 TIKI TAKA 됐어요!`;
-      document.getElementById("resultMessage").innerText = score >= 7
-        ? "두 분 정말 환상의 티키타카예요! 완벽한 호흡!"
-        : "조금만 더 맞춰봐요~ 함께 성장하는 중!";
-    }
-
-    function restartGame() {
-      window.location.reload();
-    }
-
-    function capture() {
-      html2canvas(document.querySelector("#resultCard")).then(canvas => {
-        let a = document.createElement("a");
-        a.href = canvas.toDataURL("image/png");
-        a.download = "tikitaka_result.png";
-        a.click();
-      });
     }
   </script>
 </body>
