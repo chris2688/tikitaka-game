@@ -109,7 +109,9 @@
     let isFirst = true, index = 0;
     let firstAnswers = [], score = 0;
 
-    document.getElementById("nameForm").style.display = "block";
+    document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("nameForm").style.display = "block";
+});
 
     function saveNames() {
       p1 = document.getElementById("player1Name").value;
