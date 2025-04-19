@@ -144,5 +144,37 @@
       }
     }
   </script>
+
+<script>
+  window.addEventListener('beforeunload', () => {
+    localStorage.setItem('ttk_p1', p1);
+    localStorage.setItem('ttk_p2', p2);
+    localStorage.setItem('ttk_index', index);
+    localStorage.setItem('ttk_firstAnswers', JSON.stringify(firstAnswers));
+    localStorage.setItem('ttk_score', score);
+    localStorage.setItem('ttk_isFirst', isFirst);
+  });
+
+  window.addEventListener('DOMContentLoaded', () => {
+    p1 = localStorage.getItem('ttk_p1') || "";
+    p2 = localStorage.getItem('ttk_p2') || "";
+    index = parseInt(localStorage.getItem('ttk_index') || "0", 10);
+    score = parseInt(localStorage.getItem('ttk_score') || "0", 10);
+    firstAnswers = JSON.parse(localStorage.getItem('ttk_firstAnswers') || "[]");
+    isFirst = localStorage.getItem('ttk_isFirst') === "false" ? false : true;
+
+    if (p1 && p2) {
+      document.getElementById("nameForm").style.display = "none";
+      if (isFirst) {
+        document.getElementById("startPrompt").style.display = "block";
+        document.getElementById("startText").innerText = `${p1}님이 먼저 시작하세요!`;
+      } else {
+        document.getElementById("questionBox").style.display = "block";
+        showQuestion();
+      }
+    }
+  });
+</script>
 </body>
 </html>
+
