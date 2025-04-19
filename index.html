@@ -71,10 +71,7 @@
       max-height: 65vh;
       cursor: pointer;
       transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
-    
-  pointer-events: auto;
-  z-index: 10;
-}
+    }
     #instruction {
       position: absolute;
       bottom: 30px;
@@ -113,9 +110,6 @@
 }
 #cap {
   animation: tiltSwing 3s ease-in-out infinite;
-
-  pointer-events: auto;
-  z-index: 10;
 }
 </style>
 
@@ -181,7 +175,6 @@ let isSpinning = false;
 
     
 cap.addEventListener("click", async () => {
-  cap.addEventListener("touchstart", async () => { cap.click(); });
   cap.style.animation = "none";
   if (selectedSound) {
     selectedSound.pause();
@@ -231,7 +224,7 @@ stopSoundTimeout = setTimeout(() => {
 
     function handleGameChange() {
   const instruction = document.getElementById("instruction");
-  const alcoholVal = document.getElementById("alcoholGames").value;
+  
   if (alcoholVal === "soju") {
     instruction.innerText = "👆 소주뚜껑을 터치해서 돌려보세요!";
   } else if (alcoholVal === "sojubottle") {
@@ -263,7 +256,7 @@ stopSoundTimeout = setTimeout(() => {
     selectedSound.currentTime = 0;
   }
   isSpinning = false;
-      const alcoholVal = document.getElementById("alcoholGames").value;
+      
       const coupleVal = document.getElementById("coupleGames").value;
       const funVal = document.getElementById("funGames").value;
 
