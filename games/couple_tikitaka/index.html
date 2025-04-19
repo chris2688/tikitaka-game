@@ -45,14 +45,14 @@
       min-width: 120px;
       max-width: 200px;
     }
-    input {
-      padding: 10px;
-      margin: 10px;
-      font-size: 14px;
-      border-radius: 4px;
-      border: none;
-      width: 160px;
-    }
+input {
+  padding: 10px;
+  margin: 10px 5px; /* 양옆 여백 축소 */
+  font-size: 14px;
+  border-radius: 4px;
+  border: none;
+  width: 120px; /* ✅ 너비 축소 */
+}
     #question {
       font-size: 32px;
       font-weight: bold;
@@ -111,12 +111,57 @@
   max-width: 140px;
 }
 
-    @media (max-width: 480px) {
+#nameForm {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap; /* 모바일에서 공간 부족 시 줄바꿈 허용 */
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#nameForm .button {
+  flex-shrink: 0; /* ✅ 버튼이 너무 커지지 않도록 고정 */
+  width: auto; /* ✅ 버튼 너비 자동 조절 */
+  max-width: none;
+  white-space: nowrap;
+}
+    
+#buttonGroup {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: nowrap; /* ✅ 한 줄 유지 */
+}
+
+@media (max-width: 480px) {
   #result {
     font-size: 24px;
   }
-}
 
+  input {
+    width: 120px; /* 모바일에서 input 길이 줄임 */
+  }
+}
+    
+.button {
+  background-color: #88f5e1;
+  color: black;
+  border: none;
+  padding: 12px 24px;
+  font-size: 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 6px 10px;
+  white-space: nowrap;
+  min-width: 120px;
+  max-width: 200px;
+
+  width: auto; /* ✅ 줄바꿈 방지 */
+  flex-shrink: 0; /* ✅ 버튼이 줄어들지 않게 */
+}
     
   </style>
 </head>
@@ -124,23 +169,25 @@
 
   <h1>너와 나의 TIKI TAKA</h1>
 
-  <div id="nameForm">
-    <input id="player1Name" placeholder="당신의 이름">
-    <input id="player2Name" placeholder="옆사람의 이름">
-    <button class="button" onclick="saveNames()">입력 완료</button>
-  </div>
+<div id="nameForm">
+  <input id="player1Name" placeholder="당신의 이름">
+  <input id="player2Name" placeholder="옆사람의 이름">
+  <button class="button" onclick="saveNames()">입력 완료</button>
+</div>
 
   <div id="startPrompt">
     <p id="startText"></p>
     <button class="button" onclick="startGame()">나 먼저 시작할게!</button>
   </div>
 
-  <div id="questionBox">
-    <div id="question"></div>
-<button class="button choice-button" id="btn1" onclick="">선택 1</button>
-<button class="button choice-button" id="btn2" onclick="">선택 2</button>
-    <div id="result"></div>
+<div id="questionBox">
+  <div id="question"></div>
+  <div id="buttonGroup">
+    <button class="button choice-button" id="btn1">선택 1</button>
+    <button class="button choice-button" id="btn2">선택 2</button>
   </div>
+  <div id="result"></div>
+</div>
 
   <div id="finalResult"></div>
 
