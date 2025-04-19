@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>너와 나의 티키타카</title>
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: url('assets/background.jpg') center/cover no-repeat;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+      color: white;
+    }
+    #topLeftMenu {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+    #topLeftMenu select {
+      background: black;
+      color: #88f5e1;
+      font-size: 15px;
+      padding: 6px 10px;
+      border: 1px solid #88f5e1;
+      border-radius: 4px;
+    }
+    #logoBar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 60px;
+      gap: 8px;
+    }
+    #logoBar img {
+      height: 60px;
+    }
+    #gameLabel {
+      font-size: 24px;
+      font-weight: bold;
+      color: #88f5e1;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    h1 {
+      font-size: 28px;
+      margin: 20px 0;
+    }
+    #nameForm, #startPrompt, #questionBox, #finalResult {
+      display: none;
+    }
+    .button {
+      background-color: #88f5e1;
+      color: black;
+      border: none;
+      padding: 12px 24px;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 12px;
+    }
+    input {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: none;
+    }
+    #question {
+      font-size: 22px;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div id="topLeftMenu">
+    <select id="modeSelect">
+      <option value="alcohol">술게임</option>
+      <option value="couple" selected>커플게임</option>
+      <option value="fun">재미게임</option>
+    </select>
+  </div>
+
+  <div id="logoBar">
+    <img src="assets/tikitaka_logo.png" alt="TIKI TAKA Logo" />
+    <span id="gameLabel">Game</span>
+  </div>
+
+  <h1>너와 나의 티키타카</h1>
+
+  <div id="nameForm">
+    <input id="player1Name" placeholder="플레이어 1 이름">
+    <input id="player2Name" placeholder="플레이어 2 이름">
+    <button class="button" onclick="saveNames()">입력 완료</button>
+  </div>
+
+  <div id="startPrompt">
+    <p id="startText"></p>
+    <button class="button" onclick="startGame()">나 먼저 시작할게!</button>
+  </div>
+
+  <div id="questionBox">
+    <div id="question"></div>
+    <button class="button" onclick="choose('나')">나</button>
+    <button class="button" onclick="choose('너')">너</button>
+    <div id="result"></div>
+  </div>
+
+  <div id="finalResult"></div>
+
+  <script>
+    const questions = [
+      "더 먼저 사과하는 사람은?",
+      "데이트 장소를 더 자주 정하는 사람은?",
+      "더 연락을 자주 하는 사람은?",
+      "더 질투가 많은 사람은?",
+      "잠들기 전에 마지막으로 메시지 보내는 사람은?"
+    ];
+
+    const endings = [
+      "우리의 티키타카 멋졌어요! 찰떡궁합 커플이네요!",
+      "이 정도면 운명 아닐까요? 💘",
+      "두 분, 티키타카 챔피언입니다!",
+      "완벽 그 자체! 💯",
+      "이런 공감, 흔치 않아요~!"
+    ];
+
+    let p1 = "", p2 = "";
+    let isFirst = true, index = 0;
+    let firstAnswers = [], score = 0;
+
+    document.getElementById("nameForm").style.display = "block";
+
+    function saveNames() {
+      p1 = document.getElementById("player1Name").value;
+      p2 = document.getElementById("player2Name").value;
+      if (!p1 || !p2) return alert("두 이름을 모두 입력해주세요!");
+      document.getElementById("nameForm").style.display = "none";
+      document.getElementById("startPrompt").style.display = "block";
+      document.getElementById("startText").innerText = `${p1}님이 먼저 시작하세요!`;
+    }
+
+    function startGame() {
+      document.getElementById("startPrompt").style.display = "none";
+      document.getElementById("questionBox").style.display = "block";
+      showQuestion();
+    }
+
+    function showQuestion() {
+      document.getElementById("question").innerText = `질문 ${index + 1}: ${questions[index]}`;
+      document.getElementById("result").innerText = "";
+    }
+
+    function choose(choice) {
+      if (isFirst) {
+        firstAnswers.push(choice);
+        index++;
+        if (index < 5) {
+          showQuestion();
+        } else {
+          isFirst = false;
+          index = 0;
+          alert(`${p2}님의 차례입니다!`);
+          showQuestion();
+        }
+      } else {
+        let match = choice === firstAnswers[index];
+        if (match) score++;
+        document.getElementById("result").innerText = `${p1}님은 '${firstAnswers[index]}'를 선택했어요!`;
+        index++;
+        if (index < 5) {
+          setTimeout(showQuestion, 2000);
+        } else {
+          document.getElementById("questionBox").style.display = "none";
+          const ending = endings[Math.floor(Math.random() * endings.length)];
+          document.getElementById("finalResult").innerHTML = `<h2>총 ${score}개 맞췄어요!</h2><p>${ending}</p><button class='button' onclick='location.reload()'>다시 하기</button>`;
+          document.getElementById("finalResult").style.display = "block";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
