@@ -224,5 +224,27 @@
       }
     }
   </script>
+<script>
+window.addEventListener("beforeunload", () => {
+  localStorage.setItem("capRotation", rotation);
+  localStorage.setItem("capSrc", document.getElementById("cap").src);
+  localStorage.setItem("gameTitle", document.getElementById("gameTitle").innerText);
+  localStorage.setItem("instructionText", document.getElementById("instruction").innerText);
+});
+window.addEventListener("DOMContentLoaded", () => {
+  const savedRotation = localStorage.getItem("capRotation");
+  const savedCapSrc = localStorage.getItem("capSrc");
+  const savedTitle = localStorage.getItem("gameTitle");
+  const savedInstruction = localStorage.getItem("instructionText");
+  if (savedRotation) {
+    rotation = parseInt(savedRotation);
+    document.getElementById("cap").style.transform = `rotate(${rotation}deg)`;
+  }
+  if (savedCapSrc) document.getElementById("cap").src = savedCapSrc;
+  if (savedTitle) document.getElementById("gameTitle").innerText = savedTitle;
+  if (savedInstruction) document.getElementById("instruction").innerText = savedInstruction;
+});
+</script>
+
 </body>
 </html>
