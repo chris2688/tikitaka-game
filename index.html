@@ -114,7 +114,7 @@
       <option value="sojubottle">소주병 룰렛</option>
     </select>
     <select id="coupleGames" style="display: none;" onchange="handleGameChange()">
-      <option value="comingsoon">Coming Soon</option>
+      <option value="tikitaka">너와 나의 티키타카</option>
     </select>
     <select id="funGames" style="display: none;" onchange="handleGameChange()">
       <option value="comingsoon">Coming Soon</option>
@@ -223,6 +223,7 @@
       const alcoholVal = document.getElementById("alcoholGames").value;
       const coupleVal = document.getElementById("coupleGames").value;
       const funVal = document.getElementById("funGames").value;
+      if (coupleVal === "tikitaka") window.location.href = "games/couple_tikitaka/index.html";
 
       if (alcoholVal === "soju") {
         document.getElementById("gameTitle").innerText = "소주뚜껑 룰렛";
