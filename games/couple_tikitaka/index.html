@@ -58,17 +58,24 @@
       font-weight: bold;
       margin-bottom: 10px;
     }
-    #result {
-      font-size: 32px;
-      font-weight: bold;
-    opacity: 0; /* 시작 시 숨겨진 상태 */
-    transition: opacity 0.5s ease-in-out;
-    }
+#result {
+  font-size: 32px;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.6), 0 0 2px white; /* ✅ 더 선명한 그림자 */
+  border: 2px solid white; /* ✅ 흰색 테두리 */
+  color: white;
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  display: inline-block;
+}
 
 @keyframes fadeInZoom {
   0% {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(1.05);
   }
   100% {
     opacity: 1;
@@ -77,10 +84,21 @@
 }
 
 #result.animate {
-  animation: fadeInZoom 0.5s ease-out;
+  animation: fadeInZoom 0.25s ease-out;
 }
     
+#questionBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 가운데 정렬 */
+  gap: 8px; /* 버튼과 결과 간 여백 */
+}
 
+.choice-button {
+  margin-bottom: 8px;
+}
+
+    
 .button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -92,6 +110,13 @@
   min-width: 100px;
   max-width: 140px;
 }
+
+    @media (max-width: 480px) {
+  #result {
+    font-size: 24px;
+  }
+}
+
     
   </style>
 </head>
@@ -218,9 +243,10 @@ resultEl.style.color = match ? "#1B5E20" : "#B71C1C";
 resultEl.style.backgroundColor = match ? "rgba(76, 175, 80, 0.15)" : "rgba(244, 67, 54, 0.15)";
 resultEl.style.padding = "16px";
 resultEl.style.borderRadius = "12px";
-resultEl.style.display = "inline-block";
-resultEl.classList.remove("animate");  
-void resultEl.offsetWidth;  
+resultEl.style.display = "block";
+resultEl.style.opacity = "1";
+resultEl.classList.remove("animate");
+void resultEl.offsetWidth;
 resultEl.classList.add("animate");
     
     index++;
