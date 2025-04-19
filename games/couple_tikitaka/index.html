@@ -140,7 +140,7 @@
       } else {
         let match = choice === firstAnswers[index];
         if (match) score++;
-        document.getElementById("result").innerText = `<h1>${p1}님은 '${firstAnswers[index]}'를 선택했어요!</h1>`;
+        document.getElementById("result").innerText = `${p1}님은 '${firstAnswers[index]}'를 선택했어요!`;
         index++;
         if (index < 5) {
           setTimeout(showQuestion, 2000);
