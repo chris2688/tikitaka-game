@@ -65,6 +65,21 @@
     transition: opacity 0.5s ease-in-out;
     }
 
+@keyframes fadeInZoom {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+#result.animate {
+  animation: fadeInZoom 0.5s ease-out;
+}
+    
 
 .button:disabled {
   opacity: 0.6;
@@ -197,17 +212,17 @@ function choose(choice) {
   } else {
     let match = choice === firstAnswers[index];
     if (match) score++;
-document.getElementById("result").innerText = `${p1}님은 '${firstAnswers[index]}'를 선택했어요!`;
-document.getElementById("result").style.transition = "opacity 0.5s";
-setTimeout(() => {
-  document.getElementById("result").style.opacity = "1";
-}, 100);
+const resultEl = document.getElementById("result");
+resultEl.innerText = `${p1}님은 '${firstAnswers[index]}'를 선택했어요!`;
+resultEl.classList.remove("animate");  
+void resultEl.offsetWidth;  
+resultEl.classList.add("animate");
     
     index++;
 
     if (index < 5) {
   setTimeout(() => {
-    document.getElementById("result").style.opacity = "0";  // 🔹 다음 질문 전 결과 숨기기
+    document.getElementById("result").style.opacity = "0";  
     showQuestion();
         btn1.disabled = false;
         btn2.disabled = false;
