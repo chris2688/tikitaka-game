@@ -121,9 +121,9 @@
     }
 
     function showQuestion() {
-      document.getElementById("question").innerText = `질문 ${index + 1}:<br><br>${questions[index]}`;
-      document.getElementById("result").innerText = "";
-    }
+  document.getElementById("question").innerHTML = `질문 ${index + 1}:<br><br>${questions[index]}`;
+  document.getElementById("result").innerText = "";
+   }
 
     function choose(choice) {
       if (isFirst) {
