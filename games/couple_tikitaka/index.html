@@ -213,7 +213,7 @@ function choose(choice) {
     let match = choice === firstAnswers[index];
     if (match) score++;
 const resultEl = document.getElementById("result");
-resultEl.innerText = `${p1}님은 '${firstAnswers[index]}'를 선택했어요!`;
+resultEl.innerText = match ? "🎯 일치했어요!" : "❌ 불일치예요!";
 resultEl.style.color = match ? "#1B5E20" : "#B71C1C";
 resultEl.style.backgroundColor = match ? "rgba(76, 175, 80, 0.15)" : "rgba(244, 67, 54, 0.15)";
 resultEl.style.padding = "16px";
