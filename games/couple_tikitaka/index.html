@@ -214,7 +214,11 @@ function choose(choice) {
     if (match) score++;
 const resultEl = document.getElementById("result");
 resultEl.innerText = `${p1}님은 '${firstAnswers[index]}'를 선택했어요!`;
-resultEl.style.color = match ? "#1B5E20" : "#B71C1C";  // ✅ 맞춤/오답 색상 설정
+resultEl.style.color = match ? "#1B5E20" : "#B71C1C";
+resultEl.style.backgroundColor = match ? "rgba(76, 175, 80, 0.15)" : "rgba(244, 67, 54, 0.15)";
+resultEl.style.padding = "16px";
+resultEl.style.borderRadius = "12px";
+resultEl.style.display = "inline-block";
 resultEl.classList.remove("animate");  
 void resultEl.offsetWidth;  
 resultEl.classList.add("animate");
