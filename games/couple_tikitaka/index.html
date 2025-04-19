@@ -21,16 +21,13 @@
     }
     h1 {
       font-size: 28px;
-      margin-bottom: 40px;
       margin-bottom: 100px;
     }
-#startText {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-    
+    #startText {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
     #nameForm, #startPrompt, #questionBox, #finalResult {
       display: none;
     }
@@ -47,21 +44,20 @@
     input {
       padding: 10px;
       margin: 10px;
-      font-size: 16px;
+      font-size: 14px;
       border-radius: 4px;
       border: none;
+      width: 160px;
     }
     #question {
       font-size: 32px;
       font-weight: bold;
       margin-bottom: 10px;
     }
-
-#result {
-  font-size: 32px;
-  font-weight: bold;
-}
-    
+    #result {
+      font-size: 32px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -69,8 +65,8 @@
   <h1>너와 나의 TIKI TAKA</h1>
 
   <div id="nameForm">
-    <input id="player1Name" placeholder="당신의 이름"style="width: 160px; font-size: 14px;">
-    <input id="player2Name" placeholder="옆사람의 이름"style="width: 160px; font-size: 14px;">
+    <input id="player1Name" placeholder="당신의 이름">
+    <input id="player2Name" placeholder="옆사람의 이름">
     <button class="button" onclick="saveNames()">입력 완료</button>
   </div>
 
@@ -110,8 +106,8 @@
     let firstAnswers = [], score = 0;
 
     document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("nameForm").style.display = "block";
-});
+      document.getElementById("nameForm").style.display = "block";
+    });
 
     function saveNames() {
       p1 = document.getElementById("player1Name").value;
@@ -129,9 +125,9 @@
     }
 
     function showQuestion() {
-  document.getElementById("question").innerHTML = `<h1>질문 ${index + 1}</h1><p>${questions[index]}</p>`;
-  document.getElementById("result").innerText = "";
-   }
+      document.getElementById("question").innerHTML = `<h1>질문 ${index + 1}</h1><p>${questions[index]}</p>`;
+      document.getElementById("result").innerText = "";
+    }
 
     function choose(choice) {
       if (isFirst) {
@@ -146,30 +142,29 @@
           showQuestion();
         }
       } else {
-  let match = choice === firstAnswers[index];
-  if (match) score++;
-  document.getElementById("result").innerText = `${p1}님은 '${firstAnswers[index]}'를 선택했어요!`;
-  index++;
-  if (index < 5) {
-    setTimeout(showQuestion, 2000);
-  } else {
-    document.getElementById("questionBox").style.display = "none";
-    const ending = endings[Math.floor(Math.random() * endings.length)];
-
-    document.getElementById("finalResult").innerHTML = `
-      <div style="background-color: rgba(255,255,255,0.5); padding: 30px; border-radius: 12px; max-width: 90%; margin: 0 auto;">
-        <h2 style="font-size: 28px; color: #000;">총 ${score}개 맞췄어요!</h2>
-        <p style="font-size: 22px; color: #333; line-height: 1.6;">${ending}</p>
-        <div style="margin-top: 24px;">
-          <button class='button' onclick='location.reload()'>다시 하기</button>
-          <button class='button' onclick='startExtraRound()'>계속 TIKI TAKA</button>
-          <button class='button' onclick='captureResult()'>📸 공유하기</button>
-        </div>
-      </div>
-    `;
-    document.getElementById("finalResult").style.display = "block";
-  }
-}
+        let match = choice === firstAnswers[index];
+        if (match) score++;
+        document.getElementById("result").innerText = `${p1}님은 '${firstAnswers[index]}'를 선택했어요!`;
+        index++;
+        if (index < 5) {
+          setTimeout(showQuestion, 2000);
+        } else {
+          document.getElementById("questionBox").style.display = "none";
+          const ending = endings[Math.floor(Math.random() * endings.length)];
+          document.getElementById("finalResult").innerHTML = `
+            <div style="background-color: rgba(255,255,255,0.5); padding: 30px; border-radius: 12px; max-width: 90%; margin: 0 auto;">
+              <h2 style="font-size: 28px; color: #000;">총 ${score}개 맞췄어요!</h2>
+              <p style="font-size: 22px; color: #333; line-height: 1.6;">${ending}</p>
+              <div style="margin-top: 24px;">
+                <button class='button' onclick='location.reload()'>다시 하기</button>
+                <button class='button' onclick='startExtraRound()'>계속 TIKI TAKA</button>
+                <button class='button' onclick='captureResult()'>📸 공유하기</button>
+              </div>
+            </div>`;
+          document.getElementById("finalResult").style.display = "block";
+        }
+      }
+    }
   </script>
 </body>
 </html>
