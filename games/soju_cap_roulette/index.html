@@ -5,8 +5,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TIKI TAKA - Soju Cap Game</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <style>
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <style>body {
+  background-image: url("assets/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
     html, body {
       margin: 0;
       padding: 0;
@@ -88,7 +95,14 @@
     }
   </style>
 
-<style>
+<style>body {
+  background-image: url("assets/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
 @keyframes tiltSwing {
   0% { transform: rotate(0deg); }
   50% { transform: rotate(30deg); }
@@ -122,12 +136,12 @@
 </div>
 
     <div id="logoBar">
-      <img src="tikitaka_logo.png" alt="TIKI TAKA Logo" />
+      <img src="assets/tikitaka_logo.png" alt="TIKI TAKA Logo" />
       <span id="gameLabel">Game</span>
     </div>
     <div id="gameTitle">소주뚜껑 룰렛</div>
     <div id="gameArea">
-      <img id="cap" src="soju_cap.png" alt="Soju Cap" />
+      <img id="cap" src="assets/soju_cap.png" alt="Soju Cap" />
     </div>
     <div id="instruction">👆 소주뚜껑을 터치해서 돌려보세요!</div>
   </div>
@@ -248,7 +262,7 @@ stopSoundTimeout = setTimeout(() => {
 
       if (alcoholVal === "soju") {
     document.getElementById("gameTitle").innerText = "소주뚜껑 룰렛";
-    document.getElementById("cap").src = "soju_cap.png";
+    document.getElementById("cap").src = "assets/soju_cap.png";
     document.getElementById("cap").style.transform = "rotate(30deg)";
   } else if (alcoholVal === "sojubottle") {
     document.getElementById("gameTitle").innerText = "소주병 룰렛";
