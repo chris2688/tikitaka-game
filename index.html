@@ -1,6 +1,5 @@
 
 <!DOCTYPE html>
-
 <html lang="ko">
 <head>
 <meta charset="utf-8"/>
@@ -17,7 +16,6 @@
       height: 100vh;
       overflow: hidden;
     }
-
     #sidebar {
       height: 100%;
       width: 300px;
@@ -30,27 +28,23 @@
       z-index: 1000;
       overflow-y: auto;
     }
-
     #sidebarHeader {
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 8px;
-      padding: 20px 0 10px;
+      padding: 20px 20px 10px;
       border-bottom: 1px solid #ccc;
     }
-
     #sidebarHeader img {
-      height: 40px;
+      height: 52px;
     }
-
     #sidebarHeader span {
       font-size: 18px;
       font-weight: bold;
       color: #111;
       animation: pulse 2s infinite;
     }
-
     .closebtn {
       position: absolute;
       top: 12px;
@@ -59,11 +53,9 @@
       cursor: pointer;
       color: black;
     }
-
     .menu-group {
       padding: 0 16px;
     }
-
     .menu-title {
       font-size: 16px;
       font-weight: bold;
@@ -72,12 +64,10 @@
       border-bottom: 1px solid #ccc;
       padding-bottom: 5px;
     }
-
     .submenu {
       display: block;
       padding-left: 8px;
     }
-
     .submenu a {
       display: block;
       padding: 6px 0;
@@ -86,11 +76,9 @@
       font-size: 15px;
       cursor: pointer;
     }
-
     .submenu a:hover {
       background-color: #eee;
     }
-
     #main {
       margin-left: 0;
       transition: margin-left 0.3s;
@@ -98,7 +86,6 @@
       flex-direction: column;
       height: 100vh;
     }
-
     #topbar {
       height: 60px;
       background-color: #111;
@@ -108,23 +95,19 @@
       position: relative;
       gap: 10px;
     }
-
     #topbar img {
-      height: 40px;
+      height: 52px;
     }
-
     #gameLabel {
       font-size: 22px;
       color: #88f5e1;
       animation: pulse 2s infinite;
       font-weight: bold;
     }
-
     @keyframes pulse {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.08); }
     }
-
     #hamburger {
       position: absolute;
       left: 20px;
@@ -132,13 +115,12 @@
       cursor: pointer;
       color: white;
     }
-
     iframe {
       flex-grow: 1;
       width: 100%;
       border: none;
     }
-  </style>
+</style>
 </head>
 <body>
 <div id="sidebar">
@@ -191,7 +173,6 @@
     submenu.style.display = submenu.style.display === "block" ? "none" : "block";
   }
 
-  // 초기에는 모두 보이도록 설정
   window.onload = () => {
     document.getElementById("alcoholSub").style.display = "block";
     document.getElementById("coupleSub").style.display = "block";
