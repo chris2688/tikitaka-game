@@ -181,11 +181,11 @@ function showQuestion() {
             <div style="background-color: rgba(255,255,255,0.5); padding: 30px; border-radius: 12px; max-width: 90%; margin: 0 auto;">
               <h2 style="font-size: 28px; color: #000;">총 ${score}개 맞췄어요!</h2>
               <p style="font-size: 22px; color: #333; line-height: 1.6;">${ending}</p>
-              <div style="margin-top: 24px;">
-                <button class='button' onclick='location.reload()'>다시 하기</button>
-                <button class='button' onclick='startExtraRound()'>계속</button>
-                <button class='button' onclick='captureResult()'>📸 공유</button>
-              </div>
+<div style="margin-top: 24px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+  <button class='button' onclick='location.reload()'>다시 하기</button>
+  <button class='button' onclick='startExtraRound()'>계속</button>
+  <button class='button' onclick='captureResult()'>📸 공유</button>
+</div>
             </div>`;
           document.getElementById("finalResult").style.display = "block";
         }
