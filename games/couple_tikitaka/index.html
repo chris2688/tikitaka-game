@@ -62,6 +62,14 @@
       font-size: 32px;
       font-weight: bold;
     }
+
+.small-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  min-width: 100px;
+  max-width: 140px;
+}
+    
   </style>
 </head>
 <body>
@@ -183,10 +191,10 @@ function showQuestion() {
     <p style="font-size: 5vw; font-weight: bold; color: #222; line-height: 1.8; margin-top: 20px;">
       ${ending}
     </p>
-<div style="margin-top: 24px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
-  <button class='button' onclick='location.reload()'>다시 하기</button>
-  <button class='button' onclick='startExtraRound()'>계속</button>
-  <button class='button' onclick='captureResult()'>📸 공유</button>
+<div style="margin-top: 40px; display: flex; justify-content: center; gap: 8px; flex-wrap: nowrap; flex-direction: row;">
+  <button class="button small-btn" onclick="location.reload()">다시 하기</button>
+  <button class="button small-btn" onclick="startExtraRound()">계속</button>
+  <button class="button small-btn" onclick="captureResult()">📸 공유</button>
 </div>
             </div>`;
           document.getElementById("finalResult").style.display = "block";
