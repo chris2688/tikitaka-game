@@ -129,7 +129,7 @@
     <div id="gameArea">
       <img id="cap" src="soju_cap.png" alt="Soju Cap" />
     </div>
-    <div id="instruction">👆 소주병을 터치해서 돌려보세요!</div>
+    <div id="instruction">👆 소주뚜껑을 터치해서 돌려보세요!</div>
   </div>
 
   <audio id="spinSound" src="spin.wav"></audio>
@@ -245,7 +245,7 @@ stopSoundTimeout = setTimeout(() => {
     document.getElementById("cap").style.transform = "rotate(30deg)";
   } else if (alcoholVal === "sojubottle") {
     document.getElementById("gameTitle").innerText = "소주병 룰렛";
-    document.getElementById("cap").src = "real_soju_bottle.png";
+    document.getElementById("cap").src = "soju_bottle.png";
     document.getElementById("cap").style.transform = "rotate(30deg)";
     document.getElementById("cap").style.transform = "rotate(30deg)";
   } else {
