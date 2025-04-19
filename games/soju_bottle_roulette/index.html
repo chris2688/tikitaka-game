@@ -225,6 +225,20 @@
         instruction.innerText = "게임을 선택해주세요!";
       }
     }
-  </script>
+  
+    // Save current state before unload
+    window.addEventListener("beforeunload", () => {
+      sessionStorage.setItem("rotation", rotation);
+    });
+
+    // Restore rotation after reload
+    window.addEventListener("load", () => {
+      const savedRotation = sessionStorage.getItem("rotation");
+      if (savedRotation !== null) {
+        rotation = parseInt(savedRotation, 10);
+        cap.style.transform = `rotate(${rotation}deg)`;
+      }
+    });
+</script>
 </body>
 </html>
