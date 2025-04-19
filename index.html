@@ -5,9 +5,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TIKI TAKA - Soju Cap Game</title>
-  <link rel="icon" href="games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette/assets/favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette/assets/favicon.ico" type="image/x-icon" />
   <style>body {
-  background-image: url("games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette/assets/background.jpg");
+  background-image: url("games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette/assets/background.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -96,7 +96,7 @@
   </style>
 
 <style>body {
-  background-image: url("games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette/assets/background.jpg");
+  background-image: url("games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette/assets/background.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -136,19 +136,19 @@
 </div>
 
     <div id="logoBar">
-      <img src="games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette/assets/tikitaka_logo.png" alt="TIKI TAKA Logo" />
+      <img src="games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette/assets/tikitaka_logo.png" alt="TIKI TAKA Logo" />
       <span id="gameLabel">Game</span>
     </div>
     <div id="gameTitle">소주뚜껑 룰렛</div>
     <div id="gameArea">
-      <img id="cap" src="games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette/assets/soju_cap.png" alt="Soju Cap" />
+      <img id="cap" src="games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette/assets/soju_cap.png" alt="Soju Cap" />
     </div>
     <div id="instruction">👆 소주뚜껑을 터치해서 돌려보세요!</div>
   </div>
 
-  <audio id="spinSound" src="games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette/assets/spin.wav"></audio>
-  <audio id="stop1" src="games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette/assets/stop1.mp3"></audio>
-  <audio id="stop2" src="games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette/assets/stop2.mp3"></audio>
+  <audio id="spinSound" src="games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette/assets/spin.wav"></audio>
+  <audio id="stop1" src="games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette/assets/stop1.mp3"></audio>
+  <audio id="stop2" src="games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette/assets/stop2.mp3"></audio>
   <audio id="stop3" src="stop3.mp3"></audio>
   <audio id="stop4" src="stop4.mp3"></audio>
 
@@ -223,12 +223,17 @@ stopSoundTimeout = setTimeout(() => {
     }
 
     
+
 function handleGameChange() {
   const instruction = document.getElementById("instruction");
   const alcoholVal = document.getElementById("alcoholGames").value;
   if (alcoholVal === "soju") {
     instruction.innerText = "👆 소주뚜껑을 터치해서 돌려보세요!";
   } else if (alcoholVal === "sojubottle") {
+    instruction.innerText = "👆 소주병을 터치해서 돌려보세요!";
+  }
+}
+ else if (alcoholVal === "sojubottle") {
     instruction.innerText = "👆 소주병을 터치해서 돌려보세요!";
   }
 }
@@ -267,7 +272,7 @@ function handleGameChange() {
 
       if (alcoholVal === "soju") {
     document.getElementById("gameTitle").innerText = "소주뚜껑 룰렛";
-    document.getElementById("cap").src = "games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette/assets/soju_cap.png";
+    document.getElementById("cap").src = "games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette//tikitaka-game/games/soju_cap_roulette/assets/soju_cap.png";
     document.getElementById("cap").style.transform = "rotate(30deg)";
   } else if (alcoholVal === "sojubottle") {
     document.getElementById("gameTitle").innerText = "소주병 룰렛";
