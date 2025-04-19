@@ -214,6 +214,7 @@ function choose(choice) {
     if (match) score++;
 const resultEl = document.getElementById("result");
 resultEl.innerText = `${p1}님은 '${firstAnswers[index]}'를 선택했어요!`;
+resultEl.style.color = match ? "#4CAF50" : "#F44336";  // ✅ 맞춤/오답 색상 설정
 resultEl.classList.remove("animate");  
 void resultEl.offsetWidth;  
 resultEl.classList.add("animate");
