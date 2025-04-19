@@ -1,12 +1,13 @@
 
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TIKI TAKA Game</title>
-  <link rel="icon" href="favicon.ico" />
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TIKI TAKA Game</title>
+<link href="favicon.ico" rel="icon"/>
+<style>
     html, body {
       margin: 0;
       padding: 0;
@@ -140,46 +141,40 @@
   </style>
 </head>
 <body>
-
 <div id="sidebar">
-  <span class="closebtn" onclick="toggleSidebar()">×</span>
-  <div id="sidebarHeader">
-    <img src="games/soju_cap_roulette/assets/tikitaka_logo2.png" alt="TIKI TAKA Logo">
-    <span>Game</span>
-  </div>
-
-  <div class="menu-group">
-    <div class="menu-title" onclick="toggleSubMenu('alcoholSub')">술게임</div>
-    <div id="alcoholSub" class="submenu">
-      <a onclick="loadGame('games/soju_cap_roulette/index.html')">소주뚜껑 룰렛</a>
-      <a onclick="loadGame('games/soju_bottle_roulette/index.html')">소주병 룰렛</a>
-    </div>
-  </div>
-
-  <div class="menu-group">
-    <div class="menu-title" onclick="toggleSubMenu('coupleSub')">커플게임</div>
-    <div id="coupleSub" class="submenu">
-      <a onclick="loadGame('games/couple_tikitaka/index.html')">너와 나의 티키타카</a>
-    </div>
-  </div>
-
-  <div class="menu-group">
-    <div class="menu-title" onclick="toggleSubMenu('funSub')">재미게임</div>
-    <div id="funSub" class="submenu">
-      <a href="#">Coming Soon</a>
-    </div>
-  </div>
+<span class="closebtn" onclick="toggleSidebar()">×</span>
+<div id="sidebarHeader">
+<img alt="TIKI TAKA Logo" src="games/soju_cap_roulette/assets/tikitaka_logo2.png"/>
+<span>Game</span>
 </div>
-
+<div class="menu-group">
+<div class="menu-title" onclick="toggleSubMenu('alcoholSub')">술게임</div>
+<div class="submenu" id="alcoholSub">
+<a onclick="loadGame('games/soju_cap_roulette/index.html')">소주뚜껑 룰렛</a>
+<a onclick="loadGame('games/soju_bottle_roulette/index.html')">소주병 룰렛</a>
+</div>
+</div>
+<div class="menu-group">
+<div class="menu-title" onclick="toggleSubMenu('coupleSub')">커플게임</div>
+<div class="submenu" id="coupleSub">
+<a onclick="loadGame('games/couple_tikitaka/index.html')">너와 나의 티키타카</a>
+</div>
+</div>
+<div class="menu-group">
+<div class="menu-title" onclick="toggleSubMenu('funSub')">재미게임</div>
+<div class="submenu" id="funSub">
+<a href="#">Coming Soon</a>
+</div>
+</div>
+</div>
 <div id="main">
-  <div id="topbar">
-    <span id="hamburger" onclick="toggleSidebar()">☰</span>
-    <img src="games/soju_cap_roulette/assets/tikitaka_logo.png" alt="TIKI TAKA Logo" />
-    <span id="gameLabel">Game</span>
-  </div>
-  <iframe id="gameFrame" src="games/soju_cap_roulette/index.html"></iframe>
+<div id="topbar">
+<span id="hamburger" onclick="toggleSidebar()">☰</span>
+<img alt="TIKI TAKA Logo" src="games/soju_cap_roulette/assets/tikitaka_logo.png">
+<span id="gameLabel">Game</span>
+</img></div>
+<iframe id="gameFrame" src="games/soju_cap_roulette/index.html" style="flex-grow: 1; width: 100%; height: 100%; border: none;"></iframe>
 </div>
-
 <script>
   function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
@@ -203,6 +198,5 @@
     document.getElementById("funSub").style.display = "block";
   }
 </script>
-
 </body>
 </html>
