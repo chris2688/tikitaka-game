@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-
 <html lang="ko">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
    TIKI TAKA - Soju Cap Game
   </title>
-<link href="assets/favicon.ico" rel="icon" type="image/x-icon"/>
-<style>
+  <link href="assets/favicon.ico" rel="icon" type="image/x-icon"/>
+  <style>
    html, body {
       margin: 0;
       padding: 0;
@@ -89,7 +88,7 @@
       border-radius: 4px;
     }
   </style>
-<style>
+  <style>
    @keyframes tiltSwing {
     0% { transform: rotate(0deg); }
     50% { transform: rotate(30deg); }
@@ -99,32 +98,67 @@
     animation: tiltSwing 3s ease-in-out infinite;
   }
   </style>
-</head>
-<body>
-<div id="container">
-
-
-<div id="gameTitle" style="margin-top: 60px; font-size: 28px; color: white; font-weight: bold; text-align: center;">
-    소주병 룰렛
+ </head>
+ <body>
+  <div id="container">
+   <div id="topLeftMenu">
+    <select id="modeSelect" onchange="handleModeChange()">
+     <option selected="" value="alcohol">
+      술게임
+     </option>
+     <option value="couple">
+      커플게임
+     </option>
+     <option value="fun">
+      재미게임
+     </option>
+    </select>
+    <select id="alcoholGames" onchange="handleGameChange()" style="display: inline-block;">
+     <option selected="" value="soju">
+      소주뚜껑 룰렛
+     </option>
+     <option value="sojubottle">
+      소주병 룰렛
+     </option>
+    </select>
+    <select id="coupleGames" onchange="handleGameChange()" style="display: none;">
+     <option value="tikitaka">
+      너와 나의 티키타카
+     </option>
+    </select>
+    <select id="funGames" onchange="handleGameChange()" style="display: none;">
+     <option value="comingsoon">
+      Coming Soon
+     </option>
+    </select>
    </div>
-<div id="gameArea" style="flex: 1; display: flex; align-items: center; justify-content: center; margin-top: auto; margin-bottom: auto;">
-<img alt="Soju Cap" id="cap" src="assets/soju_bottle.png"/>
-</div>
-<div id="instruction">
-    👆 소주병을 터치해서 돌려보세요!
+   <div id="logoBar">
+    <img alt="TIKI TAKA Logo" src="assets/tikitaka_logo.png"/>
+    <span id="gameLabel">
+     Game
+    </span>
    </div>
-</div>
-<audio id="spinSound" src="assets/spin.wav">
-</audio>
-<audio id="stop1" src="assets/stop1.mp3">
-</audio>
-<audio id="stop2" src="assets/stop2.mp3">
-</audio>
-<audio id="stop3" src="assets/stop3.mp3">
-</audio>
-<audio id="stop4" src="assets/stop4.mp3">
-</audio>
-<script>
+   <div id="gameTitle">
+    소주뚜껑 룰렛
+   </div>
+   <div id="gameArea">
+    <img alt="Soju Cap" id="cap" src="assets/soju_cap.png"/>
+   </div>
+   <div id="instruction">
+    👆 소주뚜껑을 터치해서 돌려보세요!
+   </div>
+  </div>
+  <audio id="spinSound" src="assets/spin.wav">
+  </audio>
+  <audio id="stop1" src="assets/stop1.mp3">
+  </audio>
+  <audio id="stop2" src="assets/stop2.mp3">
+  </audio>
+  <audio id="stop3" src="assets/stop3.mp3">
+  </audio>
+  <audio id="stop4" src="assets/stop4.mp3">
+  </audio>
+  <script>
    const cap = document.getElementById("cap");
     const spinSound = document.getElementById("spinSound");
     const stopSounds = [
@@ -211,10 +245,10 @@
       const funVal = document.getElementById("funGames").value;
 
       if (alcoholVal === "soju") {
-        document.getElementById("gameTitle").innerText = "소주병 룰렛";
-        cap.src = "assets/soju_bottle.png";
+        document.getElementById("gameTitle").innerText = "소주뚜껑 룰렛";
+        cap.src = "assets/soju_cap.png";
         cap.style.transform = "rotate(30deg)";
-        instruction.innerText = "👆 소주병을 터치해서 돌려보세요!";
+        instruction.innerText = "👆 소주뚜껑을 터치해서 돌려보세요!";
       } else if (alcoholVal === "sojubottle") {
         document.getElementById("gameTitle").innerText = "소주병 룰렛";
         cap.src = "games/soju_bottle_roulette/assets/soju_bottle.png";
@@ -226,5 +260,5 @@
       }
     }
   </script>
-</body>
+ </body>
 </html>
