@@ -449,13 +449,19 @@ for (let i = 0; i < total; i++) {
   const icon = match ? "⭕" : "❌";
 
   answerListHTML += `
-     <li style="margin-bottom: 24px; line-height: 1.8;">
-      <strong>Q${i + 1}.</strong> ${questionText}<br>
-      · ${p1}: ${firstAnswers[i]}<br>
-      · ${p2}: ${secondAnswers[i]}<br>
-      · 결과: <strong style="color:${match ? '#00bfa5' : '#e53935'}">${icon} ${match ? 'TIKI TAKA' : '불일치'}</strong>
-    </li>
-  `;
+  <li style="
+    margin-bottom: 24px;
+    line-height: 1.8;
+    font-size: 18px;
+    padding-bottom: 6px;
+    word-break: keep-all;
+  ">
+    <strong style="display: inline-block; margin-bottom: 6px;">Q${i + 1}.</strong> ${questionText}<br>
+    · ${p1}: ${firstAnswers[i]}<br>
+    · ${p2}: ${secondAnswers[i]}<br>
+    · 결과: <strong style="color:${match ? '#00bfa5' : '#e53935'}">${icon} ${match ? 'TIKI TAKA' : '불일치'}</strong>
+  </li>
+`;
 }
 answerListHTML += "</ul>";
 
