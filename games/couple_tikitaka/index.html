@@ -104,26 +104,25 @@ input {
 }
 
 .icon-button {
+  margin: 0 4px;
+  padding: 4px;
   background-color: transparent;
-  padding: 10px;
   border: none;
   box-shadow: none;
 }
-.icon-button img {
-  display: block;
-  margin: 0 auto;
-}
-    
-.icon-button {
-  margin: 0 4px;
-}
-.icon-button img {
-  min-width: 32px;
-  min-height: 32px;
-}
+
 .icon-button:hover {
   background-color: rgba(255,255,255,0.2);
   border-radius: 10px;
+}
+
+.icon-button img {
+  display: block;
+  margin: 0 auto;
+  height: 24px;
+  width: auto;
+  max-width: 24px;
+  max-height: 24px;
 }
     
 #background {
@@ -213,6 +212,12 @@ body {
 @media (min-width: 768px) {
   .question-summary-box {
     max-width: 640px;
+  }
+}
+@media (max-width: 480px) {
+  .icon-button img {
+    height: 20px;
+    max-height: 20px;
   }
 }
     
