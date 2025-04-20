@@ -244,6 +244,13 @@ body {
   }
 }
 
+@media (max-width: 480px) {
+  .icon-img {
+    width: 24px;
+    height: 24px;
+  }
+}
+    
 .share-button:hover {
   background-color: #66e0cb;
 }
@@ -262,10 +269,17 @@ body {
 }
 
 .icon-img {
-  width: 40px;       /* 필요시 조절 가능 */
-  height: 40px;
+  width: 28px;       /* 필요시 조절 가능 */
+  height: 28px;
 }
 
+.icon-row {
+  display: flex;
+  justify-content: center;
+  gap: 24px;        /* 아이콘 간격 */
+  margin-top: 24px; /* 결과 아래 여백 */
+}
+    
 .icon-only-button:focus {
   outline: none;
 }
@@ -510,7 +524,7 @@ document.getElementById("finalResult").innerHTML = `
       ${ending}
     </p>
 
-   <div style="display: flex; justify-content: center; gap: 16px; margin-top: 24px;">
+<div class="icon-row">
   <button onclick="location.reload()" class="icon-only-button">
     <img src="assets/icon_1.png" alt="다시하기" class="icon-img">
   </button>
@@ -521,7 +535,6 @@ document.getElementById("finalResult").innerHTML = `
     <img src="assets/icon_3.png" alt="공유하기" class="icon-img">
   </button>
 </div>
-  </div>
 
   <!-- ✅ 질문 정리 박스 분리 -->
 <div style="
