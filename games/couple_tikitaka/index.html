@@ -77,13 +77,13 @@
 }
 
 .question-box {
-  background-color: rgba(255, 255, 255, 0.75); /* 밝은 반투명 배경 */
+  background-color: rgba(255, 255, 255, 0.85); /* 밝은 반투명 배경 */
   border-radius: 16px;
   padding: 24px 20px;
   color: #111;
-  width: 100%;
-  max-width: 800px;
-  min-height: 120px;
+  width: 98%;
+  max-width: 960px;
+  min-height: 140px;
   margin: 0 auto 20px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   line-height: 1.6;
@@ -107,7 +107,7 @@
 
 @media (max-width: 480px) {
   .question-box p {
-    font-size: 20px !important;
+    font-size: clamp(24px, 7vw, 36px);
   }
 }
     
@@ -196,7 +196,7 @@ function showQuestion() {
 questionEl.className = "question-box"; // 👉 클래스 재적용 보장
 questionEl.innerHTML = `
     <h2 style="margin: 0; font-size: 20px; color: #003344;">질문 ${index + 1}</h2>
-    <p style="font-size: clamp(22px, 5vw, 30px); font-weight: bold; margin: 8px 0;">${questions[index]}</p>
+    <p style="font-size: clamp(28px, 6.5vw, 42px); font-weight: bold; margin: 8px 0;">${questions[index]}</p>
   `;
   document.getElementById("result").innerText = "";
 
