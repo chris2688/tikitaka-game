@@ -77,15 +77,15 @@
 }
 
 .question-box {
-  background-color: rgba(255, 255, 255, 0.85); /* 밝은 반투명 배경 */
+  background-color: rgba(255, 255, 255, 0.85);
   border-radius: 16px;
-  padding: 24px 20px;
+  padding: 24px 16px;
   color: #111;
-  width: 98vw;
-  max-width: 1000px;
-  min-height: 140px;
+  width: 100%;
+  max-width: 960px; /* 💡 PC에서도 넉넉한 너비 허용 */
   margin: 0 auto 20px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  min-height: 140px;
   line-height: 1.6;
   box-sizing: border-box;
   display: flex;
@@ -113,7 +113,8 @@
 
 @media (min-width: 768px) {
   .question-box {
-    max-width: 560px; /* 💡 PC에서는 질문 박스 너비를 제한 */
+    max-width: 640px;
+    padding: 24px 32px; /* ← 여백 조절 */
   }
 }
     
