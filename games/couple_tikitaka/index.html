@@ -71,7 +71,18 @@ input {
       font-size: 32px;
       font-weight: bold;
     }
-
+.result-box h2,
+.result-box p {
+  word-break: keep-all;     /* 단어 단위 줄바꿈 */
+  white-space: normal;      /* 강제 줄바꿈 가능하게 */
+  text-align: center;
+  line-height: 1.6;
+  font-size: clamp(18px, 4vw, 24px); /* PC에서도 과도하게 커지지 않도록 */
+}
+.result-box {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
 
 .button:disabled {
   opacity: 0.6;
