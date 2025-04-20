@@ -384,6 +384,7 @@ function showQuestion() {
       btn2.disabled = false;
     }
   } else {
+    secondAnswers.push(choice);
     let match = choice === firstAnswers[index];
     if (match) score++;
     const resultBox = document.getElementById("result");
