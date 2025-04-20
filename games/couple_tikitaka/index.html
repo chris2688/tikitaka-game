@@ -596,7 +596,7 @@ function captureResult() {
   const resultTarget = document.querySelector('.result-box');
   const answerTarget = document.getElementById('answerSummaryBox');
 
-  // 1. 결과 박스 캡처
+  // 1. 결과 박스 먼저 캡처
   html2canvas(resultTarget, {
     backgroundColor: null,
     scrollY: -window.scrollY
@@ -606,16 +606,18 @@ function captureResult() {
     link1.href = canvas1.toDataURL();
     link1.click();
 
-    // 2. 질문 답변 박스 캡처
-    html2canvas(answerTarget, {
-      backgroundColor: null,
-      scrollY: -window.scrollY
-    }).then(canvas2 => {
-      const link2 = document.createElement('a');
-      link2.download = '티키타카_답변정리.png';
-      link2.href = canvas2.toDataURL();
-      link2.click();
-    });
+    // ✅ 2. 약간의 딜레이 후 질문답변 캡처
+    setTimeout(() => {
+      html2canvas(answerTarget, {
+        backgroundColor: null,
+        scrollY: -window.scrollY
+      }).then(canvas2 => {
+        const link2 = document.createElement('a');
+        link2.download = '티키타카_답변정리.png';
+        link2.href = canvas2.toDataURL();
+        link2.click();
+      });
+    }, 300); // 300ms 딜레이
   });
 }
 
