@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>너와 나의 TIKI TAKA</title>
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
   <style>
@@ -31,28 +31,36 @@
     #nameForm, #startPrompt, #questionBox, #finalResult {
       display: none;
     }
-    .button {
-      background-color: #88f5e1;
-      color: black;
-      border: none;
-      padding: 12px 24px;
-      font-size: 18px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin: 6px 10px;
-      word-break: keep-all;
-      white-space: nowrap;
-      min-width: 120px;
-      max-width: 200px;
-    }
+.button {
+  background-color: #88f5e1;
+  color: black;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px; /* ✅ 16px 이상: 모바일 줌 방지 */
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 6px 10px;
+  word-break: keep-all;
+  white-space: nowrap;
+  min-width: 120px;
+  max-width: 200px;
+
+  /* ✅ 모바일 터치 최적화 */
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
+}
 input {
-  padding: 12px;        
-  font-size: 18px;       
+  padding: 12px;
+  font-size: 16px; /* ✅ 16px 이상으로 유지 (줌 방지용) */
   margin: 10px;
   border-radius: 6px;
   border: none;
-  width: 180px;          
+  width: 180px;
   box-sizing: border-box;
+
+  /* ✅ 모바일 줌 방지 */
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
 }
     #question {
       font-size: 32px;
@@ -99,8 +107,8 @@ input {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0; /* 추가 */
-  bottom: 0; /* 추가 */
+  right: 0;
+  bottom: 0;
   width: 100%;
   height: 100%;
   background: url('assets/background.jpg') center/cover no-repeat;
@@ -110,6 +118,7 @@ input {
   will-change: transform;
   backface-visibility: hidden;
   -webkit-transform: translateZ(0); /* Safari 보완 */
+  transform: scale(1) !important;   /* ✅ 줌 초기화 강제 적용 */
 }
 
 #progressBarContainer {
@@ -136,9 +145,22 @@ textarea {
   touch-action: manipulation;
   -webkit-text-size-adjust: 100%; /* iOS 대응 */
 }
-    
-    
-@media (max-width: 480px) {
+
+
+html, body {
+  overscroll-behavior: none;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+body {
+  transform: scale(1) !important;
+  transform-origin: top left;
+}
+
+    @media (max-width: 480px) {
   .question-box p {
     font-size: clamp(24px, 7vw, 36px);
   }
