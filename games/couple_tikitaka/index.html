@@ -507,13 +507,15 @@ document.getElementById("finalResult").innerHTML = `
   max-width: 100%;  /* 결과 박스와 동일 */
   box-sizing: border-box; /* 결과 박스와 동일 */
 ">
-   <div id="answerSummaryBox" style="padding: 24px 20px; background: white; border-radius: 16px;">
-   <div style="text-align: right; margin-bottom: 10px;">
-    <button class="button small-btn" onclick="captureAnswers()">📸 공유</button>
-  </div>
-    <h3 style="color: #000; font-size: 20px; margin-bottom: 16px;">📋 질문 & 답변 정리</h3>
-    ${answerListHTML}
-  </div>
+<div style="width: 100%; max-width: 960px; display: flex; justify-content: flex-end; margin-top: 24px;">
+  <button class="button small-btn exclude-from-capture" onclick="captureAnswers()">📋 질문정리 공유</button>
+</div>
+
+<!-- ✅ 캡처 대상 -->
+<div id="answerSummaryBox" style="padding: 24px 20px; background: white; border-radius: 16px;">
+  <h3 style="color: #000; font-size: 20px; margin-bottom: 16px;">📋 질문 & 답변 정리</h3>
+  ${answerListHTML}
+</div>
 `;
 document.getElementById("finalResult").style.display = "block";
       }, 1500); // ← 여유 시간 주고 결과창 띄우기
@@ -534,6 +536,9 @@ function closePopup() {
 
 function captureAnswers() {
   const target = document.getElementById("answerSummaryBox");
+  const buttons = document.querySelectorAll('.exclude-from-capture');
+  buttons.forEach(btn => btn.style.visibility = 'hidden');
+  
   html2canvas(target, {
     scrollY: -window.scrollY
   }).then(canvas => {
@@ -541,19 +546,25 @@ function captureAnswers() {
     link.download = '티키타카_답변정리.png';
     link.href = canvas.toDataURL();
     link.click();
+  buttons.forEach(btn => btn.style.visibility = 'visible');
   });
 }
 
 function captureResult() {
   const target = document.querySelector('.result-box');
-  html2canvas(target, {
-    backgroundColor: null,
-    scrollY: -window.scrollY // ✅ 추가!
+    const buttons = document.querySelectorAll('.exclude-from-capture');
+  buttons.forEach(btn => btn.style.visibility = 'hidden');
+  
+ html2canvas(document.body, {
+    scrollY: -window.scrollY,
+    useCORS: true,
+    backgroundColor: null
   }).then(canvas => {
     const link = document.createElement('a');
     link.download = '티키타카_결과.png';
     link.href = canvas.toDataURL();
     link.click();
+ buttons.forEach(btn => btn.style.visibility = 'visible');
   });
 }
 
