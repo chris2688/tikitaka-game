@@ -498,7 +498,7 @@ const ending = endings[Math.floor(Math.random() * endings.length)];
 const total = firstAnswers.length;
 const percentage = Math.round((score / total) * 100);// 성공률 계산
 
-let answerListHTML = "<ul style='list-style:none; padding:0; text-align:left; line-height: 1.8; word-break: break-word; white-space: normal; overflow-wrap: break-word;'>";
+let answerListHTML = "<ul style='list-style:none; padding:0; text-align:left;'>";
 
 for (let i = 0; i < total; i++) {
   const questionText = selectedQuestions[i].replace(/<br>/g, ' ');
