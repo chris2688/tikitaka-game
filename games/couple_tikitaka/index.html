@@ -196,7 +196,22 @@ function showQuestion() {
   } else {
     let match = choice === firstAnswers[index];
     if (match) score++;
-    document.getElementById("result").innerText = `${p1}님은 '${firstAnswers[index]}'를 선택했어요!`;
+    const resultBox = document.getElementById("result");
+resultBox.innerHTML = `
+  <div style="
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 2px solid white;
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    margin-top: 20px;
+  ">
+    ${match ? "🎉 티키타카 되었어요!" : "❌ 티키타카 틀렸어요!"}
+  </div>
+`;
     index++;
     if (index < 5) {
       setTimeout(() => {
