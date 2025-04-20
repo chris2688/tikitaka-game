@@ -326,18 +326,21 @@ function captureResult() {
 function showQuestion() {
   const questionEl = document.getElementById("question");
 questionEl.className = "question-box"; // 👉 클래스 재적용 보장
+const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";  // 플레이어 구분
+
 questionEl.innerHTML = `
-    <h2 style="margin: 0; font-size: 18px; color: #003344;">
-      질문 <span style="font-size: 14px; color: #666;">(${index + 1}/5)</span>
-    </h2>
-    <p style="
-  font-size: clamp(28px, 6.5vw, 42px); 
-  font-weight: bold; 
-  margin: 8px 0; 
-  text-align: center; 
-  padding: 0 8px;
-">${questions[index]}</p>
-  `;
+  <h2 style="margin: 0; font-size: 18px; color: #003344;">
+    ${phaseLabel} <span style="font-size: 14px; color: #666;">(${index + 1}/5)</span>
+  </h2>
+  <p style="
+    font-size: clamp(28px, 6.5vw, 42px); 
+    font-weight: bold; 
+    margin: 8px 0; 
+    text-align: center; 
+    padding: 0 8px;
+  ">${questions[index]}</p>
+`;
+
    const progressPercent = Math.round(((index + (isFirst ? 0 : 5)) / questions.length) * 100);
   document.getElementById("progressBar").style.width = `${progressPercent}%`;
 
