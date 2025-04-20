@@ -75,6 +75,18 @@
   min-width: 100px;
   max-width: 140px;
 }
+
+.question-box {
+  background-color: rgba(255, 255, 255, 0.6); /* 밝은 배경에 60% 투명도 */
+  border-radius: 16px;
+  padding: 24px 16px;
+  color: #111; /* 진한 글자색 */
+  max-width: 90%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
     
   </style>
 </head>
@@ -94,7 +106,7 @@
   </div>
 
   <div id="questionBox">
-    <div id="question"></div>
+    <div id="question" class="question-box"></div>
 <button class="button choice-button" id="btn1" onclick="">선택 1</button>
 <button class="button choice-button" id="btn2" onclick="">선택 2</button>
     <div id="result"></div>
@@ -157,7 +169,12 @@ function captureResult() {
     }
 
 function showQuestion() {
-  document.getElementById("question").innerHTML = `<h2>질문 ${index + 1}</h2><p>${questions[index]}</p>`;
+  document.getElementById("question").innerHTML = `
+  <div class="question-box">
+    <h2 style="margin-top: 0; font-size: 20px; color: #003344;">질문 ${index + 1}</h2>
+    <p style="font-size: 24px; font-weight: bold; margin: 8px 0;">${questions[index]}</p>
+  </div>
+`;
   document.getElementById("result").innerText = "";
 
   const btn1 = document.getElementById("btn1");
