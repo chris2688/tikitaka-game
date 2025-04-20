@@ -552,19 +552,19 @@ function captureAnswers() {
 
 function captureResult() {
   const target = document.querySelector('.result-box');
-    const buttons = document.querySelectorAll('.exclude-from-capture');
+  const buttons = document.querySelectorAll('.exclude-from-capture');
   buttons.forEach(btn => btn.style.visibility = 'hidden');
-  
- html2canvas(document.body, {
+
+  html2canvas(target, {
     scrollY: -window.scrollY,
-    useCORS: true,
-    backgroundColor: null
+    backgroundColor: null,
+    useCORS: true
   }).then(canvas => {
     const link = document.createElement('a');
     link.download = '티키타카_결과.png';
     link.href = canvas.toDataURL();
     link.click();
- buttons.forEach(btn => btn.style.visibility = 'visible');
+    buttons.forEach(btn => btn.style.visibility = 'visible');
   });
 }
 
