@@ -370,8 +370,8 @@ resultBox.innerHTML = `
       setTimeout(() => {
 document.getElementById("questionBox").style.display = "none";
 const ending = endings[Math.floor(Math.random() * endings.length)];
-const total = questions.length;
-const percentage = Math.round((score / total) * 100); // 성공률 계산
+const total = firstAnswers.length;
+const percentage = Math.round((score / total) * 100);// 성공률 계산
 
 document.getElementById("finalResult").innerHTML = `
   <div class="result-box">
