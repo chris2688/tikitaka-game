@@ -460,7 +460,7 @@ for (let i = 0; i < total; i++) {
 answerListHTML += "</ul>";
 
 document.getElementById("finalResult").innerHTML = `
-  <div class="result-box">
+  <div class="result-box" id="resultSummaryBox">
     <h2 style="font-size: 28px; color: #000; line-height: 1.6;">
       ${p1} ❤️${p2}<br>TIKI TAKA 결과
     </h2>
@@ -486,11 +486,11 @@ document.getElementById("finalResult").innerHTML = `
       ${ending}
     </p>
 
-    <div style="margin-top: 40px; display: flex; justify-content: center; gap: 8px; flex-wrap: nowrap; flex-direction: row;">
-      <button class="button small-btn" onclick="location.reload()">다시 하기</button>
-      <button class="button small-btn" onclick="startExtraRound()">계속</button>
-      <button class="button small-btn" onclick="captureResult()">📸</button>
-    </div>
+    <div style="display: flex; justify-content: center; gap: 8px;">
+  <button class="button small-btn exclude-from-capture" onclick="location.reload()">다시 하기</button>
+  <button class="button small-btn exclude-from-capture" onclick="startExtraRound()">계속</button>
+  <button class="button small-btn exclude-from-capture" onclick="captureResult()">📸</button>
+  </div>
   </div>
 
   <!-- ✅ 질문 정리 박스 분리 -->
@@ -551,16 +551,15 @@ function captureAnswers() {
 }
 
 function captureResult() {
-  const target = document.querySelector('.result-box');
-  const buttons = document.querySelectorAll('.exclude-from-capture');
+  const target = document.getElementById('resultSummaryBox');
+  const buttons = target.querySelectorAll('.exclude-from-capture');
   buttons.forEach(btn => btn.style.visibility = 'hidden');
 
   html2canvas(target, {
     scrollY: -window.scrollY,
-    backgroundColor: null,
     useCORS: true
   }).then(canvas => {
-    const link = document.createElement('a');
+     const link = document.createElement('a');
     link.download = '티키타카_결과.png';
     link.href = canvas.toDataURL();
     link.click();
