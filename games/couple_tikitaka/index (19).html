@@ -1,0 +1,677 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>너와 나의 TIKI TAKA</title>
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: url('assets/background.jpg') center/cover no-repeat;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+      color: white;
+    }
+    h1 {
+  font-size: clamp(32px, 5vw, 64px);
+  margin-bottom: 60px;
+}
+    #startText {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    #nameForm, #startPrompt, #questionBox, #finalResult {
+      display: none;
+    }
+.button {
+  background-color: #88f5e1;
+  color: black;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px; /* ✅ 16px 이상: 모바일 줌 방지 */
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 6px 10px;
+  word-break: keep-all;
+  white-space: nowrap;
+  min-width: 120px;
+  max-width: 200px;
+
+  /* ✅ 모바일 터치 최적화 */
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
+}
+input {
+  padding: 12px;
+  font-size: 16px; /* ✅ 16px 이상으로 유지 (줌 방지용) */
+  margin: 10px;
+  border-radius: 6px;
+  border: none;
+  width: 180px;
+  box-sizing: border-box;
+
+  /* ✅ 모바일 줌 방지 */
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
+}
+    #question {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    #result {
+      font-size: 32px;
+      font-weight: bold;
+    }
+.result-box h2,
+.result-box p {
+  word-break: keep-all;     /* 단어 단위 줄바꿈 */
+  white-space: normal;      /* 강제 줄바꿈 가능하게 */
+  text-align: center;
+  line-height: 1.6;
+  font-size: clamp(18px, 4vw, 24px); /* PC에서도 과도하게 커지지 않도록 */
+}
+.result-box {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+    
+.small-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  min-width: 100px;
+  max-width: 140px;
+}
+
+.question-box {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+  padding: 24px 16px;
+  color: #111;
+  width: 100%;
+  max-width: 960px; /* 💡 PC에서도 넉넉한 너비 허용 */
+  margin: 0 auto 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  min-height: 140px;
+  line-height: 1.6;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-button {
+  margin: 0 4px;
+  padding: 4px;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.icon-button:hover {
+  background-color: rgba(255,255,255,0.2);
+  border-radius: 10px;
+}
+
+.icon-button img {
+  display: block;
+  margin: 0 auto;
+  height: 24px;
+  width: auto;
+  max-width: 24px;
+  max-height: 24px;
+}
+    
+#background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: url('assets/background.jpg') center/cover no-repeat;
+  z-index: -1;
+
+  /* 💡 줌 방지와 렌더링 안정화 */
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0); /* Safari 보완 */
+  transform: scale(1) !important;   /* ✅ 줌 초기화 강제 적용 */
+}
+
+#progressBarContainer {
+  width: 100%;
+  max-width: 640px;
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+#progressBar {
+  height: 100%;
+  width: 0%;
+  background-color: #88f5e1;
+  transition: width 0.3s ease;
+}
+
+input,
+button,
+textarea {
+  font-size: 16px; /* 절대 16px 이상 */
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%; /* iOS 대응 */
+}
+
+
+html, body {
+  overscroll-behavior: none;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  font-size: 16px;
+}
+
+input, button, textarea {
+  font-size: 16px !important;
+  -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
+}
+
+body {
+  transform: scale(1) !important;
+  transform-origin: top left;
+}
+
+@media (max-width: 480px) {
+  .question-box p {
+    font-size: clamp(24px, 7vw, 36px);
+  }
+}
+
+@media (min-width: 768px) {
+  .question-box {
+    max-width: 640px;
+    padding: 24px 32px; /* ← 여백 조절 */
+  }
+}
+
+@media (max-width: 480px) {
+  .question-summary {
+    font-size: 15px;
+    padding: 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  .question-summary-box {
+    max-width: 640px;
+  }
+}
+@media (max-width: 480px) {
+  .icon-button img {
+    height: 20px;
+    max-height: 20px;
+  }
+}
+@media (max-width: 480px) {
+  .icon-button-wrapper {
+    margin-right: -20px !important;
+  }
+}
+    
+#customPopup {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#popupBox {
+  background-color: white;
+  padding: 24px 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  text-align: center;
+  max-width: 90%;
+  font-size: 18px;
+  color: #333;
+}
+
+#popupBox button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #88f5e1;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.result-box {
+  background-color: rgba(255,255,255,0.7);
+  padding: 24px 20px;
+  border-radius: 16px;
+  margin: 0 auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  width: 90%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .result-box {
+    max-width: 640px; /* PC에서 넓이 제한 */
+    padding: 32px;     /* 여백 조금 더 주기 */
+  }
+}
+
+.share-button:hover {
+  background-color: #66e0cb;
+}
+
+.share-button {
+  padding: 10px 16px; /* 좀 더 여유롭게 */
+  font-size: 16px;
+}
+    
+ .result-box, #answerSummaryBox {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.6;
+  font-size: 16px;
+  white-space: normal;
+  box-sizing: border-box;
+}
+    
+  </style>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  
+  <body>
+<div id="background"></div>
+  <h1>너와 나의 TIKI TAKA</h1>
+
+  <div id="nameForm">
+    <input id="player1Name" placeholder="당신의 이름">
+    <input id="player2Name" placeholder="옆사람의 이름">
+    <button class="button" onclick="saveNames()">입력 완료</button>
+  </div>
+
+  <div id="startPrompt">
+    <p id="startText"></p>
+    <button class="button" onclick="startGame()">나 먼저 시작할게!</button>
+  </div>
+
+  <div id="questionBox">
+    <div id="progressBarContainer">
+  <div id="progressBar"></div>
+</div>
+    <div id="question"></div>
+<button class="button choice-button" id="btn1" onclick="">선택 1</button>
+<button class="button choice-button" id="btn2" onclick="">선택 2</button>
+    <div id="result"></div>
+  </div>
+
+  <div id="finalResult"></div>
+<div id="customPopup" style="display: none;">
+  <div id="popupBox">
+    <p id="popupMessage">질문답변도 함께 저장할까요?</p>
+    <div style="margin-top: 20px;">
+      <button onclick="downloadAnswers()" style="margin-right: 10px;">예</button>
+      <button onclick="closePopup()">아니오</button>
+    </div>
+  </div>
+</div>
+
+
+  <script>
+    const questions = [
+      "먼저 사과하는 사람은?",
+      "데이트 장소를 더<br>자주 정하는 사람은?",
+      "연락을 더 자주 하는 사람은?",
+      "더 질투가 많은 사람은?",
+      "잠들기 전에 마지막으로<br>메시지 보내는 사람은?",
+      "영화를 볼 때 더 먼저 <br>울컥하는 사람은?",
+      "더 오래 연락이 안 되면 <br>서운해하는 사람은?",
+      "더 자주 웃게 <br>만들어주는 사람은?",
+      "함께 있을 때 더 <br>편안함을 느끼는 사람은?",
+      "먼저 '사랑해'라고 <br>말하는 사람은?"
+    ];
+    const totalQuestions = questions?.length || 10;
+
+    const endings = [
+      "우리의 티키타카 멋졌어요!<br>찰떡궁합 커플이네요!",
+      "이 정도면 운명 아닐까요? 💘",
+      "두 분,<br>티키타카 챔피언입니다!",
+      "완벽 그 자체!",
+      "이런 공감, 흔치 않아요~!"
+    ];
+
+ let p1 = "", p2 = "";
+let isFirst = true, index = 0;
+let firstAnswers = [], secondAnswers = [], score = 0;
+let selectedQuestions = [];
+
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("nameForm").style.display = "block";
+    });
+
+    function saveNames() {
+      p1 = document.getElementById("player1Name").value;
+      p2 = document.getElementById("player2Name").value;
+      if (!p1 || !p2) return showPopup("이름을 모두 입력해주세요!");
+      document.getElementById("nameForm").style.display = "none";
+      document.getElementById("startPrompt").style.display = "block";
+      document.getElementById("startText").innerText = `${p1}님이 먼저 TIKI 하세요.`;
+    }
+
+
+    function startExtraRound() {
+  alert("계속 TIKI TAKA 기능은 아직 구현되지 않았어요!");
+}
+
+function captureResult() {
+  alert("공유하기 기능은 준비 중입니다!");
+}
+    
+    function startGame() {
+  selectedQuestions = [...questions]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 5);
+
+  document.getElementById("startPrompt").style.display = "none";
+  document.getElementById("questionBox").style.display = "block";
+  showQuestion();
+}
+function showQuestion() {
+  const questionEl = document.getElementById("question");
+  questionEl.className = "question-box";
+
+  const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
+  questionEl.innerHTML = `
+    <h2 style="margin: 0; font-size: 18px; color: #003344;">
+      ${phaseLabel} <span style="font-size: 14px; color: #666;">(${index + 1}/5)</span>
+    </h2>
+    <p style="
+      font-size: clamp(28px, 6.5vw, 42px); 
+      font-weight: bold; 
+      margin: 8px 0; 
+      text-align: center; 
+      padding: 0 8px;
+    ">${selectedQuestions[index]}</p>
+  `;
+
+   const progressPercent = Math.round(((index + (isFirst ? 0 : 5)) / questions.length) * 100);
+  document.getElementById("progressBar").style.width = `${progressPercent}%`;
+
+  document.getElementById("result").innerText = "";
+
+  const btn1 = document.getElementById("btn1");
+  const btn2 = document.getElementById("btn2");
+
+  btn1.innerText = p1;
+  btn2.innerText = p2;
+  btn1.onclick = () => choose(p1);
+  btn2.onclick = () => choose(p2);
+}
+
+   function choose(choice) {
+  const btn1 = document.getElementById("btn1");
+  const btn2 = document.getElementById("btn2");
+
+  // 🔒 클릭 후 버튼 잠금
+  btn1.disabled = true;
+  btn2.disabled = true;
+
+  if (isFirst) {
+    firstAnswers.push(choice);
+    index++;
+    if (index < 5) {
+      showQuestion();
+      // 🔓 다시 활성화
+      btn1.disabled = false;
+      btn2.disabled = false;
+    } else {
+      isFirst = false;
+      index = 0;
+      showPopup(`${p2}님이 TAKA 할 차례입니다!`);
+      showQuestion();
+      btn1.disabled = false;
+      btn2.disabled = false;
+    }
+  } else {
+    secondAnswers.push(choice);
+    let match = choice === firstAnswers[index];
+    if (match) score++;
+    const resultBox = document.getElementById("result");
+resultBox.innerHTML = `
+  <div style="
+    display: inline-block;
+    background-color: ${match ? 'rgba(136, 245, 225, 0.85)' : 'rgba(255, 120, 120, 0.85)'};
+    border: 2px solid white;
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: ${match ? '#003344' : '#400000'};
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  ">
+    ${match ? "⭕ 티키타카!" : "❌ 티키타카"}
+  </div>
+`;
+    index++;
+    if (index < 5) {
+      setTimeout(() => {
+        showQuestion();
+        // 🔓 다음 질문 나오면 버튼 다시 활성화
+        btn1.disabled = false;
+        btn2.disabled = false;
+      }, 1500); // 1.5초 대기
+    } else {
+      setTimeout(() => {
+document.getElementById("questionBox").style.display = "none";
+const ending = endings[Math.floor(Math.random() * endings.length)];
+const total = firstAnswers.length;
+const percentage = Math.round((score / total) * 100);// 성공률 계산
+
+let answerListHTML = "<ul style='list-style:none; padding:0; text-align:left;'>";
+
+for (let i = 0; i < total; i++) {
+  const questionText = selectedQuestions[i].replace(/<br>/g, ' ');
+  const match = firstAnswers[i] === secondAnswers[i];
+  const icon = match ? "⭕" : "❌";
+
+answerListHTML += `
+  <li style="margin-bottom: 20px; padding-bottom: 10px;">
+    <div style="
+      font-size: 16px;
+      line-height: 1.8;
+      word-break: break-word;
+      white-space: normal;
+      overflow-wrap: break-word;
+      box-sizing: border-box;
+    ">
+      <strong>Q${i + 1}.</strong> ${questionText}
+    </div>
+    <div style="margin-top: 6px; line-height: 1.6;">· ${p1}: ${firstAnswers[i]}</div>
+    <div style="margin-top: 4px; line-height: 1.6;">· ${p2}: ${secondAnswers[i]}</div>
+    <div style="margin-top: 4px; line-height: 1.6;">
+      · 결과: 
+      <span style="color: #e53935; font-weight: bold;">${icon}</span>
+      ${
+        match
+          ? '<span style="color: #00bfa5; font-weight: bold;"> TIKI TAKA</span>'
+          : '<span style="color: #000; font-weight: bold;"> 불일치</span>'
+      }
+    </div>
+  </li>
+`;
+answerListHTML += "</ul>";
+
+document.getElementById("finalResult").innerHTML = `
+<div class="result-box" id="resultSummaryBox">
+    <h2 style="font-size: 28px; color: #000; line-height: 1.6;">
+      ${p1} ❤️${p2}<br>TIKI TAKA 결과
+    </h2>
+    <p style="margin-top: 10px; font-size: 20px; color: #000;">
+      총 ${total}문제 중 <strong>${score}개</strong> 일치<br>
+      티키타카 성공률:
+      <span style="
+        display: inline-block;
+        font-size: 42px;
+        font-weight: 900;
+        color: #00bfa5;
+        text-shadow:
+          -1px -1px 0 #ffffff,
+           1px -1px 0 #ffffff,
+          -1px  1px 0 #ffffff,
+           1px  1px 0 #ffffff;">
+        ${percentage}%
+      </span>
+    </p>
+
+    <p style="
+  font-size: clamp(18px, 4vw, 24px);
+  font-weight: bold;
+  color: #222;
+  line-height: 1.6;
+  margin-top: 20px;
+  word-break: keep-all;
+  white-space: normal;
+  text-align: center;
+">
+      ${ending}
+    </p>
+
+<div style="margin-top: 40px; display: flex; justify-content: center; gap: 8px; flex-wrap: nowrap; flex-direction: row;">
+  <button class="button small-btn icon-button" onclick="location.reload()" aria-label="다시하기">
+    <img src="assets/icon_1.png" alt="다시하기" style="height: 24px;">
+  </button>
+  <button class="button small-btn icon-button" onclick="startExtraRound()" aria-label="계속하기">
+    <img src="assets/icon_2.png" alt="계속하기" style="height: 24px;">
+  </button>
+  <button class="button small-btn icon-button" onclick="captureResult()" aria-label="공유하기">
+    <img src="assets/icon_3.png" alt="공유하기" style="height: 24px;">
+  </button>
+</div>
+  </div>
+
+  <!-- ✅ 질문 정리 박스 분리 -->
+<div style="
+  margin: 32px auto 0;
+  padding: 24px 20px; /* 결과 박스와 동일한 padding */
+  background-color: rgba(255,255,255,1);
+  border-radius: 16px; /* 결과 박스와 동일한 radius */
+  color: #111;
+  text-align: left;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* 결과 박스와 동일한 그림자 */
+  font-size: 16px;
+  width: 90%;
+  max-width: 100%;  /* 결과 박스와 동일 */
+  box-sizing: border-box; /* 결과 박스와 동일 */
+">
+   <div id="answerSummaryBox" style="padding: 24px 20px; background: white; border-radius: 16px;">
+    <h3 style="color: #000; font-size: 20px; margin-bottom: 16px;">📋 질문 & 답변 정리</h3>
+    ${answerListHTML}
+  </div>
+  </div>
+`; 
+document.getElementById("finalResult").style.display = "block";
+      }, 1500); // ← 여유 시간 주고 결과창 띄우기
+    }
+  }
+ }
+     function showPopup(message) {
+  document.getElementById("popupMessage").innerText = message;
+  document.getElementById("customPopup").style.display = "flex";
+}
+
+
+    
+function closePopup() {
+  document.getElementById("customPopup").style.display = "none";
+}
+
+
+function captureAnswers() {
+  const target = document.getElementById("answerSummaryBox");
+  html2canvas(target, {
+    scrollY: -window.scrollY
+  }).then(canvas => {
+    const link = document.createElement('a');
+    link.download = '티키타카_답변정리.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  });
+}
+
+function captureResult() {
+  const resultTarget = document.querySelector('.result-box');
+
+  html2canvas(resultTarget, {
+    backgroundColor: null,
+    scrollY: -window.scrollY
+  }).then(canvas1 => {
+    const link1 = document.createElement('a');
+    link1.download = '티키타카_결과.png';
+    link1.href = canvas1.toDataURL();
+    link1.click();
+
+    // 결과 저장 후 질문답변도 함께 저장할지 묻는 팝업 띄우기
+    document.getElementById("popupMessage").innerText = "질문답변도 함께 저장할까요?";
+    document.getElementById("customPopup").style.display = "flex";
+  });
+}
+
+    
+function downloadAnswers() {
+  const answerTarget = document.getElementById('answerSummaryBox');
+
+  html2canvas(answerTarget, {
+    backgroundColor: null,
+    scrollY: -window.scrollY
+  }).then(canvas => {
+    const link = document.createElement('a');
+    link.download = '티키타카_답변정리.png';
+    link.href = canvas.toDataURL();
+    link.click();
+
+    
+    closePopup();
+  });
+}
+function closePopup() {
+  document.getElementById("customPopup").style.display = "none";
+}
+
+    
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("nameForm").style.display = "block";
+});
+</script>
+</body>
+</html>
