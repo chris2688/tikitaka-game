@@ -84,7 +84,7 @@
       transition: margin-left 0.3s;
       display: flex;
       flex-direction: column;
-      height: 100vh;
+      height: calc(var(--vh, 1vh) * 100); /* ✅ JS에서 설정한 뷰포트 높이 사용 */
     }
     #topbar {
       height: 60px;
@@ -173,17 +173,31 @@
     const submenu = document.getElementById(id);
     submenu.style.display = submenu.style.display === "block" ? "none" : "block";
   }
+    
+  // ✅ 모바일 뷰포트 높이 계산해서 --vh CSS 변수로 저장
+  function setViewportHeight() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  }
 
-  window.onload = () => {
+// ✅ 전체 초기화 함수
+  function initPage() {
+    setViewportHeight(); // 먼저 뷰포트 높이 설정
+
     document.getElementById("alcoholSub").style.display = "block";
     document.getElementById("coupleSub").style.display = "block";
     document.getElementById("funSub").style.display = "block";
 
-    const lastGame = sessionStorage.getItem("lastGameUrl");  // ✅ 세션 저장소에서 가져옴
+    const lastGame = sessionStorage.getItem("lastGameUrl");
     const defaultGame = "games/soju_cap_roulette/index.html";
-    document.getElementById("gameFrame").src = lastGame || defaultGame;  // ✅ 기억된 게임 또는 기본값
-  
+    document.getElementById("gameFrame").src = lastGame || defaultGame;
   }
+
+  // ✅ 모든 초기화 작업을 안전하게 이벤트 리스너로 처리
+  window.addEventListener('load', initPage);
+  window.addEventListener('resize', setViewportHeight);
+
+
 </script>
 </body>
 </html>
