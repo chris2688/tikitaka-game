@@ -222,24 +222,25 @@ resultBox.innerHTML = `
         btn2.disabled = false;
       }, 1500); // 1.5초 대기
     } else {
-      document.getElementById("questionBox").style.display = "none";
-      const ending = endings[Math.floor(Math.random() * endings.length)];
-      document.getElementById("finalResult").innerHTML = `
-        <div style="background-color: rgba(255,255,255,0.7); padding: 24px 20px; border-radius: 16px; max-width: 90%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); margin: 0 auto;">
-          <h2 style="font-size: 28px; color: #000;">총 ${score}개 맞췄어요!</h2>
-          <p style="font-size: 5vw; font-weight: bold; color: #222; line-height: 1.8; margin-top: 20px;">
-            ${ending}
-          </p>
-          <div style="margin-top: 40px; display: flex; justify-content: center; gap: 8px; flex-wrap: nowrap; flex-direction: row;">
-            <button class="button small-btn" onclick="location.reload()">다시 하기</button>
-            <button class="button small-btn" onclick="startExtraRound()">계속</button>
-            <button class="button small-btn" onclick="captureResult()">📸 공유</button>
-          </div>
-        </div>`;
-      document.getElementById("finalResult").style.display = "block";
+      setTimeout(() => {
+        document.getElementById("questionBox").style.display = "none";
+        const ending = endings[Math.floor(Math.random() * endings.length)];
+        document.getElementById("finalResult").innerHTML = `
+          <div style="background-color: rgba(255,255,255,0.7); padding: 24px 20px; border-radius: 16px; max-width: 90%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); margin: 0 auto;">
+            <h2 style="font-size: 28px; color: #000;">총 ${score}개 맞췄어요!</h2>
+            <p style="font-size: 5vw; font-weight: bold; color: #222; line-height: 1.8; margin-top: 20px;">
+              ${ending}
+            </p>
+            <div style="margin-top: 40px; display: flex; justify-content: center; gap: 8px; flex-wrap: nowrap; flex-direction: row;">
+              <button class="button small-btn" onclick="location.reload()">다시 하기</button>
+              <button class="button small-btn" onclick="startExtraRound()">계속</button>
+              <button class="button small-btn" onclick="captureResult()">📸 공유</button>
+            </div>
+          </div>`;
+        document.getElementById("finalResult").style.display = "block";
+      }, 1500); // ← 여유 시간 주고 결과창 띄우기
     }
   }
-}
   </script>
 </body>
 </html>
