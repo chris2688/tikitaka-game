@@ -252,6 +252,24 @@ body {
   padding: 10px 16px; /* 좀 더 여유롭게 */
   font-size: 16px;
 }
+
+/* 👉 아이콘 전용 버튼 스타일 */
+.icon-only-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.icon-img {
+  width: 40px;       /* 필요시 조절 가능 */
+  height: 40px;
+}
+
+.icon-only-button:focus {
+  outline: none;
+}
+
     
   </style>
 </head>
@@ -492,17 +510,17 @@ document.getElementById("finalResult").innerHTML = `
       ${ending}
     </p>
 
-    <div style="display: flex; justify-content: center; gap: 8px;">
-  <button class="button small-btn exclude-from-capture" onclick="location.reload()">
-    <img src="assets/icon_1.png" alt="다시 하기" style="height: 20px; vertical-align: middle;">
+   <div style="display: flex; justify-content: center; gap: 16px; margin-top: 24px;">
+  <button onclick="location.reload()" class="icon-only-button">
+    <img src="assets/icon_1.png" alt="다시하기" class="icon-img">
   </button>
-  <button class="button small-btn exclude-from-capture" onclick="startExtraRound()">
-    <img src="assets/icon_2.png" alt="계속하기" style="height: 20px; vertical-align: middle;">
+  <button onclick="startExtraRound()" class="icon-only-button">
+    <img src="assets/icon_2.png" alt="계속하기" class="icon-img">
   </button>
-  <button class="button small-btn exclude-from-capture" onclick="captureResult()">
-    <img src="assets/icon_3.png" alt="공유하기" style="height: 20px; vertical-align: middle;">
+  <button onclick="captureResult()" class="icon-only-button">
+    <img src="assets/icon_3.png" alt="공유하기" class="icon-img">
   </button>
-  </div>
+</div>
   </div>
 
   <!-- ✅ 질문 정리 박스 분리 -->
