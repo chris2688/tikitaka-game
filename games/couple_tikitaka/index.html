@@ -105,6 +105,24 @@
   z-index: -1;
 }
 
+#progressBarContainer {
+  width: 100%;
+  max-width: 640px;
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+#progressBar {
+  height: 100%;
+  width: 0%;
+  background-color: #88f5e1;
+  transition: width 0.3s ease;
+}
+
+    
 @media (max-width: 480px) {
   .question-box p {
     font-size: clamp(24px, 7vw, 36px);
@@ -136,6 +154,9 @@
   </div>
 
   <div id="questionBox">
+    <div id="progressBarContainer">
+  <div id="progressBar"></div>
+</div>
     <div id="question"></div>
 <button class="button choice-button" id="btn1" onclick="">선택 1</button>
 <button class="button choice-button" id="btn2" onclick="">선택 2</button>
@@ -214,6 +235,9 @@ questionEl.innerHTML = `
   padding: 0 8px;
 ">${questions[index]}</p>
   `;
+   const progressPercent = Math.round(((index + (isFirst ? 0 : 5)) / questions.length) * 100);
+  document.getElementById("progressBar").style.width = `${progressPercent}%`;
+
   document.getElementById("result").innerText = "";
 
   const btn1 = document.getElementById("btn1");
