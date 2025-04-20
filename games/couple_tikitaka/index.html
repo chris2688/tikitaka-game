@@ -471,6 +471,7 @@ const total = firstAnswers.length;
 const percentage = Math.round((score / total) * 100);// 성공률 계산
 
 let answerListHTML = "<ul style='list-style:none; padding:0; text-align:left;'>";
+
 for (let i = 0; i < total; i++) {
   const questionText = selectedQuestions[i].replace(/<br>/g, ' ');
   const match = firstAnswers[i] === secondAnswers[i];
@@ -481,12 +482,13 @@ for (let i = 0; i < total; i++) {
       <strong>Q${i + 1}.</strong> ${questionText}<br>
       · ${p1}: ${firstAnswers[i]}<br>
       · ${p2}: ${secondAnswers[i]}<br>
-      · <strong>
-  <span style="color: ${match ? '#003366' : '#e53935'}">${icon}</span>
-  ${match
-    ? '<span style="color: #00bfa5;"> TIKI TAKA</span>'
-    : '<span><span style="color: #000;"> 불일치</span></span>'}
-</strong>
+      · 결과: 
+      <span style="color: ${match ? '#003366' : '#e53935'}; font-weight: bold;">${icon}</span>
+      ${
+        match
+          ? '<span style="color: #00bfa5; font-weight: bold;"> TIKI TAKA</span>'
+          : '<span style="color: #000; font-weight: bold;"> 불일치</span>'
+      }
     </li>
   `;
 }
