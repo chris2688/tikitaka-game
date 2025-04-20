@@ -351,9 +351,7 @@ let isFirst = true, index = 0;
 let firstAnswers = [], secondAnswers = [], score = 0;
 let selectedQuestions = [];
 
-    document.addEventListener("DOMContentLoaded", function () {
-      document.getElementById("nameForm").style.display = "block";
-    });
+  
 
     function saveNames() {
       p1 = document.getElementById("player1Name").value;
@@ -655,11 +653,12 @@ function captureResult() {
   });
 }
 
-
-
-document.addEventListener("DOMContentLoaded", function () {
+window.onload = function () {
   document.getElementById("nameForm").style.display = "block";
-});
+  document.getElementById("startPrompt").style.display = "none";
+  document.getElementById("questionBox").style.display = "none";
+  document.getElementById("finalResult").style.display = "none";
+};
 </script>
 </body>
 </html>
