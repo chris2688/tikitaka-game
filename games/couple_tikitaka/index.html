@@ -498,7 +498,7 @@ for (let i = 0; i < total; i++) {
 answerListHTML += "</ul>";
 
 document.getElementById("finalResult").innerHTML = `
-  <div class="result-box" id="resultSummaryBox">
+<div class="result-box" id="resultSummaryBox">
     <h2 style="font-size: 28px; color: #000; line-height: 1.6;">
       ${p1} ❤️${p2}<br>TIKI TAKA 결과
     </h2>
@@ -520,21 +520,22 @@ document.getElementById("finalResult").innerHTML = `
     </p>
 
     <p style="font-size: clamp(20px, 5vw, 36px); font-weight: bold; color: #222; line-height: 1.8; margin-top: 20px;">
-
       ${ending}
     </p>
 
-<div class="icon-row">
-  <button onclick="location.reload()" class="icon-only-button">
-    <img src="assets/icon_1.png" alt="다시하기" class="icon-img" title="다시하기">
-  </button>
-  <button onclick="startExtraRound()" class="icon-only-button">
-    <img src="assets/icon_2.png" alt="계속하기" class="icon-img" title="계속하기">
-  </button>
-  <button onclick="captureResult()" class="icon-only-button">
-    <img src="assets/icon_3.png" alt="공유하기" class="icon-img" title="공유하기">
-  </button>
-</div>
+    <div class="icon-row">
+      <button onclick="location.reload()" class="icon-only-button">
+        <img src="assets/icon_1.png" alt="다시하기" class="icon-img" title="다시하기">
+      </button>
+      <button onclick="startExtraRound()" class="icon-only-button">
+        <img src="assets/icon_2.png" alt="계속하기" class="icon-img" title="계속하기">
+      </button>
+      <button onclick="captureResult()" class="icon-only-button">
+        <img src="assets/icon_3.png" alt="공유하기" class="icon-img" title="공유하기">
+      </button>
+    </div>
+  </div>
+`;
 
   <!-- ✅ 질문 정리 박스 분리 -->
 <div style="
@@ -561,6 +562,32 @@ document.getElementById("finalResult").innerHTML = `
 </div>
 `;
 document.getElementById("finalResult").style.display = "block";
+
+// ✅ 질문 정리 박스를 완전히 분리해서 새로 생성
+const answerWrapper = document.createElement('div');
+answerWrapper.className = 'answer-summary-wrapper';
+answerWrapper.innerHTML = `
+  <div style="width: 100%; max-width: 960px; display: flex; justify-content: flex-end; margin: 32px auto 0;">
+    <button class="button small-btn exclude-from-capture" onclick="captureAnswers()">📸</button>
+  </div>
+  <div id="answerSummaryBox" style="
+    padding: 24px 20px;
+    background: white;
+    border-radius: 16px;
+    margin: 0 auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    max-width: 960px;
+    box-sizing: border-box;
+    color: #111;
+  ">
+    <h3 style="color: #000; font-size: 20px; margin-bottom: 16px;">📋 질문 & 답변 정리</h3>
+    ${answerListHTML}
+  </div>
+`;
+
+// ✅ 결과 박스 아래쪽에 붙이기 (별도 분리)
+document.body.appendChild(answerWrapper);
+
       }, 1500); // ← 여유 시간 주고 결과창 띄우기
     }
   }
