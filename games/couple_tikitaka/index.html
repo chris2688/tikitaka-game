@@ -167,7 +167,7 @@ body {
   transform-origin: top left;
 }
 
-    @media (max-width: 480px) {
+@media (max-width: 480px) {
   .question-box p {
     font-size: clamp(24px, 7vw, 36px);
   }
@@ -177,6 +177,13 @@ body {
   .question-box {
     max-width: 640px;
     padding: 24px 32px; /* ← 여백 조절 */
+  }
+}
+
+@media (max-width: 480px) {
+  .question-summary {
+    font-size: 15px;
+    padding: 16px;
   }
 }
 
