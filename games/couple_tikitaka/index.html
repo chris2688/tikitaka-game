@@ -327,10 +327,9 @@ body {
   </div>
 
   <div id="finalResult"></div>
-<div id="customPopup" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 9999;">
-  <div id="popupBox" style="background: white; padding: 24px 32px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); text-align: center;">
-    <p id="popupMessage" style="font-size: 18px; font-weight: bold;">질문답변도 함께 저장할까요?</p>
+<div id="customPopup" style="display: none;">
+  <div id="popupBox">
+    <p id="popupMessage">질문답변도 함께 저장할까요?</p>
     <div style="margin-top: 20px;">
       <button onclick="downloadAnswers()" style="margin-right: 10px;">예</button>
       <button onclick="closePopup()">아니오</button>
