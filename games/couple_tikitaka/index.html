@@ -613,7 +613,6 @@ function captureAnswers() {
 
 function captureResult() {
   const resultTarget = document.querySelector('.result-box');
-  const answerTarget = document.getElementById('answerSummaryBox');
 
   html2canvas(resultTarget, {
     backgroundColor: null,
@@ -624,18 +623,9 @@ function captureResult() {
     link1.href = canvas1.toDataURL();
     link1.click();
 
-    // ✅ 모바일 대응: 약간의 간격을 둬서 두 번째 다운로드 유도
-    setTimeout(() => {
-      html2canvas(answerTarget, {
-        backgroundColor: null,
-        scrollY: -window.scrollY
-      }).then(canvas2 => {
-        const link2 = document.createElement('a');
-        link2.download = '티키타카_답변정리.png';
-        link2.href = canvas2.toDataURL();
-        link2.click();
-      });
-    }, 1000); // 1초 딜레이
+    // 결과 저장 후 질문답변도 함께 저장할지 묻는 팝업 띄우기
+    document.getElementById("popupMessage").innerText = "질문답변도 함께 저장할까요?";
+    document.getElementById("customPopup").style.display = "flex";
   });
 }
 
