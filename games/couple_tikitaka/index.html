@@ -598,45 +598,48 @@ function captureResult() {
   const buttons = original.querySelectorAll('.exclude-from-capture');
   buttons.forEach(btn => btn.style.visibility = 'hidden');
 
-  // 📦 클론 생성
-  const clone = original.cloneNode(true);
-  clone.style.position = 'fixed';
-  clone.style.top = '50%';
-  clone.style.left = '50%';
-  clone.style.transform = 'translate(-50%, -50%)';
-  clone.style.zIndex = '9999';
-  clone.style.width = original.offsetWidth + 'px';
+  // ✅ 캡처 전용 컨테이너 생성
+  const wrapper = document.createElement('div');
+  wrapper.className = 'result-capture-container';
 
-  // 🎨 배경 이미지 스타일
-  clone.style.backgroundImage = "url('assets/background.jpg')";
-  clone.style.backgroundSize = 'cover';
-  clone.style.backgroundPosition = 'center';
-  clone.style.backgroundRepeat = 'no-repeat';
-
-  // 🧼 투명한 흰색 박스 덧씌우기 (오버레이 박스)
-  const overlay = document.createElement('div');
-  overlay.style.position = 'absolute';
-  overlay.style.top = 0;
-  overlay.style.left = 0;
-  overlay.style.width = '100%';
-  overlay.style.height = '100%';
-  overlay.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
-  overlay.style.borderRadius = getComputedStyle(original).borderRadius;
-  overlay.style.zIndex = '1';
-
-  // 📦 내용은 z-index 2로 보이게
-  clone.style.position = 'relative';
-  Array.from(clone.children).forEach(child => {
-    child.style.position = 'relative';
-    child.style.zIndex = '2';
+  // ✅ 배경 이미지 + 위치 고정
+  Object.assign(wrapper.style, {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width: '100vw',
+    height: '100vh',
+    backgroundImage: "url('assets/background.jpg')",
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    zIndex: '9999',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   });
 
-  clone.appendChild(overlay); // 오버레이는 맨 뒤에 추가
+  // ✅ 흰색 투명 박스
+  const overlay = document.createElement('div');
+  overlay.className = 'result-capture-overlay';
+  Object.assign(overlay.style, {
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    padding: '32px',
+    borderRadius: getComputedStyle(original).borderRadius,
+    maxWidth: '90%',
+    width: getComputedStyle(original).width,
+    boxSizing: 'border-box',
+    zIndex: '2'
+  });
 
-  document.body.appendChild(clone);
+  // ✅ 내용 복사
+  const content = original.cloneNode(true);
+  content.className = 'result-capture-content';
+  overlay.appendChild(content);
+  wrapper.appendChild(overlay);
+  document.body.appendChild(wrapper);
 
-  // 📸 캡처
-  html2canvas(clone, {
+  html2canvas(wrapper, {
     scrollY: -window.scrollY,
     useCORS: true,
     backgroundColor: null
@@ -646,10 +649,11 @@ function captureResult() {
     link.href = canvas.toDataURL();
     link.click();
   }).finally(() => {
-    document.body.removeChild(clone);
+    document.body.removeChild(wrapper);
     buttons.forEach(btn => btn.style.visibility = 'visible');
   });
 }
+
 
 
 document.addEventListener("DOMContentLoaded", function () {
