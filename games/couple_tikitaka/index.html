@@ -615,7 +615,6 @@ function captureResult() {
   const resultTarget = document.querySelector('.result-box');
   const answerTarget = document.getElementById('answerSummaryBox');
 
-  // 1. 결과 박스 먼저 캡처
   html2canvas(resultTarget, {
     backgroundColor: null,
     scrollY: -window.scrollY
@@ -625,7 +624,7 @@ function captureResult() {
     link1.href = canvas1.toDataURL();
     link1.click();
 
-    // ✅ 2. 약간의 딜레이 후 질문답변 캡처
+    // ✅ 모바일 대응: 약간의 간격을 둬서 두 번째 다운로드 유도
     setTimeout(() => {
       html2canvas(answerTarget, {
         backgroundColor: null,
@@ -636,7 +635,7 @@ function captureResult() {
         link2.href = canvas2.toDataURL();
         link2.click();
       });
-    }, 300); // 300ms 딜레이
+    }, 1000); // 1초 딜레이
   });
 }
 
