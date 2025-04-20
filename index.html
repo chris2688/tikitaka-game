@@ -165,6 +165,7 @@
 
   function loadGame(url) {
     document.getElementById("gameFrame").src = url;
+    sessionStorage.setItem("lastGameUrl", url);  // ✅ 게임 URL을 세션에 저장
     toggleSidebar();
   }
 
@@ -177,6 +178,11 @@
     document.getElementById("alcoholSub").style.display = "block";
     document.getElementById("coupleSub").style.display = "block";
     document.getElementById("funSub").style.display = "block";
+
+    const lastGame = sessionStorage.getItem("lastGameUrl");  // ✅ 세션 저장소에서 가져옴
+    const defaultGame = "games/soju_cap_roulette/index.html";
+    document.getElementById("gameFrame").src = lastGame || defaultGame;  // ✅ 기억된 게임 또는 기본값
+  
   }
 </script>
 </body>
