@@ -557,15 +557,28 @@ function captureAnswers() {
 }
 
 function captureResult() {
-  const target = document.getElementById('resultSummaryBox');
-  const buttons = target.querySelectorAll('.exclude-from-capture');
+  const original = document.getElementById('resultSummaryBox'); // ✅ 이 줄 추가
+  const buttons = original.querySelectorAll('.exclude-from-capture');
   buttons.forEach(btn => btn.style.visibility = 'hidden');
-  
-  target.style.backgroundImage = "url('assets/background.jpg')";
-  target.style.backgroundSize = 'cover';
-  target.style.backgroundPosition = 'center';
-  
-  html2canvas(target, {
+
+  const clone = original.cloneNode(true);
+  clone.style.position = 'fixed';
+  clone.style.top = '50%';
+  clone.style.left = '50%';
+  clone.style.transform = 'translate(-50%, -50%)';
+  clone.style.zIndex = '9999';
+
+  clone.style.backgroundImage = "url('assets/background.jpg')";
+  clone.style.backgroundSize = 'cover';
+  clone.style.backgroundPosition = 'center';
+  clone.style.backgroundRepeat = 'no-repeat';
+  clone.style.width = original.offsetWidth + 'px';
+  clone.style.padding = window.getComputedStyle(original).padding;
+  clone.style.borderRadius = window.getComputedStyle(original).borderRadius;
+
+  document.body.appendChild(clone);
+
+  html2canvas(clone, {
     scrollY: -window.scrollY,
     useCORS: true,
     backgroundColor: null
@@ -574,10 +587,11 @@ function captureResult() {
     link.download = '티키타카_결과.png';
     link.href = canvas.toDataURL();
     link.click();
+
+    document.body.removeChild(clone);
     buttons.forEach(btn => btn.style.visibility = 'visible');
   });
 }
-
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("nameForm").style.display = "block";
 });
