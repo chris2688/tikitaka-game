@@ -335,16 +335,19 @@ document.getElementById("finalResult").innerHTML = `
   <h2 style="font-size: 28px; color: #000; line-height: 1.6;">
   우리 둘, ${total}문제 중 ${score}개<br>
   티키타카 성공률 <span style="
-    font-size: 40px;
-    color: #00bfa5;
-    font-weight: 900;
-    padding: 4px 10px;
-    border: 2px solid #00bfa5;
-    border-radius: 8px;
-    background-color: white;
-    display: inline-block;
-    text-shadow: 0 0 2px #009999;
-  ">${percentage}%</span>
+  font-size: 40px;
+  font-weight: 900;
+  padding: 4px 14px;
+  border-radius: 8px;
+  display: inline-block;
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  border: 2px solid #00c6ff;
+  background-clip: padding-box;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.15);
+">${percentage}%</span>
 </h2>
     <p style="font-size: 5vw; font-weight: bold; color: #222; line-height: 1.8; margin-top: 20px;">
       ${ending}
