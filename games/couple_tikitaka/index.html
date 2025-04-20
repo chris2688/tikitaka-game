@@ -244,13 +244,6 @@ body {
   }
 }
 
-@media (max-width: 480px) {
-  .icon-img {
-    width: 24px;
-    height: 24px;
-  }
-}
-    
 .share-button:hover {
   background-color: #66e0cb;
 }
@@ -259,31 +252,6 @@ body {
   padding: 10px 16px; /* 좀 더 여유롭게 */
   font-size: 16px;
 }
-
-/* 👉 아이콘 전용 버튼 스타일 */
-.icon-only-button {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-
-.icon-img {
-  width: 28px;       /* 필요시 조절 가능 */
-  height: 28px;
-}
-
-.icon-row {
-  display: flex;
-  justify-content: center;
-  gap: 24px;        /* 아이콘 간격 */
-  margin-top: 24px; /* 결과 아래 여백 */
-}
-    
-.icon-only-button:focus {
-  outline: none;
-}
-
     
   </style>
 </head>
@@ -351,7 +319,9 @@ let isFirst = true, index = 0;
 let firstAnswers = [], secondAnswers = [], score = 0;
 let selectedQuestions = [];
 
-  
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("nameForm").style.display = "block";
+    });
 
     function saveNames() {
       p1 = document.getElementById("player1Name").value;
@@ -479,25 +449,18 @@ for (let i = 0; i < total; i++) {
   const icon = match ? "⭕" : "❌";
 
   answerListHTML += `
-  <li style="
-    margin-bottom: 24px;
-    line-height: 1.8;
-    font-size: 18px;
-    padding-bottom: 6px;
-    word-break: keep-all;
-  ">
-    <strong style="display: inline-block; margin-bottom: 6px;">Q${i + 1}.</strong> ${questionText}<br>
-    · ${p1}: ${firstAnswers[i]}<br>
-    · ${p2}: ${secondAnswers[i]}<br>
-    · <strong style="color:${match ? '#00bfa5' : '#e53935'}">${icon} ${match ? 'TIKI TAKA' : '불일치'}</strong>
-  </li>
-`;
+    <li style="margin-bottom: 12px;">
+      <strong>Q${i + 1}.</strong> ${questionText}<br>
+      · ${p1}: ${firstAnswers[i]}<br>
+      · ${p2}: ${secondAnswers[i]}<br>
+      · 결과: <strong style="color:${match ? '#00bfa5' : '#e53935'}">${icon} ${match ? 'TIKI TAKA' : '불일치'}</strong>
+    </li>
+  `;
 }
 answerListHTML += "</ul>";
 
 document.getElementById("finalResult").innerHTML = `
-const resultSummaryHTML = `
-<div class="result-box" id="resultSummaryBox">
+  <div class="result-box">
     <h2 style="font-size: 28px; color: #000; line-height: 1.6;">
       ${p1} ❤️${p2}<br>TIKI TAKA 결과
     </h2>
@@ -519,47 +482,40 @@ const resultSummaryHTML = `
     </p>
 
     <p style="font-size: clamp(20px, 5vw, 36px); font-weight: bold; color: #222; line-height: 1.8; margin-top: 20px;">
+
       ${ending}
     </p>
 
-    <div class="icon-row">
-      <button onclick="location.reload()" class="icon-only-button">
-        <img src="assets/icon_1.png" alt="다시하기" class="icon-img" title="다시하기">
-      </button>
-      <button onclick="startExtraRound()" class="icon-only-button">
-        <img src="assets/icon_2.png" alt="계속하기" class="icon-img" title="계속하기">
-      </button>
-      <button onclick="captureResult()" class="icon-only-button">
-        <img src="assets/icon_3.png" alt="공유하기" class="icon-img" title="공유하기">
-      </button>
+    <div style="margin-top: 40px; display: flex; justify-content: center; gap: 8px; flex-wrap: nowrap; flex-direction: row;">
+      <button class="button small-btn" onclick="location.reload()">다시 하기</button>
+      <button class="button small-btn" onclick="startExtraRound()">계속</button>
+      <button class="button small-btn" onclick="captureResult()">📸 공유</button>
     </div>
-</div>`;
-
-document.getElementById("finalResult").innerHTML = resultSummaryHTML;
-document.getElementById("finalResult").style.display = "block";
-
-// ✅ 질문 정리 박스는 분리하여 DOM 생성으로 삽입
-const answerWrapper = document.createElement("div");
-answerWrapper.className = "answer-summary-wrapper";
-answerWrapper.innerHTML = `
-  <div style="width: 100%; max-width: 960px; display: flex; justify-content: flex-end; margin: 32px auto 0;">
-    <button class="button small-btn exclude-from-capture" onclick="captureAnswers()">📸</button>
   </div>
-  <div id="answerSummaryBox" style="
-    padding: 24px 20px;
-    background: white;
-    border-radius: 16px;
-    margin: 0 auto;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    max-width: 960px;
-    box-sizing: border-box;
-    color: #111;
-  ">
+
+  <!-- ✅ 질문 정리 박스 분리 -->
+<div style="
+  margin: 32px auto 0;
+  padding: 24px 20px; /* 결과 박스와 동일한 padding */
+  background-color: rgba(255,255,255,1);
+  border-radius: 16px; /* 결과 박스와 동일한 radius */
+  color: #111;
+  text-align: left;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* 결과 박스와 동일한 그림자 */
+  font-size: 16px;
+  width: 90%;
+  max-width: 100%;  /* 결과 박스와 동일 */
+  box-sizing: border-box; /* 결과 박스와 동일 */
+">
+   <div id="answerSummaryBox" style="padding: 24px 20px; background: white; border-radius: 16px;">
+   <div style="text-align: right; margin-bottom: 10px;">
+    <button class="button small-btn" onclick="captureAnswers()">📸 공유</button>
+  </div>
     <h3 style="color: #000; font-size: 20px; margin-bottom: 16px;">📋 질문 & 답변 정리</h3>
     ${answerListHTML}
   </div>
 `;
-document.body.appendChild(answerWrapper);
+document.getElementById("finalResult").style.display = "block";
       }, 1500); // ← 여유 시간 주고 결과창 띄우기
     }
   }
@@ -578,9 +534,6 @@ function closePopup() {
 
 function captureAnswers() {
   const target = document.getElementById("answerSummaryBox");
-  const buttons = document.querySelectorAll('.exclude-from-capture');
-  buttons.forEach(btn => btn.style.visibility = 'hidden');
-  
   html2canvas(target, {
     scrollY: -window.scrollY
   }).then(canvas => {
@@ -588,77 +541,25 @@ function captureAnswers() {
     link.download = '티키타카_답변정리.png';
     link.href = canvas.toDataURL();
     link.click();
-  buttons.forEach(btn => btn.style.visibility = 'visible');
   });
 }
 
 function captureResult() {
-  const original = document.getElementById('resultSummaryBox');
-  const buttons = original.querySelectorAll('.exclude-from-capture');
-  buttons.forEach(btn => btn.style.visibility = 'hidden');
-
-  // ✅ 캡처 전용 컨테이너 생성
-  const wrapper = document.createElement('div');
-  wrapper.className = 'result-capture-container';
-
-  // ✅ 배경 이미지 + 위치 고정
-  Object.assign(wrapper.style, {
-    position: 'fixed',
-    top: '0',
-    left: '0',
-    width: '100vw',
-    height: '100vh',
-    backgroundImage: "url('assets/background.jpg')",
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    zIndex: '9999',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  });
-
-  // ✅ 흰색 투명 박스
-  const overlay = document.createElement('div');
-  overlay.className = 'result-capture-overlay';
-  Object.assign(overlay.style, {
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
-    padding: '32px',
-    borderRadius: getComputedStyle(original).borderRadius,
-    maxWidth: '90%',
-    width: getComputedStyle(original).width,
-    boxSizing: 'border-box',
-    zIndex: '2'
-  });
-
-  // ✅ 내용 복사
-  const content = original.cloneNode(true);
-  content.className = 'result-capture-content';
-  overlay.appendChild(content);
-  wrapper.appendChild(overlay);
-  document.body.appendChild(wrapper);
-
-  html2canvas(wrapper, {
-    scrollY: -window.scrollY,
-    useCORS: true,
-    backgroundColor: null
+  const target = document.querySelector('.result-box');
+  html2canvas(target, {
+    backgroundColor: null,
+    scrollY: -window.scrollY // ✅ 추가!
   }).then(canvas => {
     const link = document.createElement('a');
     link.download = '티키타카_결과.png';
     link.href = canvas.toDataURL();
     link.click();
-  }).finally(() => {
-    document.body.removeChild(wrapper);
-    buttons.forEach(btn => btn.style.visibility = 'visible');
   });
 }
 
-window.onload = function () {
+document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("nameForm").style.display = "block";
-  document.getElementById("startPrompt").style.display = "none";
-  document.getElementById("questionBox").style.display = "none";
-  document.getElementById("finalResult").style.display = "none";
-};
+});
 </script>
 </body>
 </html>
