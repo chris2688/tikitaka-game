@@ -560,7 +560,11 @@ function captureResult() {
   const target = document.getElementById('resultSummaryBox');
   const buttons = target.querySelectorAll('.exclude-from-capture');
   buttons.forEach(btn => btn.style.visibility = 'hidden');
-
+  
+  target.style.backgroundImage = "url('assets/background.jpg')";
+  target.style.backgroundSize = 'cover';
+  target.style.backgroundPosition = 'center';
+  
   html2canvas(target, {
     scrollY: -window.scrollY,
     useCORS: true,
