@@ -482,19 +482,24 @@ for (let i = 0; i < total; i++) {
   const match = firstAnswers[i] === secondAnswers[i];
   const icon = match ? "⭕" : "❌";
 
-  answerListHTML += `
-    <li style="margin-bottom: 12px;">
-      <strong>Q${i + 1}.</strong> ${questionText}<br>
-      · ${p1}: ${firstAnswers[i]}<br>
-      · ${p2}: ${secondAnswers[i]}<br>
-      · <span style="color: ${match ? '#e53935' : '#e53935'}; font-weight: bold;">${icon}</span>
+answerListHTML += `
+  <li style="margin-bottom: 20px;">
+    <div style="line-height: 1.6; font-size: 16px;">
+      <strong>Q${i + 1}.</strong> ${questionText}
+    </div>
+    <div style="margin-top: 4px;">· ${p1}: ${firstAnswers[i]}</div>
+    <div style="margin-top: 4px;">· ${p2}: ${secondAnswers[i]}</div>
+    <div style="margin-top: 4px;">
+      · 결과: 
+      <span style="color: #e53935; font-weight: bold;">${icon}</span>
       ${
         match
           ? '<span style="color: #00bfa5; font-weight: bold;"> TIKI TAKA</span>'
           : '<span style="color: #000; font-weight: bold;"> 불일치</span>'
       }
-    </li>
-  `;
+    </div>
+  </li>
+`;
 }
 answerListHTML += "</ul>";
 
