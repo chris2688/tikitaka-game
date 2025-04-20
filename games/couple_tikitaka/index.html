@@ -561,23 +561,44 @@ function captureResult() {
   const buttons = original.querySelectorAll('.exclude-from-capture');
   buttons.forEach(btn => btn.style.visibility = 'hidden');
 
+  // 📦 클론 생성
   const clone = original.cloneNode(true);
   clone.style.position = 'fixed';
   clone.style.top = '50%';
   clone.style.left = '50%';
   clone.style.transform = 'translate(-50%, -50%)';
   clone.style.zIndex = '9999';
+  clone.style.width = original.offsetWidth + 'px';
 
+  // 🎨 배경 이미지 스타일
   clone.style.backgroundImage = "url('assets/background.jpg')";
   clone.style.backgroundSize = 'cover';
   clone.style.backgroundPosition = 'center';
   clone.style.backgroundRepeat = 'no-repeat';
-  clone.style.width = original.offsetWidth + 'px';
-  clone.style.padding = window.getComputedStyle(original).padding;
-  clone.style.borderRadius = window.getComputedStyle(original).borderRadius;
+
+  // 🧼 투명한 흰색 박스 덧씌우기 (오버레이 박스)
+  const overlay = document.createElement('div');
+  overlay.style.position = 'absolute';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100%';
+  overlay.style.height = '100%';
+  overlay.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
+  overlay.style.borderRadius = getComputedStyle(original).borderRadius;
+  overlay.style.zIndex = '1';
+
+  // 📦 내용은 z-index 2로 보이게
+  clone.style.position = 'relative';
+  Array.from(clone.children).forEach(child => {
+    child.style.position = 'relative';
+    child.style.zIndex = '2';
+  });
+
+  clone.appendChild(overlay); // 오버레이는 맨 뒤에 추가
 
   document.body.appendChild(clone);
 
+  // 📸 캡처
   html2canvas(clone, {
     scrollY: -window.scrollY,
     useCORS: true,
@@ -588,11 +609,11 @@ function captureResult() {
     link.href = canvas.toDataURL();
     link.click();
   }).finally(() => {
-    // ✅ 무조건 제거되도록
     document.body.removeChild(clone);
     buttons.forEach(btn => btn.style.visibility = 'visible');
   });
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("nameForm").style.display = "block";
