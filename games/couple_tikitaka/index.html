@@ -557,9 +557,10 @@ function captureResult() {
 
   html2canvas(target, {
     scrollY: -window.scrollY,
-    useCORS: true
+    useCORS: true,
+    backgroundColor: null
   }).then(canvas => {
-     const link = document.createElement('a');
+    const link = document.createElement('a');
     link.download = '티키타카_결과.png';
     link.href = canvas.toDataURL();
     link.click();
