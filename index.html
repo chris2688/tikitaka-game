@@ -79,13 +79,14 @@
     .submenu a:hover {
       background-color: #eee;
     }
-    #main {
-      margin-left: 0;
-      transition: margin-left 0.3s;
-      display: flex;
-      flex-direction: column;
-      height: calc(var(--vh, 1vh) * 100); /* ✅ JS에서 설정한 뷰포트 높이 사용 */
-    }
+#main {
+  margin-left: 0;
+  transition: margin-left 0.3s, opacity 0.3s ease-in; /* ✅ transition 항목 확장 */
+  display: flex;
+  flex-direction: column;
+  height: calc(var(--vh, 1vh) * 100); /* ✅ JS에서 설정한 뷰포트 높이 사용 */
+  opacity: 0; /* ✅ 초기에는 안 보이도록 설정 */
+}
     #topbar {
       height: 60px;
       background-color: #111;
@@ -181,17 +182,24 @@
   }
 
 // ✅ 전체 초기화 함수
-  function initPage() {
-    setViewportHeight(); // 먼저 뷰포트 높이 설정
+function initPage() {
+  setViewportHeight(); // 먼저 뷰포트 높이 설정
 
-    document.getElementById("alcoholSub").style.display = "block";
-    document.getElementById("coupleSub").style.display = "block";
-    document.getElementById("funSub").style.display = "block";
+  document.getElementById("alcoholSub").style.display = "block";
+  document.getElementById("coupleSub").style.display = "block";
+  document.getElementById("funSub").style.display = "block";
 
-    const lastGame = sessionStorage.getItem("lastGameUrl");
-    const defaultGame = "games/soju_cap_roulette/index.html";
-    document.getElementById("gameFrame").src = lastGame || defaultGame;
-  }
+  const lastGame = sessionStorage.getItem("lastGameUrl");
+  const defaultGame = "games/soju_cap_roulette/index.html";
+
+  const iframe = document.getElementById("gameFrame"); // ✅ iframe 변수 정의
+  iframe.src = lastGame || defaultGame;
+
+  // ✅ iframe 로딩 완료 후 #main을 보여줌
+  iframe.onload = () => {
+    document.getElementById("main").style.opacity = "1";
+  };
+}
 
   // ✅ 모든 초기화 작업을 안전하게 이벤트 리스너로 처리
   window.addEventListener('load', initPage);
