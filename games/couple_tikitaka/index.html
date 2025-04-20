@@ -418,25 +418,47 @@ const ending = endings[Math.floor(Math.random() * endings.length)];
 const total = firstAnswers.length;
 const percentage = Math.round((score / total) * 100);// 성공률 계산
 
+let answerListHTML = "<ul style='list-style:none; padding:0; text-align:left;'>";
+for (let i = 0; i < total; i++) {
+  const questionText = selectedQuestions[i].replace(/<br>/g, ' ');
+  const match = firstAnswers[i] === secondAnswers[i];
+  const icon = match ? "⭕" : "❌";
+
+  answerListHTML += `
+    <li style="margin-bottom: 12px;">
+      <strong>Q${i + 1}.</strong> ${questionText}<br>
+      🔹 ${p1}: ${firstAnswers[i]}<br>
+      🔸 ${p2}: ${secondAnswers[i]}<br>
+      👉 결과: <strong style="color:${match ? '#00bfa5' : '#e53935'}">${icon} ${match ? '일치' : '불일치'}</strong>
+    </li>
+  `;
+}
+answerListHTML += "</ul>";
+
 document.getElementById("finalResult").innerHTML = `
   <div class="result-box">
-  <h2 style="font-size: 28px; color: #000; line-height: 1.6;">
-  우리 둘, ${total}문제 중 ${score}개<br>
-  티키타카 성공률 <span style="
-  display: inline-block;
-  font-size: 42px;
-  font-weight: 900;
-  color: #00bfa5;
-  text-shadow:
-    -1px -1px 0 #ffffff,
-     1px -1px 0 #ffffff,
-    -1px  1px 0 #ffffff,
-     1px  1px 0 #ffffff;
-">
-  ${percentage}%
-</span>
-
-</h2>
+    <h2 style="font-size: 28px; color: #000; line-height: 1.6;">
+      ${p1} ❤️ ${p2}의 TIKI TAKA 결과
+    </h2>
+    <p style="margin-top: 10px; font-size: 20px;">
+      총 ${total}문제 중 <strong>${score}개</strong> 일치<br>
+      티키타카 성공률:
+      <span style="
+        display: inline-block;
+        font-size: 42px;
+        font-weight: 900;
+        color: #00bfa5;
+        text-shadow:
+          -1px -1px 0 #ffffff,
+           1px -1px 0 #ffffff,
+          -1px  1px 0 #ffffff,
+           1px  1px 0 #ffffff;">
+        ${percentage}%
+      </span>
+    </p>
+    <div style="margin: 24px 0;">
+      ${answerListHTML}
+    </div>
     <p style="font-size: 5vw; font-weight: bold; color: #222; line-height: 1.8; margin-top: 20px;">
       ${ending}
     </p>
