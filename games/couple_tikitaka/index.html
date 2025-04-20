@@ -139,12 +139,42 @@ input {
 
 
 
+#finalResult > div {
+  background-color: rgba(255,255,255,0.7);
+  padding: 24px 20px;
+  border-radius: 16px;
+  margin: 0 auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  width: 90%;
+  max-width: 100%;
+  box-sizing: border-box; /* ✅ 여백 계산 포함 */
+}
+
 @media (min-width: 768px) {
   #finalResult > div {
-    max-width: 640px;  /* 💡 PC에서 너무 넓게 안 나오도록 제한 */
-    padding: 32px;     /* PC에서는 여유 있게 여백 */
+    max-width: 640px; /* ✅ PC에서는 최대 너비 제한 */
+    padding: 32px;
   }
 }
+
+.result-box {
+  background-color: rgba(255,255,255,0.7);
+  padding: 24px 20px;
+  border-radius: 16px;
+  margin: 0 auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  width: 90%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .result-box {
+    max-width: 640px; /* PC에서 넓이 제한 */
+    padding: 32px;     /* 여백 조금 더 주기 */
+  }
+}
+
     
   </style>
 </head>
@@ -319,7 +349,7 @@ const total = questions.length;
 const percentage = Math.round((score / total) * 100); // 성공률 계산
 
 document.getElementById("finalResult").innerHTML = `
-  <div style="background-color: rgba(255,255,255,0.7); padding: 24px 20px; border-radius: 16px; max-width: 90%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); margin: 0 auto;">
+  <div class="result-box">
   <h2 style="font-size: 28px; color: #000; line-height: 1.6;">
   우리 둘, ${total}문제 중 ${score}개<br>
   티키타카 성공률 <span style="font-size: 36px; color: #009999; font-weight: bold;">${percentage}%</span>
