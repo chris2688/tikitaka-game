@@ -81,8 +81,8 @@
   border-radius: 16px;
   padding: 24px 20px;
   color: #111;
-  width: 98%;
-  max-width: 960px;
+  width: 98vw;
+  max-width: 1000px;
   min-height: 140px;
   margin: 0 auto 20px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
@@ -196,7 +196,13 @@ function showQuestion() {
 questionEl.className = "question-box"; // 👉 클래스 재적용 보장
 questionEl.innerHTML = `
     <h2 style="margin: 0; font-size: 20px; color: #003344;">질문 ${index + 1}</h2>
-    <p style="font-size: clamp(28px, 6.5vw, 42px); font-weight: bold; margin: 8px 0;">${questions[index]}</p>
+    <p style="
+  font-size: clamp(28px, 6.5vw, 42px); 
+  font-weight: bold; 
+  margin: 8px 0; 
+  text-align: center; 
+  padding: 0 8px;
+">${questions[index]}</p>
   `;
   document.getElementById("result").innerText = "";
 
