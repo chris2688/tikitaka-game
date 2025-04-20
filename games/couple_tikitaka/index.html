@@ -558,11 +558,6 @@ document.getElementById("finalResult").innerHTML = `
   box-sizing: border-box; /* 결과 박스와 동일 */
 ">
    <div id="answerSummaryBox" style="padding: 24px 20px; background: white; border-radius: 16px;">
-   <div style="display: flex; justify-content: flex-end; align-items: center; height: 48px; margin-right: -18px;">
-  <button class="button small-btn icon-button" onclick="captureAnswers()" aria-label="답변 공유">
-    <img src="assets/icon_3.png" alt="답변 공유" style="height: 24px;">
-  </button>
-</div>
     <h3 style="color: #000; font-size: 20px; margin-bottom: 16px;">📋 질문 & 답변 정리</h3>
     ${answerListHTML}
   </div>
@@ -598,15 +593,29 @@ function captureAnswers() {
 }
 
 function captureResult() {
-  const target = document.querySelector('.result-box');
-  html2canvas(target, {
+  const resultTarget = document.querySelector('.result-box');
+  const answerTarget = document.getElementById('answerSummaryBox');
+
+  // 1. 결과 박스 캡처
+  html2canvas(resultTarget, {
     backgroundColor: null,
-    scrollY: -window.scrollY // ✅ 추가!
-  }).then(canvas => {
-    const link = document.createElement('a');
-    link.download = '티키타카_결과.png';
-    link.href = canvas.toDataURL();
-    link.click();
+    scrollY: -window.scrollY
+  }).then(canvas1 => {
+    const link1 = document.createElement('a');
+    link1.download = '티키타카_결과.png';
+    link1.href = canvas1.toDataURL();
+    link1.click();
+
+    // 2. 질문 답변 박스 캡처
+    html2canvas(answerTarget, {
+      backgroundColor: null,
+      scrollY: -window.scrollY
+    }).then(canvas2 => {
+      const link2 = document.createElement('a');
+      link2.download = '티키타카_답변정리.png';
+      link2.href = canvas2.toDataURL();
+      link2.click();
+    });
   });
 }
 
