@@ -442,21 +442,22 @@ document.getElementById("finalResult").innerHTML = `
   <span style="font-weight: bold;">${p1} ❤️ ${p2}</span><br>
   TIKI TAKA 결과
 </h2>
-    <p style="margin-top: 10px; font-size: 20px;">
-      총 ${total}문제 중 <strong>${score}개</strong> 일치<br>
-      티키타카 성공률:
-      <span style="
-        display: inline-block;
-        font-size: 42px;
-        font-weight: 900;
-        color: #00bfa5;
-        text-shadow:
-          -1px -1px 0 #ffffff,
-           1px -1px 0 #ffffff,
-          -1px  1px 0 #ffffff,
-           1px  1px 0 #ffffff;">
-        ${percentage}%
-      </span>
+<p style="margin-top: 10px; font-size: 20px; color: #000;">
+  총 ${total}문제 중 <strong>${score}개</strong> 일치<br>
+  <span style="color: #000;">티키타카 성공률:</span>
+  <span style="
+    display: inline-block;
+    font-size: 42px;
+    font-weight: 900;
+    color: #00bfa5;
+    text-shadow:
+      -1px -1px 0 #ffffff,
+       1px -1px 0 #ffffff,
+      -1px  1px 0 #ffffff,
+       1px  1px 0 #ffffff;">
+    ${percentage}%
+  </span>
+</p>
     </p>
     <div style="margin: 24px 0;">
       ${answerListHTML}
