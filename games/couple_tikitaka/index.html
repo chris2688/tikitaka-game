@@ -180,7 +180,38 @@ body {
   }
 }
 
+#customPopup {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
 
+#popupBox {
+  background-color: white;
+  padding: 24px 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  text-align: center;
+  max-width: 90%;
+  font-size: 18px;
+  color: #333;
+}
+
+#popupBox button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #88f5e1;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
 .result-box {
   background-color: rgba(255,255,255,0.7);
@@ -229,6 +260,13 @@ body {
   </div>
 
   <div id="finalResult"></div>
+  <div id="customPopup" style="display: none;">
+  <div id="popupBox">
+    <p id="popupMessage">여기에 메시지가 들어갑니다</p>
+    <button onclick="closePopup()">확인</button>
+  </div>
+</div>
+
 
   <script>
     const questions = [
@@ -264,7 +302,7 @@ body {
     function saveNames() {
       p1 = document.getElementById("player1Name").value;
       p2 = document.getElementById("player2Name").value;
-      if (!p1 || !p2) return alert("두 이름을 모두 입력해주세요!");
+      if (!p1 || !p2) return showPopup("이름을 모두 입력해주세요!");
       document.getElementById("nameForm").style.display = "none";
       document.getElementById("startPrompt").style.display = "block";
       document.getElementById("startText").innerText = `${p1}님이 먼저 시작하세요!`;
@@ -333,7 +371,7 @@ questionEl.innerHTML = `
     } else {
       isFirst = false;
       index = 0;
-      alert(`${p2}님의 차례입니다!`);
+      showPopup(`${p2}님의 티키타카 차례입니다!`);
       showQuestion();
       btn1.disabled = false;
       btn2.disabled = false;
@@ -406,7 +444,17 @@ document.getElementById("finalResult").style.display = "block";
     }
   }
  }
-     
+     function showPopup(message) {
+  document.getElementById("popupMessage").innerText = message;
+  document.getElementById("customPopup").style.display = "flex";
+}
+
+
+    
+function closePopup() {
+  document.getElementById("customPopup").style.display = "none";
+}
+
   </script>
 </body>
 </html>
