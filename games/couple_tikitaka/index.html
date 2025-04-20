@@ -531,7 +531,7 @@ function closePopup() {
   document.getElementById("customPopup").style.display = "none";
 }
 
-<script>
+
 function captureAnswers() {
   const target = document.getElementById("answerSummaryBox");
   html2canvas(target, {
@@ -556,6 +556,10 @@ function captureResult() {
     link.click();
   });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("nameForm").style.display = "block";
+});
 </script>
 </body>
 </html>
