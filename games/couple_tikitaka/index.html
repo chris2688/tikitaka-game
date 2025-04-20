@@ -185,7 +185,9 @@ function captureResult() {
     }
 
 function showQuestion() {
-  document.getElementById("question").innerHTML = `
+  const questionEl = document.getElementById("question");
+questionEl.className = "question-box"; // 👉 클래스 재적용 보장
+questionEl.innerHTML = `
     <h2 style="margin: 0; font-size: 20px; color: #003344;">질문 ${index + 1}</h2>
     <p style="font-size: 24px; font-weight: bold; margin: 8px 0;">${questions[index]}</p>
   `;
