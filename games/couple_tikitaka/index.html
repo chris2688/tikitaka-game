@@ -200,14 +200,15 @@ function showQuestion() {
 resultBox.innerHTML = `
   <div style="
     display: inline-block;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: ${match ? 'rgba(136, 245, 225, 0.85)' : 'rgba(255, 120, 120, 0.85)'};
     border: 2px solid white;
     border-radius: 12px;
     padding: 12px 20px;
     font-size: 24px;
     font-weight: bold;
-    color: white;
+    color: ${match ? '#003344' : '#400000'};
     margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   ">
     ${match ? "🎉 티키타카 되었어요!" : "❌ 티키타카 틀렸어요!"}
   </div>
