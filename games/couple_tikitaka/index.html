@@ -187,6 +187,12 @@ body {
   }
 }
 
+@media (min-width: 768px) {
+  .question-summary-box {
+    max-width: 640px;
+  }
+}
+    
 #customPopup {
   position: fixed;
   top: 0; left: 0;
@@ -477,18 +483,19 @@ document.getElementById("finalResult").innerHTML = `
   </div>
 
   <!-- ✅ 질문 정리 박스 분리 -->
-  <div style="
-    margin: 32px auto 0;
-    padding: 20px;
-    background-color: rgba(255,255,255,1);
-    border-radius: 12px;
-    color: #111;
-    text-align: left;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    font-size: 16px;
-    width: 90%;
-    max-width: 640px;
-  ">
+<div style="
+  margin: 32px auto 0;
+  padding: 24px 20px; /* 결과 박스와 동일한 padding */
+  background-color: rgba(255,255,255,1);
+  border-radius: 16px; /* 결과 박스와 동일한 radius */
+  color: #111;
+  text-align: left;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* 결과 박스와 동일한 그림자 */
+  font-size: 16px;
+  width: 90%;
+  max-width: 100%;  /* 결과 박스와 동일 */
+  box-sizing: border-box; /* 결과 박스와 동일 */
+">
     <h3 style="color: #000; font-size: 20px; margin-bottom: 16px;">📋 질문 & 답변 정리</h3>
     ${answerListHTML}
   </div>
