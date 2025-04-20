@@ -428,9 +428,9 @@ for (let i = 0; i < total; i++) {
   answerListHTML += `
     <li style="margin-bottom: 12px;">
       <strong>Q${i + 1}.</strong> ${questionText}<br>
-      - ${p1}: ${firstAnswers[i]}<br>
-      - ${p2}: ${secondAnswers[i]}<br>
-      - 결과: <strong style="color:${match ? '#00bfa5' : '#e53935'}">${icon} ${match ? 'TIKI TAKA' : '불일치'}</strong>
+      · ${p1}: ${firstAnswers[i]}<br>
+      · ${p2}: ${secondAnswers[i]}<br>
+      · 결과: <strong style="color:${match ? '#00bfa5' : '#e53935'}">${icon} ${match ? 'TIKI TAKA' : '불일치'}</strong>
     </li>
   `;
 }
