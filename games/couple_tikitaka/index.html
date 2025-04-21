@@ -470,13 +470,9 @@ function showQuestion() {
 
   const startPrompt = document.getElementById("startPrompt");
 
-  // 기존 "나 먼저 시작할게!" 버튼 제거
-  const oldBtn = document.querySelector("#startPrompt .button");
-  if (oldBtn) oldBtn.remove();
-
   // 새 버튼 추가
   const btn = document.createElement("button");
-  btn.innerText = "이젠 내가 맞춰볼께!";
+  btn.innerText = "이젠 내가 TAKA 해볼게!";
   btn.className = "button";
   btn.id = "beginTAKABtn";
   btn.onclick = () => {
