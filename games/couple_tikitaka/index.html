@@ -387,7 +387,7 @@ let selectedQuestions = [];
       document.getElementById("nameForm").style.display = "none";
       document.getElementById("startPrompt").style.display = "block";
       document.getElementById("startText").innerHTML = 
-  `지금, <span style="color:#88f5e1; font-weight:bold;">${p1}</span>님부터 <strong>TIKI</strong>를 시작해보세요.`;
+  `<span style="color:#88f5e1; font-weight:bold;">${p1}</span>님부터 <strong>TIKI</strong>를 시작해보세요.`;
     }
 
 
@@ -466,7 +466,7 @@ function showQuestion() {
 
   // 메시지 변경
   document.getElementById("startText").innerHTML =
-    `💫 이젠 <span style="color:#ffde74; font-weight:bold;">${p2}</span>님 차례예요.<br>서로의 마음을 맞춰볼 시간이에요.`;
+    `💫 이젠 <span style="color:#ffde74; font-weight:bold;">${p2}</span>님이 TAKA할 차례예요.<br>서로의 마음을 맞춰봐요.`;
 
   // ✅ 기존 버튼 제거 (id가 붙은 버튼만 정확히 제거)
   const oldStartBtn = document.getElementById("startGameBtn");
