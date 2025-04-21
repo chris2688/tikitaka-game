@@ -323,7 +323,7 @@ body {
 
   <div id="startPrompt">
     <p id="startText"></p>
-    <button class="button" onclick="startGame()">나 먼저 시작할게!</button>
+    <button class="button" id="startGameBtn" onclick="startGame()">나 먼저 시작할게!</button>
   </div>
 
   <div id="questionBox">
@@ -468,9 +468,12 @@ function showQuestion() {
   document.getElementById("startText").innerHTML =
     `💫 이젠 <span style="color:#ffde74; font-weight:bold;">${p2}</span>님 차례예요.<br>서로의 마음을 맞춰볼 시간이에요.`;
 
-  // ✅ 기존 버튼들 전부 제거 (startPrompt 내 모든 button 제거)
-  const allButtons = document.querySelectorAll("#startPrompt button");
-  allButtons.forEach(btn => btn.remove());
+  // ✅ 기존 버튼 제거 (id가 붙은 버튼만 정확히 제거)
+  const oldStartBtn = document.getElementById("startGameBtn");
+  if (oldStartBtn) oldStartBtn.remove();
+
+  const oldTakabBtn = document.getElementById("beginTAKABtn");
+  if (oldTakabBtn) oldTakabBtn.remove();
 
   // ✅ 새로운 버튼 생성
   const btn = document.createElement("button");
@@ -479,13 +482,12 @@ function showQuestion() {
   btn.id = "beginTAKABtn";
 
   btn.onclick = () => {
-    // 버튼 영역 숨기고, 질문 다시 시작
     document.getElementById("startPrompt").style.display = "none";
     document.getElementById("questionBox").style.display = "block";
 
-    // ❗ 버튼 재활성화는 showQuestion 호출 직후에도 해줘야 확실해
     showQuestion();
 
+    // ❗ 선택 버튼 재활성화
     document.getElementById("btn1").disabled = false;
     document.getElementById("btn2").disabled = false;
   };
