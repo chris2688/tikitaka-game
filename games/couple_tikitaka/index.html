@@ -369,7 +369,7 @@ body {
 let isFirst = true, index = 0;
 let firstAnswers = [], secondAnswers = [], score = 0;
 let selectedQuestions = [];
-let p1QuestionCount = 0;
+
     document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("nameForm").style.display = "block";
     });
@@ -423,9 +423,9 @@ function captureResult() {
 }
     
     function startGame() {
-const newSet = [...questions].filter(q => !selectedQuestions.includes(q)).sort(() => Math.random() - 0.5).slice(0, 5);
-selectedQuestions.push(...newSet);
-p1QuestionCount += newSet.length;
+  selectedQuestions = [...questions]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 5);
 
   document.getElementById("startPrompt").style.display = "none";
   document.getElementById("questionBox").style.display = "block";
@@ -437,20 +437,15 @@ function showQuestion() {
   const questionEl = document.getElementById("question");
   questionEl.className = "question-box";
 
-  const totalCount = selectedQuestions.length;
-  const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
-  const currentRoundStartIndex = isFirst
-    ? firstAnswers.length
-    : secondAnswers.length;
-
-  const currentQuestionNumber = isFirst
-    ? firstAnswers.length + index + 1
-    : firstAnswers.length + index + 1;
-
-  questionEl.innerHTML = `
-    <h2 style="margin: 0; font-size: 18px; color: #003344;">
-      ${phaseLabel} <span style="font-size: 14px; color: #666;">(${currentQuestionNumber}/${p1QuestionCount})</span>
-    </h2>
+const totalCount = selectedQuestions.length;
+const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
+const roundCount = index + 1;
+const totalInRound = selectedQuestions.length;
+    
+questionEl.innerHTML = `
+  <h2 style="margin: 0; font-size: 18px; color: #003344;">
+    ${phaseLabel} <span style="font-size: 14px; color: #666;">(${roundCount} / ${selectedQuestions.length})</span>
+  </h2>
     <p style="
       font-size: clamp(28px, 6.5vw, 42px); 
       font-weight: bold; 
@@ -460,18 +455,16 @@ function showQuestion() {
     ">${selectedQuestions[index]}</p>
   `;
 
-  const progressPercent = Math.round(((index + (isFirst ? 0 : 5)) / questions.length) * 100);
+   const progressPercent = Math.round(((index + (isFirst ? 0 : 5)) / questions.length) * 100);
   document.getElementById("progressBar").style.width = `${progressPercent}%`;
 
   document.getElementById("result").innerText = "";
+
   const btn1 = document.getElementById("btn1");
   const btn2 = document.getElementById("btn2");
-  btn1.onclick = null;
-  btn2.onclick = null;
-    
+
   btn1.innerText = p1;
   btn2.innerText = p2;
-
   btn1.onclick = () => choose(p1);
   btn2.onclick = () => choose(p2);
 }
@@ -487,13 +480,14 @@ function showQuestion() {
   if (isFirst) {
     firstAnswers.push(choice);
     index++;
-   if (index < 4) {
-  showQuestion();
-  // ❌ 중복 및 정의되지 않은 변수 제거
-  // document.getElementById('btn1').disabled = false;
-  // document.getElementById('btn2').disabled = false;
-}
-    else {
+    if (index < 5) {
+      showQuestion();
+    document.getElementById('btn1').disabled = false;
+    document.getElementById('btn2').disabled = false;
+      // 🔓 다시 활성화
+      btn1.disabled = false;
+      btn2.disabled = false;
+} else {
   isFirst = false;
   index = 0;
 
