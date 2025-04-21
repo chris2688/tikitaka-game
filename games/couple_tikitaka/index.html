@@ -24,10 +24,20 @@
   margin-bottom: 60px;
 }
     #startText {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
+   font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding: 16px 24px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  max-width: 90%;
+  word-break: keep-all;
+  white-space: normal;
+  line-height: 1.8;
+  display: inline-block;
+}
     #nameForm, #startPrompt, #questionBox, #finalResult {
       display: none;
     }
@@ -376,7 +386,8 @@ let selectedQuestions = [];
       if (!p1 || !p2) return showAlertPopup("이름을 모두 입력해주세요!");
       document.getElementById("nameForm").style.display = "none";
       document.getElementById("startPrompt").style.display = "block";
-      document.getElementById("startText").innerText = `${p1}님이 먼저 TIKI 하세요.`;
+      document.getElementById("startText").innerHTML = 
+  `지금, <span style="color:#88f5e1; font-weight:bold;">${p1}</span>님부터 <strong>TIKI</strong>를 시작해보세요.`;
     }
 
 
