@@ -460,33 +460,36 @@ function showQuestion() {
   isFirst = false;
   index = 0;
 
-  // 질문 영역 숨기고, 메시지 영역 보여주기
+  // 질문 영역 숨기고, 시작 프롬프트 보여주기
   document.getElementById("questionBox").style.display = "none";
   document.getElementById("startPrompt").style.display = "block";
 
   // 메시지 변경
-  document.getElementById("startText").innerHTML = 
+  document.getElementById("startText").innerHTML =
     `💫 이젠 <span style="color:#ffde74; font-weight:bold;">${p2}</span>님 차례예요.<br>서로의 마음을 맞춰볼 시간이에요.`;
 
-  // ✅ "나 먼저 시작할게!" 버튼 제거
-  const oldStartBtn = document.querySelector("#startPrompt button");
-  if (oldStartBtn) oldStartBtn.remove();
+  // ✅ 기존 버튼들 전부 제거 (startPrompt 내 모든 button 제거)
+  const allButtons = document.querySelectorAll("#startPrompt button");
+  allButtons.forEach(btn => btn.remove());
 
-  // ✅ 새 감성 버튼 추가
+  // ✅ 새로운 버튼 생성
   const btn = document.createElement("button");
   btn.innerText = "이젠 내가 맞춰볼께!";
   btn.className = "button";
   btn.id = "beginTAKABtn";
+
   btn.onclick = () => {
+    // 버튼 영역 숨기고, 질문 다시 시작
     document.getElementById("startPrompt").style.display = "none";
     document.getElementById("questionBox").style.display = "block";
 
-    // ❗ showQuestion 호출 전에 버튼 다시 활성화
+    // ❗ 버튼 재활성화는 showQuestion 호출 직후에도 해줘야 확실해
+    showQuestion();
+
     document.getElementById("btn1").disabled = false;
     document.getElementById("btn2").disabled = false;
-
-    showQuestion();
   };
+
   document.getElementById("startPrompt").appendChild(btn);
 }
   } else {
