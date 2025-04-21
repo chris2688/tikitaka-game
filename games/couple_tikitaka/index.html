@@ -458,7 +458,6 @@ questionEl.innerHTML = `
     text-align: center; 
     padding: 0 8px;
   ">${selectedQuestions[index]}</p>
-`;
 
    const progressPercent = Math.round(((index + (isFirst ? 0 : 5)) / questions.length) * 100);
   document.getElementById("progressBar").style.width = `${progressPercent}%`;
