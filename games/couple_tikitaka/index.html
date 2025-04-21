@@ -1,12 +1,13 @@
 
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>너와 나의 TIKI TAKA</title>
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>너와 나의 TIKI TAKA</title>
+<link href="assets/favicon.ico" rel="icon" type="image/x-icon"/>
+<style>
     body {
       margin: 0;
       font-family: 'Arial', sans-serif;
@@ -310,45 +311,38 @@ body {
   </style>
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  
-  <body>
+<body>
 <div id="background"></div>
-  <h1>너와 나의 TIKI TAKA</h1>
-
-  <div id="nameForm">
-    <input id="player1Name" placeholder="당신의 이름">
-    <input id="player2Name" placeholder="옆사람의 이름">
-    <button class="button" onclick="saveNames()">입력 완료</button>
-  </div>
-
-  <div id="startPrompt">
-    <p id="startText"></p>
-    <button class="button" id="startGameBtn" onclick="startGame()">나 먼저 시작할게!</button>
-  </div>
-
-  <div id="questionBox">
-    <div id="progressBarContainer">
-  <div id="progressBar"></div>
+<h1>너와 나의 TIKI TAKA</h1>
+<div id="nameForm">
+<input id="player1Name" placeholder="당신의 이름"/>
+<input id="player2Name" placeholder="옆사람의 이름"/>
+<button class="button" onclick="saveNames()">입력 완료</button>
 </div>
-    <div id="question"></div>
+<div id="startPrompt">
+<p id="startText"></p>
+<button class="button" id="startGameBtn" onclick="startGame()">나 먼저 시작할게!</button>
+</div>
+<div id="questionBox">
+<div id="progressBarContainer">
+<div id="progressBar"></div>
+</div>
+<div id="question"></div>
 <button class="button choice-button" id="btn1" onclick="">선택 1</button>
 <button class="button choice-button" id="btn2" onclick="">선택 2</button>
-    <div id="result"></div>
-  </div>
-
-  <div id="finalResult"></div>
-<div id="customPopup" style="display: none;">
-  <div id="popupBox">
-    <p id="popupMessage">질문답변도 함께 저장할까요?</p>
-    <div style="margin-top: 20px;">
-      <button onclick="downloadAnswers()" style="margin-right: 10px;">예</button>
-      <button onclick="closePopup()">아니오</button>
-    </div>
-  </div>
+<div id="result"></div>
 </div>
-
-
-  <script>
+<div id="finalResult"></div>
+<div id="customPopup" style="display: none;">
+<div id="popupBox">
+<p id="popupMessage">질문답변도 함께 저장할까요?</p>
+<div style="margin-top: 20px;">
+<button onclick="downloadAnswers()" style="margin-right: 10px;">예</button>
+<button onclick="closePopup()">아니오</button>
+</div>
+</div>
+</div>
+<script>
     const questions = [
       "먼저 사과하는 사람은?",
       "데이트 장소를 더<br>자주 정하는 사람은?",
@@ -392,7 +386,36 @@ let selectedQuestions = [];
 
 
     function startExtraRound() {
-  alert("계속 TIKI TAKA 기능은 아직 구현되지 않았어요!");
+  isFirst = true;
+  index = 0;
+
+  const remaining = questions.filter(q => !selectedQuestions.includes(q));
+  const nextSetCount = Math.min(5, remaining.length);
+  const nextSet = remaining.sort(() => Math.random() - 0.5).slice(0, nextSetCount);
+  selectedQuestions.push(...nextSet);
+
+  document.getElementById("finalResult").style.display = "none";
+  document.getElementById("startPrompt").style.display = "block";
+  document.getElementById("startText").innerHTML = 
+    `<span style="color:#88f5e1; font-weight:bold;">${p1}</span>님부터 <strong>TIKI</strong>를 시작해보세요.`;
+
+  const oldStartBtn = document.getElementById("startGameBtn");
+  if (oldStartBtn) oldStartBtn.remove();
+  const oldTakabBtn = document.getElementById("beginTAKABtn");
+  if (oldTakabBtn) oldTakabBtn.remove();
+
+  const newStartBtn = document.createElement("button");
+  newStartBtn.innerText = "나 먼저 시작할게!";
+  newStartBtn.className = "button";
+  newStartBtn.id = "startGameBtn";
+  newStartBtn.onclick = () => {
+    document.getElementById("startPrompt").style.display = "none";
+    document.getElementById("questionBox").style.display = "block";
+    showQuestion();
+    document.getElementById('btn1').disabled = false;
+    document.getElementById('btn2').disabled = false;
+  };
+  document.getElementById("startPrompt").appendChild(newStartBtn);
 }
 
 function captureResult() {
@@ -407,6 +430,8 @@ function captureResult() {
   document.getElementById("startPrompt").style.display = "none";
   document.getElementById("questionBox").style.display = "block";
   showQuestion();
+    document.getElementById('btn1').disabled = false;
+    document.getElementById('btn2').disabled = false;
 }
 function showQuestion() {
   const questionEl = document.getElementById("question");
@@ -453,6 +478,8 @@ function showQuestion() {
     index++;
     if (index < 5) {
       showQuestion();
+    document.getElementById('btn1').disabled = false;
+    document.getElementById('btn2').disabled = false;
       // 🔓 다시 활성화
       btn1.disabled = false;
       btn2.disabled = false;
@@ -486,6 +513,8 @@ function showQuestion() {
     document.getElementById("questionBox").style.display = "block";
 
     showQuestion();
+    document.getElementById('btn1').disabled = false;
+    document.getElementById('btn2').disabled = false;
 
     // ❗ 선택 버튼 재활성화
     document.getElementById("btn1").disabled = false;
@@ -519,6 +548,10 @@ resultBox.innerHTML = `
     if (index < 5) {
       setTimeout(() => {
         showQuestion();
+    document.getElementById('btn1').disabled = false;
+    document.getElementById('btn2').disabled = false;
+        document.getElementById('btn1').disabled = false;
+        document.getElementById('btn2').disabled = false;
         // 🔓 다음 질문 나오면 버튼 다시 활성화
         btn1.disabled = false;
         btn2.disabled = false;
@@ -715,13 +748,11 @@ function closeAlertPopup() {
 
     
 </script>
-    
 <div id="alertPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.4); z-index: 9999; justify-content: center; align-items: center;">
-  <div style="background: white; padding: 24px 32px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); color: #333; max-width: 90%; text-align: center;">
-    <p id="alertPopupMessage" style="font-size: 18px;">알림 메시지</p>
-    <button onclick="closeAlertPopup()" style="margin-top: 20px; padding: 10px 20px; font-size: 16px; background-color: #88f5e1; border: none; border-radius: 8px; cursor: pointer;">확인</button>
-  </div>
+<div style="background: white; padding: 24px 32px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); color: #333; max-width: 90%; text-align: center;">
+<p id="alertPopupMessage" style="font-size: 18px;">알림 메시지</p>
+<button onclick="closeAlertPopup()" style="margin-top: 20px; padding: 10px 20px; font-size: 16px; background-color: #88f5e1; border: none; border-radius: 8px; cursor: pointer;">확인</button>
 </div>
-    
-  </body>
+</div>
+</body>
 </html>
