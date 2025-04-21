@@ -456,14 +456,32 @@ function showQuestion() {
       // 🔓 다시 활성화
       btn1.disabled = false;
       btn2.disabled = false;
-    } else {
-      isFirst = false;
-      index = 0;
-      showAlertPopup(`${p2}님이 TAKA 할 차례입니다!`);
+} else {
+  isFirst = false;
+  index = 0;
+
+  document.getElementById("questionBox").style.display = "none";
+  document.getElementById("startPrompt").style.display = "block";
+  document.getElementById("startText").innerHTML = 
+    `💫 이젠 <span style="color:#ffde74; font-weight:bold;">${p2}</span>님 차례예요.<br>서로의 마음을 맞춰볼 시간이에요.`;
+
+  const startPrompt = document.getElementById("startPrompt");
+
+  // 버튼이 이미 있다면 중복 생성 방지
+  let existingBtn = document.getElementById("beginTAKABtn");
+  if (!existingBtn) {
+    const btn = document.createElement("button");
+    btn.innerText = "이젠 내가 맞춰볼께!";
+    btn.className = "button";
+    btn.id = "beginTAKABtn";
+    btn.onclick = () => {
+      startPrompt.style.display = "none";
+      document.getElementById("questionBox").style.display = "block";
       showQuestion();
-      btn1.disabled = false;
-      btn2.disabled = false;
-    }
+    };
+    startPrompt.appendChild(btn);
+  }
+}
   } else {
     secondAnswers.push(choice);
     let match = choice === firstAnswers[index];
