@@ -437,15 +437,15 @@ function showQuestion() {
   const questionEl = document.getElementById("question");
   questionEl.className = "question-box";
 
-const totalCount = selectedQuestions.length;
-const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
-const currentRoundStartIndex = isFirst
-  ? firstAnswers.length
-  : secondAnswers.length;
+  const totalCount = selectedQuestions.length;
+  const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
+  const currentRoundStartIndex = isFirst
+    ? firstAnswers.length
+    : secondAnswers.length;
 
-const currentQuestionNumber = isFirst
-  ? firstAnswers.length + index + 1  // 누적된 질문 번호
-  : firstAnswers.length + index + 1; // 동일하게 유지 (두 번째 사람도 동일한 질문 수)
+  const currentQuestionNumber = isFirst
+    ? firstAnswers.length + index + 1
+    : firstAnswers.length + index + 1;
 
   questionEl.innerHTML = `
     <h2 style="margin: 0; font-size: 18px; color: #003344;">
