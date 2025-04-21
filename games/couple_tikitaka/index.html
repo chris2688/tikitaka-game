@@ -369,7 +369,7 @@ body {
 let isFirst = true, index = 0;
 let firstAnswers = [], secondAnswers = [], score = 0;
 let selectedQuestions = [];
-
+let p1QuestionCount = 0;
     document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("nameForm").style.display = "block";
     });
@@ -423,9 +423,9 @@ function captureResult() {
 }
     
     function startGame() {
-  selectedQuestions = [...questions]
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 5);
+const newSet = [...questions].filter(q => !selectedQuestions.includes(q)).sort(() => Math.random() - 0.5).slice(0, 5);
+selectedQuestions.push(...newSet);
+p1QuestionCount += newSet.length;
 
   document.getElementById("startPrompt").style.display = "none";
   document.getElementById("questionBox").style.display = "block";
@@ -439,13 +439,19 @@ function showQuestion() {
 
 const totalCount = selectedQuestions.length;
 const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
-const roundCount = firstAnswers.length + 1;
-const totalInRound = selectedQuestions.length;
-    
+const currentRoundStartIndex = isFirst
+  ? firstAnswers.length
+  : secondAnswers.length;
+
+const currentQuestionNumber = isFirst
+  ? firstAnswers.length + index + 1  // 누적된 질문 번호
+  : firstAnswers.length + index + 1; // 동일하게 유지 (두 번째 사람도 동일한 질문 수)
+
 questionEl.innerHTML = `
-  <h2 style="margin: 0; font-size: 18px; color: #003344;">
-    ${phaseLabel} <span style="font-size: 14px; color: #666;">(${roundCount} / ${selectedQuestions.length})</span>
+ <h2 style="margin: 0; font-size: 18px; color: #003344;">
+    ${phaseLabel} <span style="font-size: 14px; color: #666;">(${currentQuestionNumber}/${p1QuestionCount})</span>
   </h2>
+`;
     <p style="
       font-size: clamp(28px, 6.5vw, 42px); 
       font-weight: bold; 
