@@ -439,9 +439,12 @@ function showQuestion() {
 
   const totalCount = selectedQuestions.length;
 const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
+    const roundCount = index + 1;
+const totalInRound = selectedQuestions.length / 2;
+    
 questionEl.innerHTML = `
-  <h2 style="...">
-    ${phaseLabel} <span style="...">(${index + 1 + (isFirst ? 0 : totalCount / 2)}/${totalCount})</span>
+  <h2 style="margin: 0; font-size: 18px; color: #003344;">
+    ${phaseLabel} <span style="font-size: 14px; color: #666;">(${roundCount}/${totalInRound})</span>
   </h2>
     <p style="
       font-size: clamp(28px, 6.5vw, 42px); 
