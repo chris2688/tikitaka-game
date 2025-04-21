@@ -652,11 +652,35 @@ function downloadAnswers() {
 function closePopup() {
   document.getElementById("customPopup").style.display = "none";
 }
-
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") {
+    closeAlertPopup(); // 확인용 팝업 닫기
+    closePopup();      // 예/아니요 팝업 닫기
+  }
+});
     
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("nameForm").style.display = "block";
 });
+
+function showAlertPopup(message) {
+  document.getElementById("alertPopupMessage").innerText = message;
+  document.getElementById("alertPopup").style.display = "flex";
+}
+
+function closeAlertPopup() {
+  document.getElementById("alertPopup").style.display = "none";
+}
+
+    
 </script>
-</body>
+    
+<div id="alertPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.4); z-index: 9999; justify-content: center; align-items: center;">
+  <div style="background: white; padding: 24px 32px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); color: #333; max-width: 90%; text-align: center;">
+    <p id="alertPopupMessage" style="font-size: 18px;">알림 메시지</p>
+    <button onclick="closeAlertPopup()" style="margin-top: 20px; padding: 10px 20px; font-size: 16px; background-color: #88f5e1; border: none; border-radius: 8px; cursor: pointer;">확인</button>
+  </div>
+</div>
+    
+  </body>
 </html>
