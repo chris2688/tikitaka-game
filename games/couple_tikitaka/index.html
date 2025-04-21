@@ -483,14 +483,13 @@ function showQuestion() {
   if (isFirst) {
     firstAnswers.push(choice);
     index++;
-    if (index < 5) {
-      showQuestion();
-    document.getElementById('btn1').disabled = false;
-    document.getElementById('btn2').disabled = false;
-      // 🔓 다시 활성화
-      btn1.disabled = false;
-      btn2.disabled = false;
-} else {
+   if (index < 5) {
+  showQuestion();
+  // ❌ 중복 및 정의되지 않은 변수 제거
+  // document.getElementById('btn1').disabled = false;
+  // document.getElementById('btn2').disabled = false;
+}
+    else {
   isFirst = false;
   index = 0;
 
