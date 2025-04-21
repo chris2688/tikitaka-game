@@ -438,9 +438,8 @@ function showQuestion() {
   questionEl.className = "question-box";
 
   const totalCount = selectedQuestions.length;
-const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
 const roundCount = index + 1;
-const totalInRound = Math.floor(selectedQuestions.length / 2);
+const totalInRound = 5;
     
 questionEl.innerHTML = `
   <h2 style="margin: 0; font-size: 18px; color: #003344;">
