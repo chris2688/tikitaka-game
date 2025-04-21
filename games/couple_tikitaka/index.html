@@ -466,8 +466,12 @@ function showQuestion() {
   document.getElementById("result").innerText = "";
   const btn1 = document.getElementById("btn1");
   const btn2 = document.getElementById("btn2");
+  btn1.onclick = null;
+  btn2.onclick = null;
+    
   btn1.innerText = p1;
   btn2.innerText = p2;
+
   btn1.onclick = () => choose(p1);
   btn2.onclick = () => choose(p2);
 }
