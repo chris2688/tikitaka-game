@@ -447,27 +447,25 @@ const currentQuestionNumber = isFirst
   ? firstAnswers.length + index + 1  // 누적된 질문 번호
   : firstAnswers.length + index + 1; // 동일하게 유지 (두 번째 사람도 동일한 질문 수)
 
-questionEl.innerHTML = `
-  <h2 style="margin: 0; font-size: 18px; color: #003344;">
-    ${phaseLabel} <span style="font-size: 14px; color: #666;">(${currentQuestionNumber}/${p1QuestionCount})</span>
-  </h2>
-  <p style="
-    font-size: clamp(28px, 6.5vw, 42px); 
-    font-weight: bold; 
-    margin: 8px 0; 
-    text-align: center; 
-    padding: 0 8px;
-  ">${selectedQuestions[index]}</p>
-`;
+  questionEl.innerHTML = `
+    <h2 style="margin: 0; font-size: 18px; color: #003344;">
+      ${phaseLabel} <span style="font-size: 14px; color: #666;">(${currentQuestionNumber}/${p1QuestionCount})</span>
+    </h2>
+    <p style="
+      font-size: clamp(28px, 6.5vw, 42px); 
+      font-weight: bold; 
+      margin: 8px 0; 
+      text-align: center; 
+      padding: 0 8px;
+    ">${selectedQuestions[index]}</p>
+  `;
 
-const progressPercent = Math.round(((index + (isFirst ? 0 : 5)) / questions.length) * 100);
-document.getElementById("progressBar").style.width = `${progressPercent}%`;
+  const progressPercent = Math.round(((index + (isFirst ? 0 : 5)) / questions.length) * 100);
+  document.getElementById("progressBar").style.width = `${progressPercent}%`;
 
   document.getElementById("result").innerText = "";
-
   const btn1 = document.getElementById("btn1");
   const btn2 = document.getElementById("btn2");
-
   btn1.innerText = p1;
   btn2.innerText = p2;
   btn1.onclick = () => choose(p1);
