@@ -468,27 +468,26 @@ function showQuestion() {
   document.getElementById("startText").innerHTML = 
     `💫 이젠 <span style="color:#ffde74; font-weight:bold;">${p2}</span>님 차례예요.<br>서로의 마음을 맞춰볼 시간이에요.`;
 
-  const startPrompt = document.getElementById("startPrompt");
+  // ✅ "나 먼저 시작할게!" 버튼 제거
+  const oldStartBtn = document.querySelector("#startPrompt button");
+  if (oldStartBtn) oldStartBtn.remove();
 
-  // 기존 "나 먼저 시작할게!" 버튼 제거
-  const oldBtn = document.querySelector("#startPrompt .button");
-  if (oldBtn) oldBtn.remove();
-
-  // 새 버튼 추가
+  // ✅ 새 감성 버튼 추가
   const btn = document.createElement("button");
   btn.innerText = "이젠 내가 맞춰볼께!";
   btn.className = "button";
   btn.id = "beginTAKABtn";
   btn.onclick = () => {
-    startPrompt.style.display = "none";
+    document.getElementById("startPrompt").style.display = "none";
     document.getElementById("questionBox").style.display = "block";
-    showQuestion();
 
-    // ✅ 선택 버튼 다시 활성화
+    // ❗ showQuestion 호출 전에 버튼 다시 활성화
     document.getElementById("btn1").disabled = false;
     document.getElementById("btn2").disabled = false;
+
+    showQuestion();
   };
-  startPrompt.appendChild(btn);
+  document.getElementById("startPrompt").appendChild(btn);
 }
   } else {
     secondAnswers.push(choice);
