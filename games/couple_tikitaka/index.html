@@ -437,11 +437,12 @@ function showQuestion() {
   const questionEl = document.getElementById("question");
   questionEl.className = "question-box";
 
-  const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
-  questionEl.innerHTML = `
-    <h2 style="margin: 0; font-size: 18px; color: #003344;">
-      ${phaseLabel} <span style="font-size: 14px; color: #666;">(${index + 1}/5)</span>
-    </h2>
+  const totalCount = selectedQuestions.length;
+const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
+questionEl.innerHTML = `
+  <h2 style="...">
+    ${phaseLabel} <span style="...">(${index + 1 + (isFirst ? 0 : totalCount / 2)}/${totalCount})</span>
+  </h2>
     <p style="
       font-size: clamp(28px, 6.5vw, 42px); 
       font-weight: bold; 
