@@ -437,7 +437,8 @@ function showQuestion() {
   const questionEl = document.getElementById("question");
   questionEl.className = "question-box";
 
-  const totalCount = selectedQuestions.length;
+const totalCount = selectedQuestions.length;
+const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
 const roundCount = index + 1;
 const totalInRound = 5;
     
