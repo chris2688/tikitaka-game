@@ -431,6 +431,12 @@ let selectedQuestions = [];
   document.getElementById("startPrompt").appendChild(newStartBtn);
 }
 
+btn1.innerText = p1;
+btn2.innerText = p2;
+btn1.onclick = () => choose(p1);
+btn2.onclick = () => choose(p2);
+
+    
 function captureResult() {
   alert("공유하기 기능은 준비 중입니다!");
 }
