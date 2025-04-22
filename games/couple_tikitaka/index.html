@@ -381,10 +381,23 @@ body {
 <input id="player1Name" placeholder="당신의 이름"/>
 <input id="player2Name" placeholder="옆사람의 이름"/>
 <button class="button" onclick="saveNames()">입력 완료</button>
-  <div id="nameFooterMessage" style="margin-top: 40px; font-size: 14px; color: #ccc;">
+   <div id="nameFooterMessage" style="
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: white;
+    text-align: center;
+    line-height: 1.6;
+    z-index: 10;
+    pointer-events: none;
+  ">
     이름을 부르는 순간, 리듬은 시작된다.<br>
-    <span style="font-size: 13px; opacity: 0.85;">피부처럼 가볍고, 대화처럼 자연스럽게 — <strong style="color:#88f5e1;">TIKI TAKA</strong></span>
-  </div>   
+    <span style="font-size: 13px; opacity: 0.9;">
+      피부처럼 가볍고, 대화처럼 자연스럽게 — <strong style="color:#88f5e1;">TIKI TAKA</strong>
+    </span>
+  </div>
 </div>
 <div id="startPrompt">
 <p id="startText"></p>
