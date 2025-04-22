@@ -228,8 +228,8 @@
 window.addEventListener("beforeunload", () => {
   localStorage.setItem("capRotation", rotation);
   localStorage.setItem("capSrc", document.getElementById("cap").src);
-  localStorage.setItem("gameTitle", document.getElementById("gameTitle").innerText);
-  localStorage.setItem("instructionText", document.getElementById("instruction").innerText);
+// localStorage.setItem("gameTitle", document.getElementById("gameTitle").innerText);
+ // localStorage.setItem("instructionText", document.getElementById("instruction").innerText);
 });
 window.addEventListener("DOMContentLoaded", () => {
   const savedRotation = localStorage.getItem("capRotation");
