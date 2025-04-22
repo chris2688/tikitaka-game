@@ -389,17 +389,6 @@ let selectedQuestions = [];
     }
 
 
-   function startExtraRound() {
-  // 라운드 수 증가 및 누적 질문 수 갱신
-  currentRound++;
-  const remaining = questions.filter(q => !selectedQuestions.includes(q));
-  const nextSet = remaining
-    .sort(() => Math.random() - 0.5)
-    .slice(0, questionsPerRound);
-  selectedQuestions.push(...nextSet);
-  totalQuestionsAsked += nextSet.length;
-
-
 function startExtraRound() {
   // 남은 질문 계산
   const remaining = questions.filter(q => !selectedQuestions.includes(q));
