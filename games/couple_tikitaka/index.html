@@ -439,38 +439,36 @@ function showQuestion() {
   const questionEl = document.getElementById("question");
   questionEl.className = "question-box";
 
-const answeredCount = isFirst ? firstAnswers.length : secondAnswers.length;
-const roundNumberDisplay = Math.floor(answeredCount / 5) + 1;
-const totalAnswered = firstAnswers.length;
-const totalCount = firstAnswers.length + secondAnswers.length < 5 ? 5 : selectedQuestions.length * 2;
-const currentQuestionNumber = totalAnswered + index + 1;
+  // ✅ 라운드 번호 및 현재 질문 번호 계산
+  const totalAnswered = firstAnswers.length + secondAnswers.length;
+  const currentQuestionNumber = totalAnswered + 1;
+  const totalCount = firstAnswers.length + selectedQuestions.length;
+  const currentRound = Math.floor(totalAnswered / 5) + 1;
 
-const totalCount = selectedQuestions.length;
-const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
-const roundCount = index + 1;
-const totalInRound = selectedQuestions.length;
-    
-questionEl.innerHTML = `
-  <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
-    <div style="font-size: 14px; color: #666;">${roundNumberDisplay}라운드</div>
+  const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
+
+  // ✅ 질문 텍스트 렌더링
+  questionEl.innerHTML = `
+  <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
     <h2 style="margin: 0; font-size: 18px; color: #003344;">
-      ${phaseLabel} <span style="font-size: 14px; color: #666;">(${currentQuestionNumber} / ${totalCount})</span>
+      ${phaseLabel} <span style="font-size: 14px; color: #666;">(${currentQuestionNumber} / ${firstAnswers.length + secondAnswers.length + (selectedQuestions.length - index)})</span>
     </h2>
+    <div style="font-size: 14px; color: #666; font-weight: bold;">${currentRound}라운드</div>
   </div>
-  <p style="
-    font-size: clamp(28px, 6.5vw, 42px); 
-    font-weight: bold; 
-    margin: 8px 0; 
-    text-align: center; 
-    padding: 0 8px;
-  ">${selectedQuestions[index]}</p>
-`;
+    <p style="
+      font-size: clamp(28px, 6.5vw, 42px); 
+      font-weight: bold; 
+      margin: 16px 0 0 0; 
+      text-align: center; 
+      padding: 0 8px;
+    ">${selectedQuestions[index]}</p>
+  `;
 
-   const progressPercent = Math.round(((index + (isFirst ? 0 : 5)) / questions.length) * 100);
+  // ✅ 프로그레스바 갱신
+  const progressPercent = Math.round((totalAnswered / questions.length) * 100);
   document.getElementById("progressBar").style.width = `${progressPercent}%`;
 
-  document.getElementById("result").innerText = "";
-
+  // ✅ 버튼 텍스트 및 동작 설정
   const btn1 = document.getElementById("btn1");
   const btn2 = document.getElementById("btn2");
 
@@ -478,6 +476,8 @@ questionEl.innerHTML = `
   btn2.innerText = p2;
   btn1.onclick = () => choose(p1);
   btn2.onclick = () => choose(p2);
+
+  document.getElementById("result").innerText = "";
 }
 
    function choose(choice) {
