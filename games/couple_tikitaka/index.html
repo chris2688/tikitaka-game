@@ -442,7 +442,7 @@ function showQuestion() {
   // ✅ 라운드 번호 및 현재 질문 번호 계산
   const totalAnswered = firstAnswers.length + secondAnswers.length;
   const currentQuestionNumber = totalAnswered + 1;
-  const totalCount = firstAnswers.length + selectedQuestions.length;
+  const totalCount = firstAnswers.length + (isFirst ? selectedQuestions.length : 0);
   const completedRounds = Math.floor(firstAnswers.length / 5);
   const currentRound = completedRounds + 1;
   const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
