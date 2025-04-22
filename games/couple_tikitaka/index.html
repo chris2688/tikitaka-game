@@ -392,16 +392,19 @@ body {
   line-height: 1.6;
   z-index: 10;
   pointer-events: none;
-  background-color: rgba(0, 0, 0, 0.4); /* 어두운 반투명 배경 추가 */
+  background-color: rgba(0, 0, 0, 0.4); /* 어두운 반투명 배경 */
   padding: 12px 16px;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  max-width: 92vw;  /* ✅ 더 넓은 최대 폭 설정 */
+  width: 100%;
+  box-sizing: border-box;
 ">
   이름을 부르는 순간, 리듬은 시작된다.<br>
   <span style="font-size: 13px; color: #ffffff;">
     피부처럼 가볍고, 대화처럼 자연스럽게 — <strong style="color:#88f5e1;">TIKI TAKA</strong>
   </span>
-  </div>
+</div>
 </div>
 <div id="startPrompt">
 <p id="startText"></p>
