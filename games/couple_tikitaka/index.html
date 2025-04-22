@@ -390,6 +390,10 @@ let selectedQuestions = [];
   isFirst = true;
   roundNumber++;
   index = 0;
+        if (selectedQuestions.length >= questions.length) {
+  alert("더 이상 질문이 없습니다!");
+  return;
+}
 
   const remaining = questions.filter(q => !selectedQuestions.includes(q));
   const nextSetCount = Math.min(5, remaining.length);
