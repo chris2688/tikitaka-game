@@ -439,14 +439,16 @@ function showQuestion() {
   const questionEl = document.getElementById("question");
   questionEl.className = "question-box";
 
+const roundNumber = Math.floor(firstAnswers.length / 5) + (isFirst ? 1 : 2);
+
 const totalCount = selectedQuestions.length;
 const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
 const roundCount = index + 1;
 const totalInRound = selectedQuestions.length;
     
 questionEl.innerHTML = `
-   <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-    <h2 style="margin: 0; font-size: 18px; color: #003344;">
+  <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+    <h2 style="margin: 0; font-size: 18px; color: #003344; flex: 1;">
     ${phaseLabel} <span style="font-size: 14px; color: #666;">(${roundCount} / ${selectedQuestions.length})</span>
   </h2>
     <p style="
