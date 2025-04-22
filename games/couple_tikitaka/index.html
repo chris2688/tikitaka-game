@@ -365,7 +365,8 @@ body {
       "이런 공감, 흔치 않아요~!"
     ];
 
- let p1 = "", p2 = "";
+let p1 = "", p2 = "";
+let roundNumber = 1;
 let isFirst = true, index = 0;
 let firstAnswers = [], secondAnswers = [], score = 0;
 let selectedQuestions = [];
@@ -387,6 +388,7 @@ let selectedQuestions = [];
 
     function startExtraRound() {
   isFirst = true;
+  roundNumber++;
   index = 0;
 
   const remaining = questions.filter(q => !selectedQuestions.includes(q));
@@ -443,7 +445,8 @@ const roundCount = index + 1;
 const totalInRound = selectedQuestions.length;
     
 questionEl.innerHTML = `
-  <h2 style="margin: 0; font-size: 18px; color: #003344;">
+   <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+    <h2 style="margin: 0; font-size: 18px; color: #003344;">
     ${phaseLabel} <span style="font-size: 14px; color: #666;">(${roundCount} / ${selectedQuestions.length})</span>
   </h2>
     <p style="
