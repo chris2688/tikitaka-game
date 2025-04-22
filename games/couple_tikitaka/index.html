@@ -439,7 +439,11 @@ function showQuestion() {
   const questionEl = document.getElementById("question");
   questionEl.className = "question-box";
 
-const roundNumber = Math.floor(firstAnswers.length / 5) + (isFirst ? 1 : 2);
+const answeredCount = isFirst ? firstAnswers.length : secondAnswers.length;
+const roundNumberDisplay = Math.floor(answeredCount / 5) + 1;
+const totalAnswered = firstAnswers.length;
+const totalCount = firstAnswers.length + secondAnswers.length < 5 ? 5 : selectedQuestions.length * 2;
+const currentQuestionNumber = totalAnswered + index + 1;
 
 const totalCount = selectedQuestions.length;
 const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
@@ -447,18 +451,20 @@ const roundCount = index + 1;
 const totalInRound = selectedQuestions.length;
     
 questionEl.innerHTML = `
-  <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-    <h2 style="margin: 0; font-size: 18px; color: #003344; flex: 1;">
-    ${phaseLabel} <span style="font-size: 14px; color: #666;">(${roundCount} / ${selectedQuestions.length})</span>
-  </h2>
-    <p style="
-      font-size: clamp(28px, 6.5vw, 42px); 
-      font-weight: bold; 
-      margin: 8px 0; 
-      text-align: center; 
-      padding: 0 8px;
-    ">${selectedQuestions[index]}</p>
-  `;
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+    <div style="font-size: 14px; color: #666;">${roundNumberDisplay}라운드</div>
+    <h2 style="margin: 0; font-size: 18px; color: #003344;">
+      ${phaseLabel} <span style="font-size: 14px; color: #666;">(${currentQuestionNumber} / ${totalCount})</span>
+    </h2>
+  </div>
+  <p style="
+    font-size: clamp(28px, 6.5vw, 42px); 
+    font-weight: bold; 
+    margin: 8px 0; 
+    text-align: center; 
+    padding: 0 8px;
+  ">${selectedQuestions[index]}</p>
+`;
 
    const progressPercent = Math.round(((index + (isFirst ? 0 : 5)) / questions.length) * 100);
   document.getElementById("progressBar").style.width = `${progressPercent}%`;
