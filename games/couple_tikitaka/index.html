@@ -579,27 +579,27 @@ function showQuestion() {
   const baseIndex = (currentRound - 1) * questionsPerRound;
 
 
-  questionEl.innerHTML = `
+    questionEl.innerHTML = \`
     <!-- 라운드 표시: 우측 상단 -->
     <span class="round-indicator">
-      ${currentRound}라운드
+      \${currentRound}라운드
     </span>
 
-    <h2 style="margin: 0; font-size: 18px; color: #003344;">
-      ${phaseLabel} <span style="font-size: 14px; color: #666;">
-        (${index + 1}/${questionsPerRound})
-      </span>
-   </h2>
+    <h2 style="margin:0; font-size:18px; color:#003344;">
+      \${phaseLabel} <span style="font-size:14px; color:#666;">
+       (\${index+1}/\${questionsPerRound})
+     </span>
+    </h2>
     <p style="
-      font-size: clamp(28px, 6.5vw, 42px); 
-      font-weight: bold; 
-      margin: 8px 0; 
-      text-align: center; 
-      padding: 0 8px;
+      font-size:clamp(28px,6.5vw,42px);
+      font-weight:bold;
+      margin:8px 0;
+      text-align:center;
+      padding:0 8px;
     ">
-      ${selectedQuestions[baseIndex + index]}
+      \${selectedQuestions[baseIndex + index]}
     </p>
-  `;
+  \`;
 
     
 
