@@ -777,30 +777,51 @@ const ending = endings[Math.floor(Math.random() * endings.length)];
     : 0;  // 문항이 없으면 0%
 
 let answerListHTML = "<ul style='list-style:none; padding:0; text-align:left;'>";
-
 for (let i = 0; i < total; i++) {
   const questionText = selectedQuestions[i].replace(/<br>/g, ' ');
   const match = firstAnswers[i] === secondAnswers[i];
   const icon = match ? "⭕" : "❌";
 
-answerListHTML += `
-  <li style="margin-bottom: 20px;">
-    <div style="line-height: 1.6; font-size: 16px;">
-      <strong>Q${i + 1}.</strong> ${questionText}
-    </div>
-    <div style="margin-top: 4px;">· ${p1}: ${firstAnswers[i]}</div>
-    <div style="margin-top: 4px;">· ${p2}: ${secondAnswers[i]}</div>
-    <div style="margin-top: 4px;">
-      · 결과: 
-      <span style="color: #e53935; font-weight: bold;">${icon}</span>
-      ${
-        match
-          ? '<span style="color: #00bfa5; font-weight: bold;"> TIKI TAKA</span>'
-          : '<span style="color: #000; font-weight: bold;"> 불일치</span>'
-      }
-    </div>
-  </li>
-`;
+  answerListHTML += `
+    <li style="margin-bottom: 24px;">
+      <!-- 질문 -->
+      <div style="
+        display: block;
+        margin-bottom: 8px;
+        font-size: 16px;
+        line-height: 1.6;
+        white-space: normal;
+        word-break: break-word;
+      ">
+        <strong>Q${i + 1}.</strong> ${questionText}
+      </div>
+      <!-- 답변들 -->
+      <div style="
+        margin: 0 0 4px 16px;
+        font-size: 14px;
+        line-height: 1.4;
+      ">
+        · ${p1}: ${firstAnswers[i]}
+      </div>
+      <div style="
+        margin: 0 0 4px 16px;
+        font-size: 14px;
+        line-height: 1.4;
+      ">
+        · ${p2}: ${secondAnswers[i]}
+      </div>
+      <!-- 결과 -->
+      <div style="
+        margin: 0 0 0 16px;
+        font-size: 14px;
+        line-height: 1.4;
+      ">
+        · 결과: <span style="color: ${match ? '#00bfa5' : '#e53935'}; font-weight:bold;">
+          ${icon} ${match ? 'TIKI TAKA' : '불일치'}
+        </span>
+      </div>
+    </li>
+  `;
 }
 answerListHTML += "</ul>";
 
