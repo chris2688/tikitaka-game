@@ -580,14 +580,8 @@ function showQuestion() {
 
     questionEl.innerHTML = `
     <!-- 라운드 표시: 우측 상단 -->
-    <span style="
-      position: absolute;
-      top: 8px;
-      right: 12px;
-      font-size: 14px;
-      font-weight: 600;
-      color: #666;
-   ">
+  questionEl.innerHTML = `
+    <span class="round-indicator">
       ${currentRound}라운드
     </span>
 
