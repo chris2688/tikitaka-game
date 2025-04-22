@@ -786,12 +786,13 @@ resultBox.innerHTML = `
     } else {
       setTimeout(() => {
 document.getElementById("questionBox").style.display = "none";
-const ending = getEndingByPercentage(percentage);
-  // ▶ 1~N라운드 누적 문항 수(totalQuestionsAsked)를 분모로 사용
+
   const total = totalQuestionsAsked;  
   const percentage = total > 0
     ? Math.round((score / total) * 100)
-    : 0;  // 문항이 없으면 0%
+    : 0; 
+
+const ending = getEndingByPercentage(percentage);
 
 let answerListHTML = "<ul style='list-style:none; padding:0; text-align:left;'>";
 for (let i = 0; i < total; i++) {
