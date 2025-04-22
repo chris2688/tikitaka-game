@@ -313,9 +313,6 @@ body {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <body>
 <div id="background"></div>
-<input type="hidden" id="hiddenP1" />
-<input type="hidden" id="hiddenP2" />
-
 <h1>너와 나의 TIKI TAKA</h1>
 <div id="nameForm">
 <input id="player1Name" placeholder="당신의 이름"/>
@@ -378,66 +375,20 @@ let selectedQuestions = [];
       document.getElementById("nameForm").style.display = "block";
     });
 
-     function saveNames() {
-      p1 = document.getElementById("player1Name").value.trim();
-      p2 = document.getElementById("player2Name").value.trim();
-
+    function saveNames() {
+      p1 = document.getElementById("player1Name").value;
+      p2 = document.getElementById("player2Name").value;
       if (!p1 || !p2) return showAlertPopup("이름을 모두 입력해주세요!");
 
-      // 👇 숨겨진 input에도 저장
-      document.getElementById("hiddenP1").value = p1;
-      document.getElementById("hiddenP2").value = p2;
-
+        console.log("플레이어 이름 저장됨:", p1, p2);
+        
       document.getElementById("nameForm").style.display = "none";
       document.getElementById("startPrompt").style.display = "block";
-      document.getElementById("startText").innerHTML = `<span style="color:#88f5e1; font-weight:bold;">${p1}</span>님부터 <strong>TIKI</strong>를 시작해보세요.`;
+      document.getElementById("startText").innerHTML = 
+  `<span style="color:#88f5e1; font-weight:bold;">${p1}</span>님부터 <strong>TIKI</strong>를 시작해보세요.`;
     }
 
-    function startGame() {
-      // 👇 숨겨진 input에서 다시 불러오기
-      p1 = document.getElementById("hiddenP1").value;
-      p2 = document.getElementById("hiddenP2").value;
 
-      if (!p1 || !p2) {
-        showAlertPopup("이름을 모두 입력해주세요!");
-        return;
-      }
-
-      selectedQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 5);
-
-      document.getElementById("startPrompt").style.display = "none";
-      document.getElementById("questionBox").style.display = "block";
-      showQuestion();
-      document.getElementById("btn1").disabled = false;
-      document.getElementById("btn2").disabled = false;
-    }
-
-    function showQuestion() {
-      // ✅ 안전하게 다시 가져오기
-      p1 = document.getElementById("hiddenP1").value || p1;
-      p2 = document.getElementById("hiddenP2").value || p2;
-      console.log("showQuestion() →", p1, p2);
-
-      const btn1 = document.getElementById("btn1");
-      const btn2 = document.getElementById("btn2");
-
-      btn1.innerText = p1;
-      btn2.innerText = p2;
-      btn1.onclick = () => choose(p1);
-      btn2.onclick = () => choose(p2);
-
-      document.getElementById("result").innerText = "";
-      // ✅ 질문 텍스트 업데이트
-      document.getElementById("question").innerHTML = `<div class="question-box"><p style="font-size: 28px; font-weight: bold;">${selectedQuestions[index]}</p></div>`;
-    }
-
-    function showAlertPopup(message) {
-      document.getElementById("alertPopupMessage").innerText = message;
-      document.getElementById("alertPopup").style.display = "flex";
-    }
-    function closeAlertPopup() {
-      document.getElementById("alertPopup").style.display = "none";
-    }
     function startExtraRound() {
   isFirst = true;
   roundNumber++;
@@ -500,11 +451,6 @@ function captureResult() {
     document.getElementById('btn2').disabled = false;
 }
 function showQuestion() {
-  if (!p1 || !p2) {
-    p1 = document.getElementById("player1Name")?.value?.trim() || p1;
-    p2 = document.getElementById("player2Name")?.value?.trim() || p2;
-  }
-  console.log("showQuestion에서 p1:", p1, " / p2:", p2);
   const questionEl = document.getElementById("question");
   questionEl.className = "question-box";
 
