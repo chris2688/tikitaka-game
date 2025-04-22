@@ -161,24 +161,29 @@ input {
 .round-indicator.round-10 { background: #ffd54f; }  /* 파스텔 골드 */
 
 
-#answerSummaryBox ul li > div:first-child {
-  margin-bottom: 12px;       
-  padding: 0;                
-  white-space: normal;       
-  word-break: break-word;    
-  line-height: 1.6;          
+#answerSummaryBox ul {
+  list-style: none;    /* ● 기본 불릿 없애기 */
+  margin: 0;           
+  padding: 0;
 }
-
-
-#answerSummaryBox ul li > div + div {
-  margin-top: 4px;
-  margin-left: 16px;
-}
-
 
 #answerSummaryBox ul li {
-  margin-bottom: 24px;
+  margin-bottom: 24px; /* 다음 문항과 겹치지 않도록 */
 }
+
+#answerSummaryBox ul li > div:first-child {
+  display: block;
+  white-space: normal !important;  /* 정상적인 줄 바꿈 */
+  word-break: break-word;
+  line-height: 1.6;
+  margin-bottom: 8px;              /* 질문과 답변 간 간격 */
+}
+
+#answerSummaryBox ul li > div:not(:first-child) {
+  margin-left: 16px;
+  line-height: 1.4;
+}
+    
     
 .icon-button {
   margin: 0 4px;
