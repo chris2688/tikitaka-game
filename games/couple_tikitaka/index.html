@@ -570,6 +570,7 @@ function startGame() {
   document.getElementById('btn1').disabled = false;
   document.getElementById('btn2').disabled = false;
 }
+    
 function showQuestion() {
   const questionEl = document.getElementById("question");
   questionEl.className = "question-box";
@@ -579,8 +580,8 @@ function showQuestion() {
   const baseIndex = (currentRound - 1) * questionsPerRound;
 
 
+  // 우측 상단에 라운드 배지
   questionEl.innerHTML = `
-    <!-- 라운드 표시: 우측 상단 -->
     <span class="round-indicator">
       ${currentRound}라운드
     </span>
