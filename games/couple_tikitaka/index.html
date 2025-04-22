@@ -436,23 +436,23 @@ function captureResult() {
 }
     
     function startGame() {
-  p1 = document.getElementById("player1Name").value.trim();
-  p2 = document.getElementById("player2Name").value.trim();
+  p1 = document.getElementById("hiddenP1").value.trim();
+  p2 = document.getElementById("hiddenP2").value.trim();
 
-          if (!p1 || !p2) {
+ if (!p1 || !p2) {
     showAlertPopup("이름을 모두 입력해주세요!");
     return;
   }
         
-    selectedQuestions = [...questions]
+  selectedQuestions = [...questions]
     .sort(() => Math.random() - 0.5)
     .slice(0, 5);
 
   document.getElementById("startPrompt").style.display = "none";
   document.getElementById("questionBox").style.display = "block";
   showQuestion();
-    document.getElementById('btn1').disabled = false;
-    document.getElementById('btn2').disabled = false;
+  document.getElementById('btn1').disabled = false;
+  document.getElementById('btn2').disabled = false;
 }
 function showQuestion() {
   const questionEl = document.getElementById("question");
