@@ -232,16 +232,17 @@
     });
 
     // Restore rotation after reload
-    window.addEventListener("load", () => {
-      const savedRotation = sessionStorage.getItem("rotation");
-      if (savedRotation !== null) {
-        rotation = parseInt(savedRotation, 10);
-        cap.style.transform = `rotate(${rotation}deg)`;
-      }
-    });
-   
-document.getElementById("instruction").innerText =
-  "👆 소주병을 터치해서 돌려보세요!\n술자리의 리듬, 피부의 리듬\n둘 다 TIKI TAKA";
+window.addEventListener("load", () => {
+  const savedRotation = sessionStorage.getItem("rotation");
+  if (savedRotation !== null) {
+    rotation = parseInt(savedRotation, 10);
+    cap.style.transform = `rotate(${rotation}deg)`;
+  }
+
+  // ✅ 홍보 문구 삽입 (load 이후 안전하게 삽입)
+  const instruction = document.getElementById("instruction");
+  instruction.innerHTML = "👆 소주병을 터치해서 돌려보세요!<br>술자리의 리듬, 피부의 리듬<br>둘 다 TIKI TAKA 🌿";
+});
    
 </script>
 </body>
