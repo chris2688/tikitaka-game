@@ -451,8 +451,10 @@ function captureResult() {
     document.getElementById('btn2').disabled = false;
 }
 function showQuestion() {
-  p1 = document.getElementById("player1Name").value.trim();
-  p2 = document.getElementById("player2Name").value.trim();
+  if (!p1 || !p2) {
+    p1 = document.getElementById("player1Name")?.value?.trim() || p1;
+    p2 = document.getElementById("player2Name")?.value?.trim() || p2;
+  }
   console.log("showQuestion에서 p1:", p1, " / p2:", p2);
   const questionEl = document.getElementById("question");
   questionEl.className = "question-box";
