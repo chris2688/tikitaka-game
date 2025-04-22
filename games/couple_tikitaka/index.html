@@ -401,14 +401,14 @@ let selectedQuestions = [];
 
 
 function startExtraRound() {
-  // — 남은 질문을 가져와서, 없으면 알림만 띄우고 종료 —
+  // 남은 질문 계산
   const remaining = questions.filter(q => !selectedQuestions.includes(q));
   if (remaining.length === 0) {
     showAlertPopup("더 이상 질문이 없습니다!");
     return;
   }
 
- // 라운드 수 증가 및 누적 질문 수 갱신
+  // 라운드 수 증가 및 누적 질문 수 갱신
   currentRound++;
   const nextSet = remaining
     .sort(() => Math.random() - 0.5)
@@ -416,8 +416,6 @@ function startExtraRound() {
   selectedQuestions.push(...nextSet);
   totalQuestionsAsked += nextSet.length;
 
-
-       
   // 상태 초기화
   isFirst = true;
   index = 0;
@@ -448,6 +446,10 @@ function startExtraRound() {
   };
   document.getElementById("startPrompt").appendChild(newBtn);
 }
+
+
+       
+       
 function captureResult() {
   alert("공유하기 기능은 준비 중입니다!");
 }
