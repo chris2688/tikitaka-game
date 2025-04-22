@@ -141,6 +141,16 @@ input {
   z-index: 1;
 }
 
+.round-indicator.round-1  { background: #88f5e1; }  /* 파스텔 민트 */
+.round-indicator.round-2  { background: #ffde74; }  /* 파스텔 옐로우 */
+.round-indicator.round-3  { background: #a8e6cf; }  /* 파스텔 그린 */
+.round-indicator.round-4  { background: #ffd3b6; }  /* 파스텔 피치 */
+.round-indicator.round-5  { background: #ffaaa5; }  /* 파스텔 코랄 */
+.round-indicator.round-6  { background: #dcedc1; }  /* 파스텔 연두 */
+.round-indicator.round-7  { background: #ff8b94; }  /* 파스텔 핑크 */
+.round-indicator.round-8  { background: #8fcaca; }  /* 파스텔 틸 */
+.round-indicator.round-9  { background: #cfbaf0; }  /* 파스텔 라일락 */
+.round-indicator.round-10 { background: #ffd54f; }  /* 파스텔 골드 */
     
 .icon-button {
   margin: 0 4px;
@@ -579,10 +589,12 @@ function showQuestion() {
   const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
   const baseIndex = (currentRound - 1) * questionsPerRound;
 
+  // 라운드 번호를 1~10 사이로 순환
+  const badgeRound = ((currentRound - 1) % 10) + 1;
 
   // 우측 상단에 라운드 배지
   questionEl.innerHTML = `
-    <span class="round-indicator">
+   <span class="round-indicator round-${badgeRound}">
       ${currentRound}라운드
     </span>
 
