@@ -228,24 +228,26 @@
 window.addEventListener("beforeunload", () => {
   localStorage.setItem("capRotation", rotation);
   localStorage.setItem("capSrc", document.getElementById("cap").src);
-// localStorage.setItem("gameTitle", document.getElementById("gameTitle").innerText);
- // localStorage.setItem("instructionText", document.getElementById("instruction").innerText);
+  // localStorage.setItem("gameTitle", document.getElementById("gameTitle").innerText); // 저장 안함
+  // localStorage.setItem("instructionText", document.getElementById("instruction").innerText); // 저장 안함
 });
+
 window.addEventListener("DOMContentLoaded", () => {
   const savedRotation = localStorage.getItem("capRotation");
   const savedCapSrc = localStorage.getItem("capSrc");
-  const savedTitle = localStorage.getItem("gameTitle");
-   
+
+  document.getElementById("gameTitle").innerText = "소주 뚜껑 룰렛";
   document.getElementById("instruction").innerHTML =
-  "👆 소주 뚜껑을 터치해서 돌려보세요!<br><span style='font-size:14px;'>당신의 하루도, 피부도 가볍게<br>TIKI TAKA 🌿</span>";
-   
+    "👆 소주 뚜껑을 터치해서 돌려보세요!<br><span style='font-size:14px;'>당신의 하루도, 피부도 가볍게<br>TIKI TAKA 🌿</span>";
+
   if (savedRotation) {
     rotation = parseInt(savedRotation);
     document.getElementById("cap").style.transform = `rotate(${rotation}deg)`;
   }
-  if (savedCapSrc) document.getElementById("cap").src = savedCapSrc;
-  if (savedTitle) document.getElementById("gameTitle").innerText = savedTitle;
-  if (savedInstruction) document.getElementById("instruction").innerText = savedInstruction;
+
+  if (savedCapSrc) {
+    document.getElementById("cap").src = savedCapSrc;
+  }
 });
 </script>
 </body>
