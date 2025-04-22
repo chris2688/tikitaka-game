@@ -443,8 +443,8 @@ function showQuestion() {
   const totalAnswered = firstAnswers.length + secondAnswers.length;
   const currentQuestionNumber = totalAnswered + 1;
   const totalCount = firstAnswers.length + selectedQuestions.length;
-  const currentRound = Math.floor(totalAnswered / 5) + 1;
-
+  const completedRounds = Math.floor(firstAnswers.length / 5);
+  const currentRound = completedRounds + 1;
   const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
 
   // ✅ 질문 텍스트 렌더링
