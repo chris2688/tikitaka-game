@@ -648,9 +648,12 @@ function showQuestion() {
   document.getElementById("startPrompt").appendChild(btn);
 }
   } else {
+
     secondAnswers.push(choice);
-    let match = choice === firstAnswers[index];
+    const globalIndex = (currentRound - 1) * questionsPerRound + index;
+    const match = choice === firstAnswers[globalIndex];
     if (match) score++;
+
     const resultBox = document.getElementById("result");
 resultBox.innerHTML = `
   <div style="
