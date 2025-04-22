@@ -365,8 +365,7 @@ body {
       "이런 공감, 흔치 않아요~!"
     ];
 
-let p1 = "", p2 = "";
-let roundNumber = 1;
+ let p1 = "", p2 = "";
 let isFirst = true, index = 0;
 let firstAnswers = [], secondAnswers = [], score = 0;
 let selectedQuestions = [];
@@ -379,9 +378,6 @@ let selectedQuestions = [];
       p1 = document.getElementById("player1Name").value;
       p2 = document.getElementById("player2Name").value;
       if (!p1 || !p2) return showAlertPopup("이름을 모두 입력해주세요!");
-
-        console.log("플레이어 이름 저장됨:", p1, p2);
-        
       document.getElementById("nameForm").style.display = "none";
       document.getElementById("startPrompt").style.display = "block";
       document.getElementById("startText").innerHTML = 
@@ -391,12 +387,7 @@ let selectedQuestions = [];
 
     function startExtraRound() {
   isFirst = true;
-  roundNumber++;
   index = 0;
-        if (selectedQuestions.length >= questions.length) {
-  alert("더 이상 질문이 없습니다!");
-  return;
-}
 
   const remaining = questions.filter(q => !selectedQuestions.includes(q));
   const nextSetCount = Math.min(5, remaining.length);
@@ -432,15 +423,7 @@ function captureResult() {
 }
     
     function startGame() {
-  p1 = document.getElementById("player1Name").value.trim();
-  p2 = document.getElementById("player2Name").value.trim();
-
-          if (!p1 || !p2) {
-    showAlertPopup("이름을 모두 입력해주세요!");
-    return;
-  }
-        
-    selectedQuestions = [...questions]
+  selectedQuestions = [...questions]
     .sort(() => Math.random() - 0.5)
     .slice(0, 5);
 
@@ -454,48 +437,32 @@ function showQuestion() {
   const questionEl = document.getElementById("question");
   questionEl.className = "question-box";
 
-  // ✅ 라운드 번호 및 현재 질문 번호 계산
-const questionsPerRound = 5;
-const player1Count = firstAnswers.length;
-const completedRounds = Math.floor(player1Count / questionsPerRound);
-const currentRound = completedRounds + 1;
-const currentQuestionNumber = completedRounds * questionsPerRound + index + 1;
-const totalCount = selectedQuestions.length * ((firstAnswers.length + secondAnswers.length) / selectedQuestions.length);
-const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
-
-  // ✅ 질문 텍스트 렌더링
+  const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
   questionEl.innerHTML = `
-  <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-   <h2 style="margin: 0; font-size: 18px; color: #003344;">
-  ${phaseLabel} <span style="font-size: 14px; color: #666;">(${currentQuestionNumber} / ${questionsPerRound * currentRound})</span>
-</h2>
-    <div style="font-size: 14px; color: #666; font-weight: bold;">${currentRound}라운드</div>
-  </div>
+    <h2 style="margin: 0; font-size: 18px; color: #003344;">
+      ${phaseLabel} <span style="font-size: 14px; color: #666;">(${index + 1}/5)</span>
+    </h2>
     <p style="
       font-size: clamp(28px, 6.5vw, 42px); 
       font-weight: bold; 
-      margin: 16px 0 0 0; 
+      margin: 8px 0; 
       text-align: center; 
       padding: 0 8px;
     ">${selectedQuestions[index]}</p>
   `;
 
-  // ✅ 프로그레스바 갱신
-  const progressPercent = Math.round((totalAnswered / questions.length) * 100);
+   const progressPercent = Math.round(((index + (isFirst ? 0 : 5)) / questions.length) * 100);
   document.getElementById("progressBar").style.width = `${progressPercent}%`;
 
-  // ✅ 버튼 텍스트 및 동작 설정
+  document.getElementById("result").innerText = "";
+
   const btn1 = document.getElementById("btn1");
   const btn2 = document.getElementById("btn2");
 
-btn1.innerText = p1;
-btn2.innerText = p2;
-btn1.onclick = () => choose(p1);
-btn2.onclick = () => choose(p2);
-btn1.disabled = false;
-btn2.disabled = false;
-
-  document.getElementById("result").innerText = "";
+  btn1.innerText = p1;
+  btn2.innerText = p2;
+  btn1.onclick = () => choose(p1);
+  btn2.onclick = () => choose(p2);
 }
 
    function choose(choice) {
