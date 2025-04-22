@@ -17,14 +17,13 @@
       overflow: hidden;
       font-family: Arial, sans-serif;
     }
-    #container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      position: relative;
-    }
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+}
     #logoBar {
       display: inline-flex;
       align-items: center;
@@ -42,23 +41,29 @@
       opacity: 0;
       animation: fadeInUp 1s ease-out 0.5s forwards;
     }
-    #gameTitle {
-      margin-top: 4px;
-      font-size: 26px;
-      color: white;
-      font-weight: bold;
-      text-align: center;
-    }
+  #gameTitle {
+  margin-top: 60px;
+  font-size: 26px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
     @keyframes fadeInUp {
       0% { opacity: 0; transform: translateY(10px); }
       100% { opacity: 1; transform: translateY(0); }
     }
+
+   #gameCenter {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
     #gameArea {
-      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: -20px;
     }
     #cap {
       width: 320px;
