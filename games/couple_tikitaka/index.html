@@ -587,8 +587,12 @@ resultBox.innerHTML = `
       setTimeout(() => {
 document.getElementById("questionBox").style.display = "none";
 const ending = endings[Math.floor(Math.random() * endings.length)];
-const total = firstAnswers.length;
-const percentage = Math.round((score / total) * 100);// 성공률 계산
+  // 1–2라운드 누적 문항 수를 totalQuestionsAsked 로 계산
+  const total = totalQuestionsAsked;
+  // 분모가 0일 땐 0% 로 처리
+  const percentage = total > 0
+    ? Math.round((score / total) * 100)
+    : 0; // 성공률 계산
 
 let answerListHTML = "<ul style='list-style:none; padding:0; text-align:left;'>";
 
