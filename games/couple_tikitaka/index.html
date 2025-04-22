@@ -445,18 +445,19 @@ function showQuestion() {
 
   // ✅ 라운드 번호 및 현재 질문 번호 계산
 const questionsPerRound = 5;
-const player1Count = firstAnswers.length;  // TIKI 질문 수 기준
-const currentQuestionNumber = player1Count + 1;  // TIKI 번호 누적 기준
-const totalCount = selectedQuestions.length; // 전체 TIKI 질문 수
-const currentRound = Math.floor(player1Count / questionsPerRound) + 1;
+const player1Count = firstAnswers.length;
+const completedRounds = Math.floor(player1Count / questionsPerRound);
+const currentRound = completedRounds + 1;
+const currentQuestionNumber = completedRounds * questionsPerRound + index + 1;
+const totalCount = selectedQuestions.length * ((firstAnswers.length + secondAnswers.length) / selectedQuestions.length);
 const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
 
   // ✅ 질문 텍스트 렌더링
   questionEl.innerHTML = `
   <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-    <h2 style="margin: 0; font-size: 18px; color: #003344;">
-      ${phaseLabel} <span style="font-size: 14px; color: #666;">(${currentQuestionNumber} / ${firstAnswers.length + secondAnswers.length + (selectedQuestions.length - index)})</span>
-    </h2>
+   <h2 style="margin: 0; font-size: 18px; color: #003344;">
+  ${phaseLabel} <span style="font-size: 14px; color: #666;">(${currentQuestionNumber} / ${questionsPerRound * currentRound})</span>
+</h2>
     <div style="font-size: 14px; color: #666; font-weight: bold;">${currentRound}라운드</div>
   </div>
     <p style="
