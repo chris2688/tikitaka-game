@@ -481,8 +481,9 @@ const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
   `;
 
   // ✅ 프로그레스바 갱신
-  const progressPercent = Math.round((totalAnswered / questions.length) * 100);
-  document.getElementById("progressBar").style.width = `${progressPercent}%`;
+const totalAnswered = firstAnswers.length + secondAnswers.length;
+const totalQuestionsCount = questions.length;
+const progressPercent = Math.round((totalAnswered / totalQuestionsCount) * 100);
 
   // ✅ 버튼 텍스트 및 동작 설정
   const btn1 = document.getElementById("btn1");
