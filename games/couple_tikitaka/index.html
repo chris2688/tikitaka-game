@@ -776,6 +776,34 @@ function closeAlertPopup() {
   document.getElementById("alertPopup").style.display = "none";
 }
 
+
+      // 상태 초기화 후 이름 입력폼으로 돌아가기
+  function resetGame() {
+    // 1) 전역 상태 변수 초기화
+    p1 = "";
+    p2 = "";
+    isFirst = true;
+    index = 0;
+    currentRound = 0;
+    totalQuestionsAsked = 0;
+    firstAnswers = [];
+    secondAnswers = [];
+    score = 0;
+    selectedQuestions = [];
+
+    // 2) 입력 필드 비우기
+    document.getElementById("player1Name").value = "";
+    document.getElementById("player2Name").value = "";
+
+    // 3) 모든 화면 숨기기
+    document.getElementById("startPrompt").style.display = "none";
+    document.getElementById("questionBox").style.display = "none";
+    document.getElementById("finalResult").style.display = "none";
+
+    // 4) 이름 입력폼 보이기
+    document.getElementById("nameForm").style.display = "block";
+  }
+
     
 </script>
 <div id="alertPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.4); z-index: 9999; justify-content: center; align-items: center;">
