@@ -103,13 +103,13 @@
 <body>
 <div id="container">
 <div id="gameTitle" style="margin-top: 60px; font-size: 28px; color: white; font-weight: bold; text-align: center;">
-    소주뚜껑 룰렛
+    소주 뚜껑 룰렛
    </div>
 <div id="gameArea" style="flex: 1; display: flex; align-items: center; justify-content: center; margin-top: auto; margin-bottom: auto;">
 <img alt="Soju Cap" id="cap" src="assets/soju_cap.png"/>
 </div>
 <div id="instruction">
-    👆 소주뚜껑을 터치해서 돌려보세요!
+    👆 소주 뚜껑을 터치해서 돌려보세요!
    </div>
 </div>
 <audio id="spinSound" src="assets/spin.wav">
@@ -212,12 +212,12 @@
         document.getElementById("gameTitle").innerText = "소주뚜껑 룰렛";
         cap.src = "assets/soju_cap.png";
         cap.style.transform = "rotate(30deg)";
-        instruction.innerText = "👆 소주뚜껑을 터치해서 돌려보세요!\n당신의 하루도, 피부도 가볍게.\nTIKI TAKA 🌿";
+        instruction.innerText = "👆 소주 뚜껑을 터치해서 돌려보세요!\n당신의 하루도, 피부도 가볍게.\nTIKI TAKA 🌿";
       } else if (alcoholVal === "sojubottle") {
         document.getElementById("gameTitle").innerText = "소주병 룰렛";
         cap.src = "games/soju_bottle_roulette/assets/soju_bottle.png";
         cap.style.transform = "rotate(30deg)";
-        instruction.innerText = "👆 소주뚜껑을 터치해서 돌려보세요!\n당신의 하루도, 피부도 가볍게.\nTIKI TAKA 🌿";
+        instruction.innerText = "👆 소주 뚜껑을 터치해서 돌려보세요!\n당신의 하루도, 피부도 가볍게.\nTIKI TAKA 🌿";
       } else {
         document.getElementById("gameTitle").innerText = "게임 준비 중...";
         instruction.innerText = "게임을 선택해주세요!";
@@ -237,7 +237,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const savedTitle = localStorage.getItem("gameTitle");
    
   document.getElementById("instruction").innerHTML =
-  "👆 소주뚜껑을 터치해서 돌려보세요!<br><span style='font-size:14px;'>당신의 하루도, 피부도 가볍게<br>TIKI TAKA 🌿</span>";
+  "👆 소주 뚜껑을 터치해서 돌려보세요!<br><span style='font-size:14px;'>당신의 하루도, 피부도 가볍게<br>TIKI TAKA 🌿</span>";
    
   if (savedRotation) {
     rotation = parseInt(savedRotation);
