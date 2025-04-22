@@ -432,7 +432,15 @@ function captureResult() {
 }
     
     function startGame() {
-  selectedQuestions = [...questions]
+  p1 = document.getElementById("player1Name").value.trim();
+  p2 = document.getElementById("player2Name").value.trim();
+
+          if (!p1 || !p2) {
+    showAlertPopup("이름을 모두 입력해주세요!");
+    return;
+  }
+        
+    selectedQuestions = [...questions]
     .sort(() => Math.random() - 0.5)
     .slice(0, 5);
 
