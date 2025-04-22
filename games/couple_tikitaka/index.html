@@ -108,12 +108,13 @@ input {
 }
 
 .question-box {
+  position: relative;
   background-color: rgba(255, 255, 255, 0.85);
   border-radius: 16px;
   padding: 24px 16px;
   color: #111;
   width: 100%;
-  max-width: 960px; /* 💡 PC에서도 넉넉한 너비 허용 */
+  max-width: 960px; 
   margin: 0 auto 20px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   min-height: 140px;
@@ -561,7 +562,19 @@ function showQuestion() {
   const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
   const baseIndex = (currentRound - 1) * questionsPerRound;
 
-  questionEl.innerHTML = `
+    questionEl.innerHTML = `
+    <!-- 라운드 표시: 우측 상단 -->
+    <span style="
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #666;
+   ">
+      ${currentRound}라운드
+    </span>
+
     <h2 style="margin: 0; font-size: 18px; color: #003344;">
       ${phaseLabel} <span style="font-size: 14px; color: #666;">
         (${index + 1}/${questionsPerRound})
