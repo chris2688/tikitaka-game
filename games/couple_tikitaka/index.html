@@ -364,6 +364,10 @@ body {
       "완벽 그 자체!",
       "이런 공감, 흔치 않아요~!"
     ];
+    
+    const questionsPerRound   = 5;   // 라운드 당 문항 수
+    let currentRound          = 0;   // 지금까지 진행된 라운드 수
+    let totalQuestionsAsked   = 0;   // 지금까지 물어본 총 문항 수
 
  let p1 = "", p2 = "";
 let isFirst = true, index = 0;
@@ -385,53 +389,66 @@ let selectedQuestions = [];
     }
 
 
-    function startExtraRound() {
+   function startExtraRound() {
+  // 라운드 수 증가 및 누적 질문 수 갱신
+  currentRound++;
+  const remaining = questions.filter(q => !selectedQuestions.includes(q));
+  const nextSet = remaining
+    .sort(() => Math.random() - 0.5)
+    .slice(0, questionsPerRound);
+  selectedQuestions.push(...nextSet);
+  totalQuestionsAsked += nextSet.length;
+
+  // 상태 초기화
   isFirst = true;
   index = 0;
 
-  const remaining = questions.filter(q => !selectedQuestions.includes(q));
-  const nextSetCount = Math.min(5, remaining.length);
-  const nextSet = remaining.sort(() => Math.random() - 0.5).slice(0, nextSetCount);
-  selectedQuestions.push(...nextSet);
-
+  // UI 전환: 결과 숨기고, 다시 시작 프롬프트로
   document.getElementById("finalResult").style.display = "none";
   document.getElementById("startPrompt").style.display = "block";
-  document.getElementById("startText").innerHTML = 
-    `<span style="color:#88f5e1; font-weight:bold;">${p1}</span>님부터 <strong>TIKI</strong>를 시작해보세요.`;
+  document.getElementById("startText").innerHTML =
+    `<span style="color:#88f5e1; font-weight:bold;">${p1}</span>님, 다시 TIKI부터 시작!`;
 
+  // 이전 버튼 제거
   const oldStartBtn = document.getElementById("startGameBtn");
   if (oldStartBtn) oldStartBtn.remove();
   const oldTakabBtn = document.getElementById("beginTAKABtn");
   if (oldTakabBtn) oldTakabBtn.remove();
 
-  const newStartBtn = document.createElement("button");
-  newStartBtn.innerText = "나 먼저 시작할게!";
-  newStartBtn.className = "button";
-  newStartBtn.id = "startGameBtn";
-  newStartBtn.onclick = () => {
+  // 새 시작 버튼 생성
+  const newBtn = document.createElement("button");
+  newBtn.className = "button";
+  newBtn.id = "startGameBtn";
+  newBtn.innerText = "나 먼저 시작할게!";
+  newBtn.onclick = () => {
     document.getElementById("startPrompt").style.display = "none";
     document.getElementById("questionBox").style.display = "block";
     showQuestion();
     document.getElementById('btn1').disabled = false;
     document.getElementById('btn2').disabled = false;
   };
-  document.getElementById("startPrompt").appendChild(newStartBtn);
+  document.getElementById("startPrompt").appendChild(newBtn);
 }
-
 function captureResult() {
   alert("공유하기 기능은 준비 중입니다!");
 }
     
-    function startGame() {
-  selectedQuestions = [...questions]
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 5);
+function startGame() {
+  // 1라운드 시작
+  currentRound = 1;
+  totalQuestionsAsked = questionsPerRound;
 
+  // 1라운드 질문 뽑기
+  selectedQuestions = questions
+    .sort(() => Math.random() - 0.5)
+    .slice(0, questionsPerRound);
+
+  // UI 전환
   document.getElementById("startPrompt").style.display = "none";
   document.getElementById("questionBox").style.display = "block";
   showQuestion();
-    document.getElementById('btn1').disabled = false;
-    document.getElementById('btn2').disabled = false;
+  document.getElementById('btn1').disabled = false;
+  document.getElementById('btn2').disabled = false;
 }
 function showQuestion() {
   const questionEl = document.getElementById("question");
