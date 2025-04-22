@@ -440,12 +440,12 @@ function showQuestion() {
   questionEl.className = "question-box";
 
   // ✅ 라운드 번호 및 현재 질문 번호 계산
-  const totalAnswered = firstAnswers.length + secondAnswers.length;
-  const currentQuestionNumber = totalAnswered + 1;
-  const totalCount = firstAnswers.length + (isFirst ? selectedQuestions.length : 0);
-  const completedRounds = Math.floor(firstAnswers.length / 5);
-  const currentRound = completedRounds + 1;
-  const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
+const questionsPerRound = 5;
+const player1Count = firstAnswers.length;  // TIKI 질문 수 기준
+const currentQuestionNumber = player1Count + 1;  // TIKI 번호 누적 기준
+const totalCount = selectedQuestions.length; // 전체 TIKI 질문 수
+const currentRound = Math.floor(player1Count / questionsPerRound) + 1;
+const phaseLabel = isFirst ? "TIKI 질문" : "TAKA 질문";
 
   // ✅ 질문 텍스트 렌더링
   questionEl.innerHTML = `
