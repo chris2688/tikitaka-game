@@ -236,8 +236,8 @@ window.addEventListener("DOMContentLoaded", () => {
   const savedCapSrc = localStorage.getItem("capSrc");
   const savedTitle = localStorage.getItem("gameTitle");
    
-   document.getElementById("instruction").innerText =
-    "👆 소주뚜껑을 터치해서 돌려보세요!\n당신의 하루도, 피부도 가볍게.\nTIKI TAKA 🌿";
+  document.getElementById("instruction").innerHTML =
+  "👆 소주뚜껑을 터치해서 돌려보세요!<br><span style='font-size:14px;'>당신의 하루도, 피부도 가볍게.<br>TIKI TAKA 🌿</span>";
    
   if (savedRotation) {
     rotation = parseInt(savedRotation);
