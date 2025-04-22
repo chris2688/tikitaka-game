@@ -381,30 +381,26 @@ body {
 <input id="player1Name" placeholder="당신의 이름"/>
 <input id="player2Name" placeholder="옆사람의 이름"/>
 <button class="button" onclick="saveNames()">입력 완료</button>
-<div id="nameFooterMessage" style="
-  position: absolute;
-  bottom: 24px;
+<div id="entryMessageBox" style="
+  position: fixed;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 17px;
-  color: white;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #111;
+  padding: 16px 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  font-size: 16px;
+  font-weight: 500;
   text-align: center;
+  z-index: 9999;
   line-height: 1.6;
-  z-index: 10;
-  pointer-events: none;
-  background-color: rgba(0, 0, 0, 0.4);
-  padding: 14px 18px;
-  border-radius: 14px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-  width: calc(100% - 40px);
-  max-width: 480px;
-  box-sizing: border-box;
-  word-break: keep-all;
+  max-width: 90%;
   white-space: normal;
 ">
-  우리 사이에도 티키타카가 필요해요.<br>
-  가볍게, 편하게, 서로를 이해하는 스킨케어처럼<br>
-  <span style="color:#88f5e1; font-weight: bold;">TIKI TAKA</span>와 함께 시작해보세요
+  너와 나, 피부처럼 잘 맞는 리듬.<br/>
+  <strong>우리 사이, 티키타카 어때요?</strong>
 </div>
 </div>
 <div id="startPrompt">
