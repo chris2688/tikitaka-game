@@ -21,8 +21,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: start;
-      height: 100%;
+      height: 100vh;
       position: relative;
     }
     #logoBar {
@@ -43,22 +42,30 @@
       animation: fadeInUp 1s ease-out 0.5s forwards;
     }
     #gameTitle {
-      margin-top: 4px;
-      font-size: 26px;
+      margin-top: 60px;
+      font-size: 28px;
       color: white;
       font-weight: bold;
       text-align: center;
     }
+
     @keyframes fadeInUp {
       0% { opacity: 0; transform: translateY(10px); }
       100% { opacity: 1; transform: translateY(0); }
     }
-    #gameArea {
+
+      #gameCenter {
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: -20px;
+      width: 100%;
+    }
+
+    #gameArea {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     #cap {
       width: 320px;
@@ -66,7 +73,9 @@
       max-height: 65vh;
       cursor: pointer;
       transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
+      animation: tiltSwing 3s ease-in-out infinite;
     }
+
     #instruction {
       position: absolute;
       bottom: 30px;
