@@ -123,25 +123,36 @@
     👆 소주 병을 터치해서 돌려보세요!
    </div>
 </div>
-<audio id="spinSound" src="assets/spin.wav">
-</audio>
-<audio id="stop1" src="assets/stop1.mp3">
-</audio>
-<audio id="stop2" src="assets/stop2.mp3">
-</audio>
-<audio id="stop3" src="assets/stop3.mp3">
-</audio>
-<audio id="stop4" src="assets/stop4.mp3">
-</audio>
+<audio id="stop1" src="assets/stop1.mp3"></audio>
+<audio id="stop2" src="assets/stop2.mp3"></audio>
+<audio id="stop3" src="assets/stop3.mp3"></audio>
+<audio id="stop4" src="assets/stop4.mp3"></audio>
+<audio id="stop5" src="assets/stop5.mp3"></audio>
+<audio id="stop6" src="assets/stop6.mp3"></audio>
+<audio id="stop7" src="assets/stop7.mp3"></audio>
+<audio id="stop8" src="assets/stop8.mp3"></audio>
+<audio id="stop9" src="assets/stop9.mp3"></audio>
+<audio id="stop10" src="assets/stop10.mp3"></audio>
+<audio id="stop11" src="assets/stop11.mp3"></audio>
+<audio id="stop12" src="assets/stop12.mp3"></audio>
+<audio id="stop13" src="assets/stop13.mp3"></audio>
+<audio id="stop14" src="assets/stop14.mp3"></audio>
+<audio id="stop15" src="assets/stop15.mp3"></audio>
+<audio id="stop16" src="assets/stop16.mp3"></audio>
+<audio id="stop17" src="assets/stop17.mp3"></audio>
+<audio id="stop18" src="assets/stop18.mp3"></audio>
+<audio id="stop19" src="assets/stop19.mp3"></audio>
+<audio id="stop20" src="assets/stop20.mp3"></audio>
+<audio id="stop21" src="assets/stop21.mp3"></audio>
+<audio id="stop22" src="assets/stop22.mp3"></audio>
+<audio id="stop23" src="assets/stop23.mp3"></audio>
+<audio id="stop24" src="assets/stop24.mp3"></audio>
 <script>
    const cap = document.getElementById("cap");
     const spinSound = document.getElementById("spinSound");
-    const stopSounds = [
-      document.getElementById("stop1"),
-      document.getElementById("stop2"),
-      document.getElementById("stop3"),
-      document.getElementById("stop4"),
-    ];
+const stopSounds = Array.from({ length: 24 }, (_, i) =>
+  document.getElementById(`stop${i + 1}`)
+);
     let rotation = 0;
     document.addEventListener("DOMContentLoaded", () => {
       const img = document.getElementById("cap");
