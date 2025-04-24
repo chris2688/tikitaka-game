@@ -44,9 +44,9 @@
       justify-content: center;
     }
     #cap {
-      width: auto;
-      height: 65vh;
+      width: 320px;
       max-width: 90vw;
+      max-height: 65vh;
       cursor: pointer;
       transition: transform 4s cubic-bezier(0.33,1,0.68,1);
       animation: tiltSwing 3s ease-in-out infinite;
@@ -57,9 +57,9 @@
       color: white;
       font-size: 20px;
       text-align: center;
-      animation: fadeInUp 1s ease-out 1s forwards;
       opacity: 0;
       text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+      animation: fadeInUp 1s ease-out 1s forwards;
     }
     @keyframes tiltSwing {
       0% { transform: rotate(0deg); }
@@ -74,7 +74,7 @@
   <div id="gameArea">
     <img alt="Creamwater" id="cap" src="assets/creamwater.png"/>
   </div>
-  <div id="instruction">👆 크림수 용기를 터치해서 돌려보세요!</div>
+  <div id="instruction"></div>
 </div>
 <audio id="spinSound" src="assets/spin.wav"></audio>
 <audio id="stop1" src="assets/stop1.mp3"></audio>
@@ -96,6 +96,8 @@
 
    document.addEventListener("DOMContentLoaded", () => {
      cap.style.transform = "rotate(30deg)";
+     const instruction = document.getElementById("instruction");
+     instruction.innerHTML = "<span style='font-size:14px;'>피부의 리듬, 크림수의 리듬<br>둘 다 TIKI TAKA MULBERRY LEAVES CREAMWATER 🌿<br><br>👆 크림수 용기를 터치해 보세요!</span>";
    });
 
    cap.addEventListener("click", async () => {
