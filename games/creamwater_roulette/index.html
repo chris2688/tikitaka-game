@@ -113,7 +113,7 @@
 
 
 <div id="gameTitle" style="margin-top: 60px; font-size: 28px; color: white; font-weight: bold; text-align: center;">
-    뽕잎 크림수 병 룰렛
+    뽕잎 크림수 룰렛
    </div>
 <div id="gameArea" style="flex: 1; display: flex; align-items: center; justify-content: center; margin-top: auto; margin-bottom: auto;">
 <img alt="뽕잎 크림 수" id="cap" src="assets/creamwater.png"/>
@@ -257,15 +257,15 @@
       const funVal = document.getElementById("funGames").value;
 
       if (alcoholVal === "soju") {
-        document.getElementById("gameTitle").innerText = "소주 병 룰렛";
+        document.getElementById("gameTitle").innerText = "뽕잎 크림수 룰렛";
         cap.src = "assets/creamwater.png";
         cap.style.transform = "rotate(30deg)";
-        instruction.innerText = "👆 소주 병을 터치해서 돌려보세요!";
+        instruction.innerText = "👆 크림수 병을 터치해서 돌려보세요!";
       } else if (alcoholVal === "sojubottle") {
-        document.getElementById("gameTitle").innerText = "소주 병 룰렛";
+        document.getElementById("gameTitle").innerText = "뽕잎 크림수 룰렛";
         cap.src = "games/creamwater_roulette/assets/creamwater.png";
         cap.style.transform = "rotate(30deg)";
-        instruction.innerText = "👆 소주 병을 터치해서 돌려보세요!";
+        instruction.innerText = "👆 크림수 병을 터치해서 돌려보세요!";
       } else {
         document.getElementById("gameTitle").innerText = "게임 준비 중...";
         instruction.innerText = "게임을 선택해주세요!";
