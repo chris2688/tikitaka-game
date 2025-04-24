@@ -1,0 +1,121 @@
+<!-- 파일 경로: game/creamwater_roulette/index.html -->
+<!-- assets: game/creamwater_roulette/assets/creamwater.png, assets/background.jpg, assets/spin.wav, assets/stop1.mp3 ~ stop4.mp3 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TIKI TAKA - 뽕잎 크림수 룰렛</title>
+<link href="assets/favicon.ico" rel="icon" type="image/x-icon"/>
+<style>
+   html, body {
+      margin: 0;
+      padding: 0;
+      background: url('assets/background.jpg') center/cover no-repeat;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+    #container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      position: relative;
+    }
+    #gameTitle {
+      margin-top: 60px;
+      font-size: 28px;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+      animation: fadeInUp 1s ease-out forwards;
+      opacity: 0;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    #gameArea {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #cap {
+      width: auto;
+      height: 65vh;
+      max-width: 90vw;
+      cursor: pointer;
+      transition: transform 4s cubic-bezier(0.33,1,0.68,1);
+      animation: tiltSwing 3s ease-in-out infinite;
+    }
+    #instruction {
+      position: absolute;
+      bottom: 30px;
+      color: white;
+      font-size: 20px;
+      text-align: center;
+      animation: fadeInUp 1s ease-out 1s forwards;
+      opacity: 0;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+    }
+    @keyframes tiltSwing {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(30deg); }
+      100% { transform: rotate(0deg); }
+    }
+</style>
+</head>
+<body>
+<div id="container">
+  <div id="gameTitle">뽕잎 크림수 룰렛</div>
+  <div id="gameArea">
+    <img alt="Creamwater" id="cap" src="assets/creamwater.png"/>
+  </div>
+  <div id="instruction">👆 크림수 용기를 터치해서 돌려보세요!</div>
+</div>
+<audio id="spinSound" src="assets/spin.wav"></audio>
+<audio id="stop1" src="assets/stop1.mp3"></audio>
+<audio id="stop2" src="assets/stop2.mp3"></audio>
+<audio id="stop3" src="assets/stop3.mp3"></audio>
+<audio id="stop4" src="assets/stop4.mp3"></audio>
+<script>
+   const cap = document.getElementById("cap");
+   const spinSound = document.getElementById("spinSound");
+   const stopSounds = [
+     document.getElementById("stop1"),
+     document.getElementById("stop2"),
+     document.getElementById("stop3"),
+     document.getElementById("stop4")
+   ];
+   let rotation = 0;
+   let selectedSound = null;
+   let stopSoundTimeout = null;
+
+   document.addEventListener("DOMContentLoaded", () => {
+     cap.style.transform = "rotate(30deg)";
+   });
+
+   cap.addEventListener("click", async () => {
+     cap.style.animation = "none";
+     if (selectedSound) {
+       selectedSound.pause(); selectedSound.currentTime = 0;
+     }
+     selectedSound = stopSounds[Math.floor(Math.random() * stopSounds.length)];
+     spinSound.pause(); spinSound.currentTime = 0;
+     spinSound.volume = 0.7; spinSound.loop = true; spinSound.play().catch(()=>{});
+     const spin = Math.floor(Math.random() * 1800) + 1440;
+     rotation += spin;
+     cap.style.transform = `rotate(${rotation}deg)`;
+     if (stopSoundTimeout) clearTimeout(stopSoundTimeout);
+     stopSoundTimeout = setTimeout(() => {
+       spinSound.pause(); spinSound.currentTime = 0;
+       if (selectedSound) { selectedSound.pause(); selectedSound.currentTime = 0; selectedSound.play().catch(()=>{}); }
+       stopSoundTimeout = null;
+     }, 4000);
+   });
+</script>
+</body>
+</html>
