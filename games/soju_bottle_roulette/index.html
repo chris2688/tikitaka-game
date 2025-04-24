@@ -151,9 +151,32 @@
 <script>
    const cap = document.getElementById("cap");
     const spinSound = document.getElementById("spinSound");
-const stopSounds = Array.from({ length: 24 }, (_, i) =>
-  document.getElementById(`stop${i + 1}`)
-);
+const stopSounds = [
+  document.getElementById("stop1"),
+  document.getElementById("stop2"),
+  document.getElementById("stop3"),
+  document.getElementById("stop4"),
+  document.getElementById("stop5"),
+  document.getElementById("stop6"),
+  document.getElementById("stop7"),
+  document.getElementById("stop8"),
+  document.getElementById("stop9"),
+  document.getElementById("stop10"),
+  document.getElementById("stop11"),
+  document.getElementById("stop12"),
+  document.getElementById("stop13"),
+  document.getElementById("stop14"),
+  document.getElementById("stop15"),
+  document.getElementById("stop16"),
+  document.getElementById("stop17"),
+  document.getElementById("stop18"),
+  document.getElementById("stop19"),
+  document.getElementById("stop20"),
+  document.getElementById("stop21"),
+  document.getElementById("stop22"),
+  document.getElementById("stop23"),
+  document.getElementById("stop24"),
+];
     let rotation = 0;
     document.addEventListener("DOMContentLoaded", () => {
       const img = document.getElementById("cap");
