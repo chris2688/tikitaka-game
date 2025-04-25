@@ -911,7 +911,7 @@ document.getElementById("finalResult").innerHTML = `
       </h2>
       <p style="margin-top: 10px; font-size: 20px; color: #000;">
         총 ${total}문제 중 <strong>${score}개</strong> 일치<br/>
-        티키타카 성공률:
+        성공률:
         <span style="
           display: inline-block;
           font-size: 42px;
@@ -946,7 +946,7 @@ document.getElementById("finalResult").innerHTML = `
 
   <!-- ▶ 질문 & 답변 정리 박스 -->
   <div id="answerSummaryBox" style="
-      margin: 32px auto;
+      margin: 32px auto 0;
       padding: 24px;
       background-color: #fff;
       border-radius: 16px;
@@ -955,9 +955,30 @@ document.getElementById("finalResult").innerHTML = `
       width: 90%;
   ">
     <h3 style="font-size: 20px; margin-bottom: 16px;">📋 질문 & 답변 정리</h3>
-    ${answerListHTML}
+    <ul style="list-style: none; padding: 0; margin: 0;">
+      ${selectedQuestions.map((q, i) => {
+        const isMatch = firstAnswers[i] === secondAnswers[i];
+        return `
+        <li style="margin-bottom: 24px;">
+          <div style="font-size: 16px; line-height: 1.6; margin-bottom: 8px;">
+            <strong>Q${i+1}.</strong> ${q.replace(/<br>/g,' ')}
+          </div>
+          <div style="margin-left: 16px; font-size:14px; line-height:1.4;">
+            · ${p1}: ${firstAnswers[i]}
+          </div>
+          <div style="margin-left: 16px; font-size:14px; line-height:1.4;">
+            · ${p2}: ${secondAnswers[i]}
+          </div>
+          <div style="margin-left: 16px; font-size:14px; line-height:1.4; display:flex; align-items:center; gap:4px;">
+            <span style="color: ${isMatch ? '#00bfa5' : '#e53935'}; font-weight:bold;">
+              ${isMatch ? '⭕ TIKI TAKA' : '❌ 불일치'}
+            </span>
+          </div>
+        </li>`;
+      }).join('')}
+    </ul>
   </div>
-`;  
+`;
 
 document.getElementById("finalResult").style.display = "block";
       }, 1500); // ← 여유 시간 주고 결과창 띄우기
