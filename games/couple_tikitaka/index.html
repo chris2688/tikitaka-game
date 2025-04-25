@@ -162,9 +162,8 @@ input {
 
   #answerSummaryBox ul li > div:first-child {
     display: block;
- white-space: normal !important;
- overflow-wrap: break-word;
- word-break: break-all;
+    white-space: normal !important;
+    word-break: break-word;
     line-height: 1.6;
     margin-bottom: 8px;
   }
@@ -374,7 +373,7 @@ body {
     
   </style>
 </head>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <body>
 <div id="background"></div>
 <h1>너와 나의 TIKI TAKA</h1>
@@ -849,97 +848,121 @@ const ending = getEndingByPercentage(percentage);
 
 let answerListHTML = "<ul style='list-style:none; padding:0; text-align:left;'>";
 for (let i = 0; i < total; i++) {
-  const q     = selectedQuestions[i].replace(/<br>/g, " ");
-  const a1    = firstAnswers[i];
-  const a2    = secondAnswers[i];
-  const match = a1 === a2;
-  const icon  = match ? "⭕ TIKI TAKA" : "❌ 불일치";
+  const questionText = selectedQuestions[i].replace(/<br>/g, ' ');
+  const match = firstAnswers[i] === secondAnswers[i];
+  const icon = match ? "⭕" : "❌";
 
   answerListHTML += `
-    <li style="margin-bottom:24px;">
-      <div style="font-size:16px; font-weight:bold; margin-bottom:8px;">
-        Q${i+1}. ${q}
+    <li style="margin-bottom: 24px;">
+      <!-- 질문 -->
+      <div style="
+        display: block;
+        margin-bottom: 8px;
+        font-size: 16px;
+        line-height: 1.6;
+        white-space: normal;
+        word-break: break-word;
+      ">
+        <strong>Q${i + 1}.</strong> ${questionText}
       </div>
-      <div style="margin-left:16px; font-size:14px; line-height:1.4;">
-        · ${p1}: ${a1}
+      <!-- 답변들 -->
+      <div style="
+        margin: 0 0 4px 16px;
+        font-size: 14px;
+        line-height: 1.4;
+      ">
+        · ${p1}: ${firstAnswers[i]}
       </div>
-      <div style="margin-left:16px; font-size:14px; line-height:1.4;">
-        · ${p2}: ${a2}
+      <div style="
+        margin: 0 0 4px 16px;
+        font-size: 14px;
+        line-height: 1.4;
+      ">
+        · ${p2}: ${secondAnswers[i]}
       </div>
-      <div style="margin-left:16px; margin-top:4px; font-size:14px; font-weight:bold; color:${match ? "#00bfa5" : "#e53935"};">
-        ${icon}
+      <!-- 결과 -->
+      <div style="
+        margin: 0 0 0 16px;
+        font-size: 14px;
+        line-height: 1.4;
+      ">
+        · 결과: <span style="color: ${match ? '#00bfa5' : '#e53935'}; font-weight:bold;">
+          ${icon} ${match ? 'TIKI TAKA' : '불일치'}
+        </span>
       </div>
-    </li>`;
+    </li>
+  `;
 }
 answerListHTML += "</ul>";
 
 document.getElementById("finalResult").innerHTML = `
-  <!-- ▶ 캡처영역: 배경이미지 + 결과 요약 -->
-  <div id="captureArea" style="
-      position:relative;
-      background:url('assets/background.jpg') center/cover no-repeat;
-      padding:40px 20px;
-      box-sizing:border-box;
-  ">
-    <div class="result-box" id="resultSummaryBox" style="background-color:rgba(255,255,255,0.7);">
-      <h2 style="font-size:28px; color:#000; line-height:1.6;">
-        ${p1} ❤️ ${p2}<br/>TIKI TAKA 결과
-      </h2>
-      <p style="margin-top:10px; font-size:20px; color:#000;">
-        총 ${total}문제 중 <strong>${score}개</strong> 일치<br/>
-        성공률: 
-        <span style="
-          display:inline-block;
-          font-size:42px;
-          font-weight:900;
-          color:#00bfa5;
-          text-shadow:
-            -1px -1px 0 #fff,
-             1px -1px 0 #fff,
-            -1px  1px 0 #fff,
-             1px  1px 0 #fff;
-        ">
-          ${percentage}%
-        </span>
-      </p>
-      <p style="
-        font-size:clamp(18px,4vw,24px);
-        font-weight:bold;
-        color:#222;
-        line-height:1.6;
-        margin-top:20px;
-        text-align:center;
-      ">
-        ${ending}
-      </p>
-      <div style="margin-top:40px; display:flex; justify-content:center; gap:8px;">
-        <button class="button small-btn icon-button" onclick="resetGame()">
-          <img src="assets/icon_1.png" alt="다시하기" style="height:24px;">
-        </button>
-        <button class="button small-btn icon-button" onclick="startExtraRound()">
-          <img src="assets/icon_2.png" alt="계속하기" style="height:24px;">
-        </button>
-        <button class="button small-btn icon-button" onclick="captureResult()">
-          <img src="assets/icon_3.png" alt="공유하기" style="height:24px;">
-        </button>
-      </div>
-    </div>
+<div class="result-box" id="resultSummaryBox">
+    <h2 style="font-size: 28px; color: #000; line-height: 1.6;">
+      ${p1} ❤️${p2}<br>TIKI TAKA 결과
+    </h2>
+    <p style="margin-top: 10px; font-size: 20px; color: #000;">
+      총 ${total}문제 중 <strong>${score}개</strong> 일치<br>
+      티키타카 성공률:
+      <span style="
+        display: inline-block;
+        font-size: 42px;
+        font-weight: 900;
+        color: #00bfa5;
+        text-shadow:
+          -1px -1px 0 #ffffff,
+           1px -1px 0 #ffffff,
+          -1px  1px 0 #ffffff,
+           1px  1px 0 #ffffff;">
+        ${percentage}%
+      </span>
+    </p>
+
+    <p style="
+  font-size: clamp(18px, 4vw, 24px);
+  font-weight: bold;
+  color: #222;
+  line-height: 1.6;
+  margin-top: 20px;
+  word-break: keep-all;
+  white-space: normal;
+  text-align: center;
+">
+      ${ending}
+    </p>
+
+<div style="margin-top: 40px; display: flex; justify-content: center; gap: 8px; flex-wrap: nowrap; flex-direction: row;">
+  <button class="button small-btn icon-button" onclick="resetGame()" aria-label="다시하기">
+    <img src="assets/icon_1.png" alt="다시하기" style="height: 24px;">
+  </button>
+  <button class="button small-btn icon-button" onclick="startExtraRound()" aria-label="계속하기">
+    <img src="assets/icon_2.png" alt="계속하기" style="height: 24px;">
+  </button>
+  <button class="button small-btn icon-button" onclick="captureResult()" aria-label="공유하기">
+    <img src="assets/icon_3.png" alt="공유하기" style="height: 24px;">
+  </button>
+</div>
   </div>
 
-  <!-- ▶ 질문 & 답변 정리 박스 -->
-  <div id="answerSummaryBox" style="
-      margin:32px auto 0;
-      padding:24px;
-      background-color:#fff;
-      border-radius:16px;
-      box-shadow:0 4px 10px rgba(0,0,0,0.2);
-      max-width:600px;
-      width:90%;
-  ">
-    <h3 style="font-size:20px; margin-bottom:16px;">📋 질문 & 답변 정리</h3>
+  <!-- ✅ 질문 정리 박스 분리 -->
+<div style="
+  margin: 32px auto 0;
+  padding: 24px 20px; /* 결과 박스와 동일한 padding */
+  background-color: rgba(255,255,255,1);
+  border-radius: 16px; /* 결과 박스와 동일한 radius */
+  color: #111;
+  text-align: left;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* 결과 박스와 동일한 그림자 */
+  font-size: 16px;
+  width: 90%;
+  max-width: 100%;  /* 결과 박스와 동일 */
+  box-sizing: border-box; /* 결과 박스와 동일 */
+">
+   <div id="answerSummaryBox" style="padding: 24px 20px; background: white; border-radius: 16px;">
+    <h3 style="color: #000; font-size: 20px; margin-bottom: 16px;">📋 질문 & 답변 정리</h3>
     ${answerListHTML}
   </div>
-`;
+  </div>
+`; 
 document.getElementById("finalResult").style.display = "block";
       }, 1500); // ← 여유 시간 주고 결과창 띄우기
     }
@@ -970,7 +993,7 @@ function captureAnswers() {
 }
 
 function captureResult() {
-  const resultTarget = document.getElementById('captureArea');
+  const resultTarget = document.querySelector('.result-box');
 
   html2canvas(resultTarget, {
     backgroundColor: null,
@@ -1056,33 +1079,21 @@ function closeAlertPopup() {
   }
 
     
-  </script>
-
-  <!-- 알림 팝업 -->
-  <div id="alertPopup" style="display: none; position: fixed; top: 0; left: 0;
-       width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.4);
-       z-index: 9999; justify-content: center; align-items: center;">
-    <div style="background: white; padding: 24px 32px; border-radius: 16px;
-         box-shadow: 0 8px 20px rgba(0,0,0,0.3); color: #333; max-width: 90%;
-         text-align: center;">
-      <p id="alertPopupMessage" style="font-size: 18px;">알림 메시지</p>
-      <button onclick="closeAlertPopup()" style="margin-top: 20px;
-              padding: 10px 20px; font-size: 16px; background-color: #88f5e1;
-              border: none; border-radius: 8px; cursor: pointer;">
-        확인
-      </button>
-    </div>
-  </div>
-
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-  <!-- ② 네이버 애널리틱스 -->
-  <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
-  <script type="text/javascript">
-    if (!wcs_add) var wcs_add = {};
-    wcs_add["wa"] = "159062cd13cec5";
-    if (window.wcs) { wcs_do(); }
-  </script>
+</script>
+<div id="alertPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.4); z-index: 9999; justify-content: center; align-items: center;">
+<div style="background: white; padding: 24px 32px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); color: #333; max-width: 90%; text-align: center;">
+<p id="alertPopupMessage" style="font-size: 18px;">알림 메시지</p>
+<button onclick="closeAlertPopup()" style="margin-top: 20px; padding: 10px 20px; font-size: 16px; background-color: #88f5e1; border: none; border-radius: 8px; cursor: pointer;">확인</button>
+</div>
+</div>
+    	
+<script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+<script type="text/javascript">
+if(!wcs_add) var wcs_add = {};
+wcs_add["wa"] = "159062cd13cec5";
+if(window.wcs) {
+wcs_do();
+}
+</script>
 </body>
 </html>
