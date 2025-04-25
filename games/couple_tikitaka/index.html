@@ -373,7 +373,7 @@ body {
     
   </style>
 </head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <body>
 <div id="background"></div>
 <h1>너와 나의 TIKI TAKA</h1>
@@ -1079,21 +1079,33 @@ function closeAlertPopup() {
   }
 
     
-</script>
-<div id="alertPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.4); z-index: 9999; justify-content: center; align-items: center;">
-<div style="background: white; padding: 24px 32px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); color: #333; max-width: 90%; text-align: center;">
-<p id="alertPopupMessage" style="font-size: 18px;">알림 메시지</p>
-<button onclick="closeAlertPopup()" style="margin-top: 20px; padding: 10px 20px; font-size: 16px; background-color: #88f5e1; border: none; border-radius: 8px; cursor: pointer;">확인</button>
-</div>
-</div>
-    	
-<script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
-<script type="text/javascript">
-if(!wcs_add) var wcs_add = {};
-wcs_add["wa"] = "159062cd13cec5";
-if(window.wcs) {
-wcs_do();
-}
-</script>
+  </script>
+
+  <!-- 알림 팝업 -->
+  <div id="alertPopup" style="display: none; position: fixed; top: 0; left: 0;
+       width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.4);
+       z-index: 9999; justify-content: center; align-items: center;">
+    <div style="background: white; padding: 24px 32px; border-radius: 16px;
+         box-shadow: 0 8px 20px rgba(0,0,0,0.3); color: #333; max-width: 90%;
+         text-align: center;">
+      <p id="alertPopupMessage" style="font-size: 18px;">알림 메시지</p>
+      <button onclick="closeAlertPopup()" style="margin-top: 20px;
+              padding: 10px 20px; font-size: 16px; background-color: #88f5e1;
+              border: none; border-radius: 8px; cursor: pointer;">
+        확인
+      </button>
+    </div>
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- ② 네이버 애널리틱스 -->
+  <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+  <script type="text/javascript">
+    if (!wcs_add) var wcs_add = {};
+    wcs_add["wa"] = "159062cd13cec5";
+    if (window.wcs) { wcs_do(); }
+  </script>
 </body>
 </html>
