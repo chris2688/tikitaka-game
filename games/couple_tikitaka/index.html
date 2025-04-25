@@ -849,95 +849,70 @@ const ending = getEndingByPercentage(percentage);
 
 let answerListHTML = "<ul style='list-style:none; padding:0; text-align:left;'>";
 for (let i = 0; i < total; i++) {
-  const questionText = selectedQuestions[i].replace(/<br>/g, ' ');
-  const match = firstAnswers[i] === secondAnswers[i];
-  const icon = match ? "⭕" : "❌";
+  const q     = selectedQuestions[i].replace(/<br>/g, " ");
+  const a1    = firstAnswers[i];
+  const a2    = secondAnswers[i];
+  const match = a1 === a2;
+  const icon  = match ? "⭕ TIKI TAKA" : "❌ 불일치";
 
   answerListHTML += `
-    <li style="margin-bottom: 24px;">
-      <!-- 질문 -->
-      <div style="
-        display: block;
-        margin-bottom: 8px;
-        font-size: 16px;
-        line-height: 1.6;
-        white-space: normal;
-        word-break: break-word;
-      ">
-        <strong>Q${i + 1}.</strong> ${questionText}
+    <li style="margin-bottom:24px;">
+      <div style="font-size:16px; font-weight:bold; margin-bottom:8px;">
+        Q${i+1}. ${q}
       </div>
-      <!-- 답변들 -->
-      <div style="
-        margin: 0 0 4px 16px;
-        font-size: 14px;
-        line-height: 1.4;
-      ">
-        · ${p1}: ${firstAnswers[i]}
+      <div style="margin-left:16px; font-size:14px; line-height:1.4;">
+        · ${p1}: ${a1}
       </div>
-      <div style="
-        margin: 0 0 4px 16px;
-        font-size: 14px;
-        line-height: 1.4;
-      ">
-        · ${p2}: ${secondAnswers[i]}
+      <div style="margin-left:16px; font-size:14px; line-height:1.4;">
+        · ${p2}: ${a2}
       </div>
-      <!-- 결과 -->
-      <div style="
-        margin: 0 0 0 16px;
-        font-size: 14px;
-        line-height: 1.4;
-      ">
-        · 결과: <span style="color: ${match ? '#00bfa5' : '#e53935'}; font-weight:bold;">
-          ${icon} ${match ? 'TIKI TAKA' : '불일치'}
-        </span>
+      <div style="margin-left:16px; margin-top:4px; font-size:14px; font-weight:bold; color:${match ? "#00bfa5" : "#e53935"};">
+        ${icon}
       </div>
-    </li>
-  `;
+    </li>`;
 }
 answerListHTML += "</ul>";
 
 document.getElementById("finalResult").innerHTML = `
-  <!-- ▶ 캡쳐영역: 배경이미지 깔림 -->
+  <!-- ▶ 캡처영역: 배경이미지 + 결과 요약 -->
   <div id="captureArea" style="
-      position: relative;
-      background: url('assets/background.jpg') center/cover no-repeat;
-      padding: 40px 20px;
-      box-sizing: border-box;
+      position:relative;
+      background:url('assets/background.jpg') center/cover no-repeat;
+      padding:40px 20px;
+      box-sizing:border-box;
   ">
-    <!-- ▶ 반투명 박스: 결과메시지 -->
-    <div class="result-box" id="resultSummaryBox" style="background-color: rgba(255,255,255,0.7);">
-      <h2 style="font-size: 28px; color: #000; line-height: 1.6;">
+    <div class="result-box" id="resultSummaryBox" style="background-color:rgba(255,255,255,0.7);">
+      <h2 style="font-size:28px; color:#000; line-height:1.6;">
         ${p1} ❤️ ${p2}<br/>TIKI TAKA 결과
       </h2>
-      <p style="margin-top: 10px; font-size: 20px; color: #000;">
+      <p style="margin-top:10px; font-size:20px; color:#000;">
         총 ${total}문제 중 <strong>${score}개</strong> 일치<br/>
-        성공률:
+        성공률: 
         <span style="
-          display: inline-block;
-          font-size: 42px;
-          font-weight: 900;
-          color: #00bfa5;
+          display:inline-block;
+          font-size:42px;
+          font-weight:900;
+          color:#00bfa5;
           text-shadow:
-            -1px -1px 0 #ffffff,
-             1px -1px 0 #ffffff,
-            -1px  1px 0 #ffffff,
-             1px  1px 0 #ffffff;
+            -1px -1px 0 #fff,
+             1px -1px 0 #fff,
+            -1px  1px 0 #fff,
+             1px  1px 0 #fff;
         ">
           ${percentage}%
         </span>
       </p>
       <p style="
-        font-size: clamp(18px, 4vw, 24px);
-        font-weight: bold;
-        color: #222;
-        line-height: 1.6;
-        margin-top: 20px;
-        text-align: center;
+        font-size:clamp(18px,4vw,24px);
+        font-weight:bold;
+        color:#222;
+        line-height:1.6;
+        margin-top:20px;
+        text-align:center;
       ">
         ${ending}
       </p>
-      <!-- ▶ 아이콘 버튼 3종 -->
-      <div style="margin-top: 40px; display: flex; justify-content: center; gap: 8px;">
+      <div style="margin-top:40px; display:flex; justify-content:center; gap:8px;">
         <button class="button small-btn icon-button" onclick="resetGame()">
           <img src="assets/icon_1.png" alt="다시하기" style="height:24px;">
         </button>
@@ -953,46 +928,18 @@ document.getElementById("finalResult").innerHTML = `
 
   <!-- ▶ 질문 & 답변 정리 박스 -->
   <div id="answerSummaryBox" style="
-      margin: 32px auto 0;
-      padding: 24px;
-      background-color: #fff;
-      border-radius: 16px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      max-width: 600px;
-      width: 90%;
+      margin:32px auto 0;
+      padding:24px;
+      background-color:#fff;
+      border-radius:16px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.2);
+      max-width:600px;
+      width:90%;
   ">
-    <h3 style="font-size: 20px; margin-bottom: 16px;">📋 질문 & 답변 정리</h3>
-    <ul style="list-style: none; padding: 0; margin: 0;">
-      ${selectedQuestions.map((q, i) => {
-        const a1 = firstAnswers[i];
-        const a2 = secondAnswers[i];
-        const match = a1 === a2;
-        return `
-        <li style="margin-bottom: 24px;">
-          <!-- 질문 -->
-          <div style="font-size: 16px; font-weight: bold; margin-bottom: 8px;">
-            Q${i+1}. ${q.replace(/<br>/g,' ')}
-          </div>
-          <!-- 답변 -->
-          <div style="margin-left: 16px; font-size: 14px; line-height: 1.4;">
-            · ${p1}: ${a1}
-          </div>
-          <div style="margin-left: 16px; font-size: 14px; line-height: 1.4;">
-            · ${p2}: ${a2}
-          </div>
-          <!-- 일치 여부 -->
-          <div style="margin-left: 16px; margin-top: 4px; font-size: 14px;">
-            ${match
-              ? '<span style="color: #00bfa5; font-weight: bold;">⭕ TIKI TAKA</span>'
-              : '<span style="color: #e53935; font-weight: bold;">❌ 불일치</span>'
-            }
-          </div>
-        </li>`;
-      }).join('')}
-    </ul>
+    <h3 style="font-size:20px; margin-bottom:16px;">📋 질문 & 답변 정리</h3>
+    ${answerListHTML}
   </div>
 `;
-
 document.getElementById("finalResult").style.display = "block";
       }, 1500); // ← 여유 시간 주고 결과창 띄우기
     }
