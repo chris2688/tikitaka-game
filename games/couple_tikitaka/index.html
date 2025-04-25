@@ -660,21 +660,30 @@ function captureResult() {
 }
     
 function startGame() {
-  // 1라운드 시작
+ // ───── 1) 상태 초기화 ─────
+  isFirst = true;         // TIKI 단계로 돌아가기
+  index = 0;              // 질문 인덱스 0으로
+  firstAnswers = [];      // 앞선 답변들 비우기
+  secondAnswers = [];
+  score = 0;              // 점수 리셋
+
+  // ───── 2) 1라운드 설정 ─────
   currentRound = 1;
   totalQuestionsAsked = questionsPerRound;
 
-  // 1라운드 질문 뽑기
-  selectedQuestions = questions
-    .sort(() => Math.random() - 0.5)
-    .slice(0, questionsPerRound);
+  // ───── 3) 질문 뽑기 (원본 배열 훼손 방지) ─────
+  selectedQuestions = [...questions]       // 원본 questions 복사
+    .sort(() => Math.random() - 0.5)       // 섞고
+    .slice(0, questionsPerRound);         // 앞의 5개만
 
-  // UI 전환
-  document.getElementById("startPrompt").style.display = "none";
-  document.getElementById("questionBox").style.display = "block";
+  // ───── 4) UI 전환 ─────
+  document.getElementById("startPrompt").style.display   = "none";
+  document.getElementById("questionBox").style.display   = "block";
+  document.getElementById("btn1").disabled                = false;
+  document.getElementById("btn2").disabled                = false;
+
+  // ───── 5) 첫 질문 보여주기 ─────
   showQuestion();
-  document.getElementById('btn1').disabled = false;
-  document.getElementById('btn2').disabled = false;
 }
     
 function showQuestion() {
