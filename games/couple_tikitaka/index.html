@@ -896,84 +896,69 @@ for (let i = 0; i < total; i++) {
 }
 answerListHTML += "</ul>";
 
- document.getElementById("finalResult").innerHTML = `
- <!-- ▶ 캡쳐영역: 배경이미지 깔림 -->
- <div id="captureArea" style="
-     position: relative;
-     background: url('assets/background.jpg') center/cover no-repeat;
-     padding: 40px 20px;
-     box-sizing: border-box;
- ">
-   <!-- ▶ 반투명 박스: 결과메시지 -->
-   <div class="result-box" id="resultSummaryBox" style="background-color: rgba(255,255,255,0.7);">
-   
-    <h2 style="font-size: 28px; color: #000; line-height: 1.6;">
-      ${p1} ❤️${p2}<br>TIKI TAKA 결과
-    </h2>
-    <p style="margin-top: 10px; font-size: 20px; color: #000;">
-      총 ${total}문제 중 <strong>${score}개</strong> 일치<br>
-      티키타카 성공률:
-      <span style="
-        display: inline-block;
-        font-size: 42px;
-        font-weight: 900;
-        color: #00bfa5;
-        text-shadow:
-          -1px -1px 0 #ffffff,
-           1px -1px 0 #ffffff,
-          -1px  1px 0 #ffffff,
-           1px  1px 0 #ffffff;">
-        ${percentage}%
-      </span>
-    </p>
-
-    <p style="
-  font-size: clamp(18px, 4vw, 24px);
-  font-weight: bold;
-  color: #222;
-  line-height: 1.6;
-  margin-top: 20px;
-  word-break: keep-all;
-  white-space: normal;
-  text-align: center;
-">
-      ${ending}
-    </p>
-
-<div style="margin-top: 40px; display: flex; justify-content: center; gap: 8px; flex-wrap: nowrap; flex-direction: row;">
-  <button class="button small-btn icon-button" onclick="resetGame()" aria-label="다시하기">
-    <img src="assets/icon_1.png" alt="다시하기" style="height: 24px;">
-  </button>
-  <button class="button small-btn icon-button" onclick="startExtraRound()" aria-label="계속하기">
-    <img src="assets/icon_2.png" alt="계속하기" style="height: 24px;">
-  </button>
-  <button class="button small-btn icon-button" onclick="captureResult()" aria-label="공유하기">
-    <img src="assets/icon_3.png" alt="공유하기" style="height: 24px;">
-  </button>
-</div>
+document.getElementById("finalResult").innerHTML = `
+  <!-- ▶ 캡쳐영역: 배경이미지 깔림 -->
+  <div id="captureArea" style="
+      position: relative;
+      background: url('assets/background.jpg') center/cover no-repeat;
+      padding: 40px 20px;
+      box-sizing: border-box;
+  ">
+    <!-- ▶ 반투명 박스: 결과메시지 -->
+    <div class="result-box" id="resultSummaryBox" style="background-color: rgba(255,255,255,0.7);">
+      <h2 style="font-size: 28px; color: #000; line-height: 1.6;">
+        ${p1} ❤️ ${p2}<br/>TIKI TAKA 결과
+      </h2>
+      <p style="margin-top: 10px; font-size: 20px; color: #000;">
+        총 ${total}문제 중 <strong>${score}개</strong> 일치<br/>
+        티키타카 성공률:
+        <span style="
+          display: inline-block;
+          font-size: 42px;
+          font-weight: 900;
+          color: #00bfa5;
+          text-shadow:
+            -1px -1px 0 #ffffff,
+             1px -1px 0 #ffffff,
+            -1px  1px 0 #ffffff,
+             1px  1px 0 #ffffff;
+        ">
+          ${percentage}%
+        </span>
+      </p>
+      <p style="
+        font-size: clamp(18px, 4vw, 24px);
+        font-weight: bold;
+        color: #222;
+        line-height: 1.6;
+        margin-top: 20px;
+        text-align: center;
+      ">
+        ${ending}
+      </p>
+      <div style="margin-top: 40px; display: flex; justify-content: center; gap: 8px;">
+        <button class="button small-btn icon-button" onclick="resetGame()">다시하기</button>
+        <button class="button small-btn icon-button" onclick="startExtraRound()">계속하기</button>
+        <button class="button small-btn icon-button" onclick="captureResult()">공유하기</button>
+      </div>
     </div>
- </div>
- `;
+  </div>
 
-  <!-- ✅ 질문 정리 박스 분리 -->
-<div style="
-  margin: 32px auto 0;
-  padding: 24px 20px; /* 결과 박스와 동일한 padding */
-  background-color: rgba(255,255,255,1);
-  border-radius: 16px; /* 결과 박스와 동일한 radius */
-  color: #111;
-  text-align: left;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* 결과 박스와 동일한 그림자 */
-  font-size: 16px;
-  width: 90%;
-  max-width: 100%;  /* 결과 박스와 동일 */
-  box-sizing: border-box; /* 결과 박스와 동일 */
-"></div>
-   <div id="answerSummaryBox" style="padding: 24px 20px; background: white; border-radius: 16px;">
-    <h3 style="color: #000; font-size: 20px; margin-bottom: 16px;">📋 질문 & 답변 정리</h3>
+  <!-- ▶ 질문 & 답변 정리 박스 -->
+  <div id="answerSummaryBox" style="
+      margin: 32px auto;
+      padding: 24px;
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      max-width: 600px;
+      width: 90%;
+  ">
+    <h3 style="font-size: 20px; margin-bottom: 16px;">📋 질문 & 답변 정리</h3>
     ${answerListHTML}
   </div>
-`; 
+`;  
+
 document.getElementById("finalResult").style.display = "block";
       }, 1500); // ← 여유 시간 주고 결과창 띄우기
     }
