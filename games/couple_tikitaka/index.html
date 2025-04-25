@@ -896,8 +896,17 @@ for (let i = 0; i < total; i++) {
 }
 answerListHTML += "</ul>";
 
-document.getElementById("finalResult").innerHTML = `
-<div class="result-box" id="resultSummaryBox">
+ document.getElementById("finalResult").innerHTML = `
+ <!-- ▶ 캡쳐영역: 배경이미지 깔림 -->
+ <div id="captureArea" style="
+     position: relative;
+     background: url('assets/background.jpg') center/cover no-repeat;
+     padding: 40px 20px;
+     box-sizing: border-box;
+ ">
+   <!-- ▶ 반투명 박스: 결과메시지 -->
+   <div class="result-box" id="resultSummaryBox" style="background-color: rgba(255,255,255,0.7);">
+   
     <h2 style="font-size: 28px; color: #000; line-height: 1.6;">
       ${p1} ❤️${p2}<br>TIKI TAKA 결과
     </h2>
@@ -942,7 +951,9 @@ document.getElementById("finalResult").innerHTML = `
     <img src="assets/icon_3.png" alt="공유하기" style="height: 24px;">
   </button>
 </div>
-  </div>
+    </div>
+ </div>
+ `;
 
   <!-- ✅ 질문 정리 박스 분리 -->
 <div style="
@@ -961,7 +972,6 @@ document.getElementById("finalResult").innerHTML = `
    <div id="answerSummaryBox" style="padding: 24px 20px; background: white; border-radius: 16px;">
     <h3 style="color: #000; font-size: 20px; margin-bottom: 16px;">📋 질문 & 답변 정리</h3>
     ${answerListHTML}
-  </div>
   </div>
 `; 
 document.getElementById("finalResult").style.display = "block";
@@ -994,7 +1004,7 @@ function captureAnswers() {
 }
 
 function captureResult() {
-  const resultTarget = document.querySelector('.result-box');
+  const resultTarget = document.getElementById('captureArea');
 
   html2canvas(resultTarget, {
     backgroundColor: null,
