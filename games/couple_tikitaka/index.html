@@ -1,21 +1,12 @@
+
+<!DOCTYPE html>
+
+<html lang="ko">
 <head>
-  <meta charset="utf-8"/>
-  <!-- CSP: 외부 스크립트 허용 추가 -->
-<meta http-equiv="Content-Security-Policy"
-      content="
-        default-src 'self';
-        script-src  'self' 'unsafe-inline' 'unsafe-eval'
-                    https://cdnjs.cloudflare.com
-                    https://wcs.naver.net
-                    https://ssl.pstatic.net;
-        style-src   'self' 'unsafe-inline';
-        img-src     'self' data:;
-        connect-src 'self' https://wcs.naver.com;
-      ">
-  <!-- viewport, title 등 -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>너와 나의 TIKI TAKA</title>
-  <link href="assets/favicon.ico" rel="icon" type="image/x-icon"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>너와 나의 TIKI TAKA</title>
+<link href="assets/favicon.ico" rel="icon" type="image/x-icon"/>
 <style>
     body {
       margin: 0;
@@ -669,30 +660,21 @@ function captureResult() {
 }
     
 function startGame() {
- // ───── 1) 상태 초기화 ─────
-  isFirst = true;         // TIKI 단계로 돌아가기
-  index = 0;              // 질문 인덱스 0으로
-  firstAnswers = [];      // 앞선 답변들 비우기
-  secondAnswers = [];
-  score = 0;              // 점수 리셋
-
-  // ───── 2) 1라운드 설정 ─────
+  // 1라운드 시작
   currentRound = 1;
   totalQuestionsAsked = questionsPerRound;
 
-  // ───── 3) 질문 뽑기 (원본 배열 훼손 방지) ─────
-  selectedQuestions = [...questions]       // 원본 questions 복사
-    .sort(() => Math.random() - 0.5)       // 섞고
-    .slice(0, questionsPerRound);         // 앞의 5개만
+  // 1라운드 질문 뽑기
+  selectedQuestions = questions
+    .sort(() => Math.random() - 0.5)
+    .slice(0, questionsPerRound);
 
-  // ───── 4) UI 전환 ─────
-  document.getElementById("startPrompt").style.display   = "none";
-  document.getElementById("questionBox").style.display   = "block";
-  document.getElementById("btn1").disabled                = false;
-  document.getElementById("btn2").disabled                = false;
-
-  // ───── 5) 첫 질문 보여주기 ─────
+  // UI 전환
+  document.getElementById("startPrompt").style.display = "none";
+  document.getElementById("questionBox").style.display = "block";
   showQuestion();
+  document.getElementById('btn1').disabled = false;
+  document.getElementById('btn2').disabled = false;
 }
     
 function showQuestion() {
