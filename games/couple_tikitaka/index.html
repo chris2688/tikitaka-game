@@ -1,16 +1,17 @@
 <head>
   <meta charset="utf-8"/>
   <!-- CSP: 외부 스크립트 허용 추가 -->
-  <meta http-equiv="Content-Security-Policy"
-        content="
-          default-src 'self';
-          script-src  'self' 'unsafe-inline' 'unsafe-eval'
-                      https://cdnjs.cloudflare.com
-                      https://wcs.naver.net;
-          style-src   'self' 'unsafe-inline';
-          img-src     'self' data:;
-          connect-src 'self';
-        ">
+<meta http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        script-src  'self' 'unsafe-inline' 'unsafe-eval'
+                    https://cdnjs.cloudflare.com
+                    https://wcs.naver.net
+                    https://ssl.pstatic.net;
+        style-src   'self' 'unsafe-inline';
+        img-src     'self' data:;
+        connect-src 'self' https://wcs.naver.com;
+      ">
   <!-- viewport, title 등 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
   <title>너와 나의 TIKI TAKA</title>
