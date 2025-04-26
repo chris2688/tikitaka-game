@@ -479,6 +479,7 @@ const tikiTakaSounds = [
 let tikiTakaIndex = 0;
 
 function playTikiTakaSound() {
+if (!isFirst) return;
   const src = tikiTakaSounds[tikiTakaIndex % tikiTakaSounds.length];
   const audio = new Audio(src);
   audio.volume = 0.5;
