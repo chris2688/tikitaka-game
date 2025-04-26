@@ -1049,8 +1049,6 @@ function captureResult() {
   const page2Items = Array.from(allItems).slice(splitIndex);
   const totalPages = page2Items.length > 0 ? 2 : 1;
 
-  const originalClone = finalResult.cloneNode(true);
-
   function createCaptureLayer(pageItems, pageIndex, totalPages) {
     const captureLayer = document.createElement('div');
     captureLayer.style.position = 'fixed';
@@ -1064,7 +1062,9 @@ function captureResult() {
     captureLayer.style.alignItems = 'center';
     captureLayer.style.padding = '20px';
 
-    const resultSummary = document.querySelector('#resultSummaryBox').cloneNode(true);
+    const resultSummary = finalResult.querySelector('#resultSummaryBox')
+      ? finalResult.querySelector('#resultSummaryBox').cloneNode(true)
+      : document.createElement('div');
     resultSummary.style.backgroundColor = 'rgba(255,255,255,0.85)';
     resultSummary.style.color = '#000';
     resultSummary.style.borderRadius = '16px';
