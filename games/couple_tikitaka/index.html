@@ -1036,6 +1036,7 @@ function captureAnswers() {
 }
 
 
+// 최종 버전 captureResult() 함수
 function captureResult() {
   const finalResult = document.getElementById('finalResult');
   if (!finalResult) return;
@@ -1050,6 +1051,8 @@ function captureResult() {
   const page2Items = Array.from(allItems).slice(splitIndex);
   const totalPages = page2Items.length > 0 ? 2 : 1;
 
+  const resultSummary = finalResult.querySelector('#resultSummaryBox');
+
   function createCaptureLayer(pageItems, pageIndex, totalPages) {
     const captureLayer = document.createElement('div');
     captureLayer.style.position = 'fixed';
@@ -1062,82 +1065,73 @@ function captureResult() {
     captureLayer.style.flexDirection = 'column';
     captureLayer.style.alignItems = 'center';
     captureLayer.style.padding = '20px';
-    captureLayer.style.boxSizing = 'border-box';
+    captureLayer.style.zIndex = '9999';
 
-    const resultSummary = document.querySelector('#resultSummaryBox').cloneNode(true);
-    resultSummary.style.backgroundColor = 'rgba(255,255,255,0.85)';
-    resultSummary.style.color = '#000';
-    resultSummary.style.borderRadius = '16px';
-    resultSummary.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
-    resultSummary.style.maxWidth = '640px';
-    resultSummary.style.width = '90%';
-    resultSummary.style.padding = '20px';
-    resultSummary.style.marginBottom = '32px'; // ✅ 헤더와 질문 사이 여백
-    resultSummary.style.boxSizing = 'border-box';
+    const clonedSummary = resultSummary.cloneNode(true);
+    clonedSummary.style.backgroundColor = 'rgba(255,255,255,0.85)';
+    clonedSummary.style.color = '#000';
+    clonedSummary.style.borderRadius = '16px';
+    clonedSummary.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
+    clonedSummary.style.maxWidth = '640px';
+    clonedSummary.style.width = '90%';
+    clonedSummary.style.padding = '20px';
+    clonedSummary.style.marginBottom = '24px';
+    captureLayer.appendChild(clonedSummary);
 
-    const answerWrapper = document.createElement('div');
-    answerWrapper.style.backgroundColor = 'white';
-    answerWrapper.style.borderRadius = '16px';
-    answerWrapper.style.padding = '32px 24px'; // ✅ 좌우 24px, 위아래 넉넉히
-    answerWrapper.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
-    answerWrapper.style.maxWidth = '640px';
-    answerWrapper.style.width = '90%';
-    answerWrapper.style.textAlign = 'left';
-    answerWrapper.style.boxSizing = 'border-box';
+    const contentBox = document.createElement('div');
+    contentBox.style.backgroundColor = '#fff';
+    contentBox.style.borderRadius = '16px';
+    contentBox.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
+    contentBox.style.maxWidth = '640px';
+    contentBox.style.width = '90%';
+    contentBox.style.padding = '24px';
+    contentBox.style.textAlign = 'left';
+    contentBox.style.fontSize = '16px';
+    contentBox.style.lineHeight = '1.8';
+    contentBox.style.color = '#000';
+    captureLayer.appendChild(contentBox);
 
     const titleWrapper = document.createElement('div');
     titleWrapper.style.display = 'flex';
     titleWrapper.style.justifyContent = 'space-between';
     titleWrapper.style.alignItems = 'center';
-    titleWrapper.style.marginBottom = '16px';
+    titleWrapper.style.marginBottom = '20px';
+    contentBox.appendChild(titleWrapper);
 
     const title = document.createElement('h3');
     title.innerText = '📋 질문 & 답변 정리';
-    title.style.color = '#000';
     title.style.margin = '0';
     title.style.fontSize = '20px';
-
-    const pageInfo = document.createElement('div');
-    pageInfo.innerText = `${pageIndex}/${totalPages}`;
-    pageInfo.style.color = '#333';
-    pageInfo.style.fontSize = '16px';
-
+    title.style.color = '#000';
     titleWrapper.appendChild(title);
-    titleWrapper.appendChild(pageInfo);
+
+    const pageNum = document.createElement('div');
+    pageNum.innerText = `${pageIndex}/${totalPages}`;
+    pageNum.style.fontSize = '16px';
+    pageNum.style.color = '#000';
+    titleWrapper.appendChild(pageNum);
 
     const ul = document.createElement('ul');
     ul.style.listStyle = 'none';
     ul.style.padding = '0';
     ul.style.margin = '0';
+    contentBox.appendChild(ul);
 
-    pageItems.forEach(li => {
-      const clonedLi = li.cloneNode(true);
-      clonedLi.style.display = 'block';
-      clonedLi.style.width = '100%';
-      clonedLi.style.marginBottom = '24px';
-      clonedLi.style.paddingLeft = '8px';
-      clonedLi.style.paddingRight = '8px';
-      clonedLi.style.boxSizing = 'border-box';
+    pageItems.forEach((item, index) => {
+      const li = document.createElement('li');
+      li.style.marginBottom = '24px';
+      li.style.whiteSpace = 'pre-wrap';
+      li.style.wordBreak = 'break-word';
 
-      clonedLi.querySelectorAll('div').forEach(div => {
-        div.style.display = 'block';
-        div.style.width = '100%';
-        div.style.paddingLeft = '8px';
-        div.style.paddingRight = '8px';
-        div.style.lineHeight = '1.8';
-        div.style.wordBreak = 'break-word';
-        div.style.whiteSpace = 'normal';
-        div.style.overflowWrap = 'break-word';
-        div.style.boxSizing = 'border-box';
-      });
+      const qText = item.querySelector('.question')?.innerText || '';
+      const a1Text = item.querySelector('.answer1')?.innerText || '';
+      const a2Text = item.querySelector('.answer2')?.innerText || '';
+      const resultText = item.querySelector('.result')?.innerText || '';
 
-      ul.appendChild(clonedLi);
+      li.innerText = `${qText}\n\n· A: ${a1Text}\n· S: ${a2Text}\n· 결과: ${resultText}`;
+      ul.appendChild(li);
     });
 
-    answerWrapper.appendChild(titleWrapper);
-    answerWrapper.appendChild(ul);
-    captureLayer.appendChild(resultSummary);
-    captureLayer.appendChild(answerWrapper);
     document.body.appendChild(captureLayer);
 
     return html2canvas(captureLayer, {
