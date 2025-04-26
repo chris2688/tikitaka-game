@@ -1036,55 +1036,128 @@ function captureAnswers() {
 }
 
 function captureResult() {
-  const originalResultBox = document.querySelector('.result-box');
+  const finalResult = document.getElementById('finalResult');
+  if (!finalResult) return;
 
-  // 1. 가짜 캡처용 레이어 생성
-  const captureLayer = document.createElement('div');
-  captureLayer.style.position = 'fixed';
-  captureLayer.style.top = '0';
-  captureLayer.style.left = '0';
-  captureLayer.style.width = '100vw';
-  captureLayer.style.height = '100vh';
-  captureLayer.style.background = "url('assets/background.jpg') center/cover no-repeat";
-  captureLayer.style.zIndex = '10000'; // 최상단
-  captureLayer.style.display = 'flex';
-  captureLayer.style.flexDirection = 'column';
-  captureLayer.style.justifyContent = 'center';
-  captureLayer.style.alignItems = 'center';
+  const answerBox = finalResult.querySelector('#answerSummaryBox');
+  if (!answerBox) return;
 
-  // 2. 기존 결과 복사해서 붙이기
-  const clonedResult = originalResultBox.cloneNode(true);
-  clonedResult.style.background = 'rgba(255, 255, 255, 0.8)'; // 흐린 흰색 배경
-  clonedResult.style.backdropFilter = 'blur(6px)'; // 흐림효과
-  clonedResult.style.padding = '32px';
-  clonedResult.style.borderRadius = '20px';
-  clonedResult.style.boxShadow = '0 8px 20px rgba(0,0,0,0.3)';
-  clonedResult.style.color = '#111'; // 글자 어두운색으로 명확히
-  clonedResult.style.maxWidth = '600px'; // ✅ 고정폭으로 줄이기
-  clonedResult.style.width = '90%';       // 모바일에서도 깨지지 않게
-  clonedResult.style.boxSizing = 'border-box';
+  const allItems = answerBox.querySelectorAll('li');
+  const totalItems = allItems.length;
+  const splitIndex = 45;
+  const page1Items = Array.from(allItems).slice(0, splitIndex);
+  const page2Items = Array.from(allItems).slice(splitIndex);
+  const totalPages = page2Items.length > 0 ? 2 : 1;
 
-  captureLayer.appendChild(clonedResult);
-  document.body.appendChild(captureLayer);
+  const originalClone = finalResult.cloneNode(true);
 
-  // 3. 캡처 시작
-  html2canvas(captureLayer, {
-    backgroundColor: null,
-    scrollY: -window.scrollY
-  }).then(canvas1 => {
+  function createCaptureLayer(pageItems, pageIndex, totalPages) {
+    const captureLayer = document.createElement('div');
+    captureLayer.style.position = 'fixed';
+    captureLayer.style.top = '0';
+    captureLayer.style.left = '0';
+    captureLayer.style.width = '100vw';
+    captureLayer.style.minHeight = '100vh';
+    captureLayer.style.background = "url('assets/background.jpg') center/cover no-repeat";
+    captureLayer.style.display = 'flex';
+    captureLayer.style.flexDirection = 'column';
+    captureLayer.style.alignItems = 'center';
+    captureLayer.style.padding = '20px';
+
+    const resultSummary = document.querySelector('#resultSummaryBox').cloneNode(true);
+    resultSummary.style.backgroundColor = 'rgba(255,255,255,0.85)';
+    resultSummary.style.color = '#000';
+    resultSummary.style.borderRadius = '16px';
+    resultSummary.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
+    resultSummary.style.maxWidth = '640px';
+    resultSummary.style.width = '90%';
+    resultSummary.style.padding = '20px';
+    resultSummary.style.marginBottom = '24px';
+
+    const pageIndicator = document.createElement('div');
+    pageIndicator.innerText = `${pageIndex}/${totalPages}`;
+    pageIndicator.style.fontSize = '18px';
+    pageIndicator.style.color = '#000';
+    pageIndicator.style.margin = '16px 0';
+
+    const answerWrapper = document.createElement('div');
+    answerWrapper.style.backgroundColor = 'white';
+    answerWrapper.style.borderRadius = '16px';
+    answerWrapper.style.padding = '24px';
+    answerWrapper.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
+    answerWrapper.style.maxWidth = '640px';
+    answerWrapper.style.width = '90%';
+    answerWrapper.style.textAlign = 'left';
+
+    const title = document.createElement('h3');
+    title.innerText = '📋 질문 & 답변 정리';
+    title.style.color = '#000';
+    title.style.marginBottom = '16px';
+
+    const ul = document.createElement('ul');
+    ul.style.listStyle = 'none';
+    ul.style.padding = '0';
+
+    pageItems.forEach(li => {
+      const clonedLi = li.cloneNode(true);
+      clonedLi.style.display = 'block';
+      clonedLi.style.width = '100%';
+      clonedLi.style.overflowWrap = 'break-word';
+      clonedLi.style.wordBreak = 'break-word';
+      clonedLi.style.whiteSpace = 'normal';
+      clonedLi.style.lineHeight = '1.8';
+      clonedLi.style.marginBottom = '24px';
+
+      clonedLi.querySelectorAll('div').forEach(div => {
+        div.style.display = 'block';
+        div.style.width = '100%';
+        div.style.overflowWrap = 'break-word';
+        div.style.wordBreak = 'break-word';
+        div.style.whiteSpace = 'normal';
+        div.style.lineHeight = '1.8';
+        div.style.fontSize = '16px';
+      });
+
+      ul.appendChild(clonedLi);
+    });
+
+    answerWrapper.appendChild(title);
+    answerWrapper.appendChild(ul);
+    captureLayer.appendChild(resultSummary);
+    captureLayer.appendChild(pageIndicator);
+    captureLayer.appendChild(answerWrapper);
+    document.body.appendChild(captureLayer);
+
+    return html2canvas(captureLayer, {
+      backgroundColor: null,
+      scrollY: 0,
+      scale: 2,
+      useCORS: true
+    }).then(canvas => {
+      document.body.removeChild(captureLayer);
+      return canvas;
+    });
+  }
+
+  createCaptureLayer(page1Items, 1, totalPages).then(canvas1 => {
     const link1 = document.createElement('a');
-    link1.download = '티키타카_결과.png';
+    link1.download = totalPages === 1 ? '티키타카_결과.png' : '티키타카_결과1.png';
     link1.href = canvas1.toDataURL();
     link1.click();
 
-    // 4. 캡처 끝나면 레이어 제거
-    document.body.removeChild(captureLayer);
-
-    // 5. 팝업 띄우기
-    document.getElementById("popupMessage").innerText = "질문답변도 함께 저장할까요?";
-    document.getElementById("customPopup").style.display = "flex";
+    if (totalPages === 2) {
+      createCaptureLayer(page2Items, 2, totalPages).then(canvas2 => {
+        const link2 = document.createElement('a');
+        link2.download = '티키타카_결과2.png';
+        link2.href = canvas2.toDataURL();
+        link2.click();
+      });
+    }
   });
 }
+
+
+    
 
     
 function downloadAnswers() {
