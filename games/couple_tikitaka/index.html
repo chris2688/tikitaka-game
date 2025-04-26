@@ -1054,23 +1054,27 @@ function captureResult() {
 
   // 2. 기존 결과 복사해서 붙이기
   const clonedResult = originalResultBox.cloneNode(true);
-  clonedResult.style.background = 'rgba(255, 255, 255, 0.8)'; // 흐린 흰색 배경
+  clonedResult.style.background = 'rgba(255, 255, 255, 0.8)';
   clonedResult.style.backdropFilter = 'blur(6px)';
   clonedResult.style.padding = '32px';
   clonedResult.style.borderRadius = '20px';
   clonedResult.style.boxShadow = '0 8px 20px rgba(0,0,0,0.3)';
   clonedResult.style.color = '#111';
   clonedResult.style.maxWidth = '600px'; // PC에서는 600px 고정폭
-  clonedResult.style.width = '90%';       // 모바일에서도 대응
+  clonedResult.style.width = '90%';       // 모바일 대응
   clonedResult.style.boxSizing = 'border-box';
 
-  // 2-1. 공유용 캡처 이미지에만 질문 영역 스타일 조정
-  const clonedAnswerItems = clonedResult.querySelectorAll('#answerSummaryBox li > div:first-child');
-  clonedAnswerItems.forEach(function(div) {
-    div.style.lineHeight = '1.8';        // 줄 간격을 넓게
-    div.style.wordBreak = 'break-word';    // 단어 단위 자연스럽게 줄바꿈
-    div.style.whiteSpace = 'normal';       // 강제 줄바꿈 허용
-  });
+  // 2-1. 공유용 캡처 이미지에만 질문/답변 스타일 조정
+  const clonedAnswerBox = clonedResult.querySelector('#answerSummaryBox');
+  if (clonedAnswerBox) {
+    clonedAnswerBox.querySelectorAll('li > div').forEach(function(div) {
+      div.style.lineHeight = '1.8';        // ✅ 줄 간격 넓게
+      div.style.wordBreak = 'break-word';   // ✅ 단어 단위 줄바꿈
+      div.style.whiteSpace = 'normal';      // ✅ 줄바꿈 허용
+      div.style.display = 'block';          // ✅ 블록 요소로 고정
+      div.style.fontSize = '16px';           // ✅ 글자 크기도 고정
+    });
+  }
 
   captureLayer.appendChild(clonedResult);
   document.body.appendChild(captureLayer);
@@ -1093,6 +1097,7 @@ function captureResult() {
     document.getElementById("customPopup").style.display = "flex";
   });
 }
+
 
     
 function downloadAnswers() {
