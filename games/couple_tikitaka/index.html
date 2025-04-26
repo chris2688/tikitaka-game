@@ -461,7 +461,16 @@ const wrongSounds = Array.from({ length: 25 }, (_, i) =>
     audio.volume = 0.5; 
     audio.play();
   }
-
+    
+  const correctSounds = Array.from({ length: 14 }, (_, i) =>
+    `assets/sounds/correct${i+1}.mp3`
+  );
+  function playCorrectSound() {
+    const idx = Math.floor(Math.random() * correctSounds.length);
+    const audio = new Audio(correctSounds[idx]);
+    audio.volume = 0.5;
+    audio.play();
+  }
     
      const baseQuestions = [
     "먼저 사과하는 사람은?",
@@ -809,12 +818,12 @@ function showQuestion() {
     secondAnswers.push(choice);
     const globalIndex = (currentRound - 1) * questionsPerRound + index;
     const match = choice === firstAnswers[globalIndex];
- if (match) {
-      score++;
-    } else {
-      playWrongSound();
-    }
- 
+   if (match) {
+     score++;
+     playCorrectSound();  
+   } else {
+     playWrongSound();     
+   }
 
     const resultBox = document.getElementById("result");
 resultBox.innerHTML = `
