@@ -142,39 +142,43 @@ input {
   color: #003344;
 }
 
-  #answerSummaryBox {
-    width: 90%;
-    max-width: 600px;
-    margin: 0 auto;
-    box-sizing: border-box;
-  }
+#answerSummaryBox {
+  width: 95%;        /* ✅ 기존 90% → 95% 로 넓힘 */
+  max-width: 600px;   /* ✅ PC에서는 최대 600px 유지 */
+  margin: 0 auto;
+  box-sizing: border-box;
+  text-align: left;   /* ✅ 텍스트 좌측 정렬 */
+}
 
 
-  #answerSummaryBox ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  #answerSummaryBox ul li {
-    margin-bottom: 24px;
-  }
+#answerSummaryBox ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 
+#answerSummaryBox ul li {
+  margin-bottom: 24px;
+  text-align: left;   /* ✅ 좌측 정렬 추가 */
+  word-break: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
 
- #answerSummaryBox ul li > div:first-child {
+#answerSummaryBox ul li > div:first-child {
   display: block;
- white-space: normal !important;
- overflow-wrap: break-word;
- word-break: break-all;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
   line-height: 1.6;
   margin-bottom: 8px;
 }
 
   /* 답변 들은 살짝 들여쓰기 */
-  #answerSummaryBox ul li > div:not(:first-child) {
-    margin-left: 16px;
-    line-height: 1.4;
-  }
-    
+#answerSummaryBox ul li > div:not(:first-child) {
+  margin-left: 16px;
+  line-height: 1.4;
+}
     
 .round-indicator.round-1  { background: #ffaaa5; }  /* 파스텔 코랄 */
 .round-indicator.round-2  { background: #ffde74; }  /* 파스텔 옐로우 */
@@ -1124,11 +1128,15 @@ function captureResult() {
     captureLayer.appendChild(answerWrapper);
     document.body.appendChild(captureLayer);
 
-    return html2canvas(captureLayer, { backgroundColor: null, scrollY: 0, scale: 2 }).then(canvas => {
-      document.body.removeChild(captureLayer);
-      return canvas;
-    });
-  }
+ return html2canvas(captureLayer, {
+  backgroundColor: null,
+  scrollY: 0,
+  scale: 2,
+  useCORS: true   // ✅ 추가!
+}).then(canvas => {
+  document.body.removeChild(captureLayer);
+  return canvas;
+});
 
   const page1Items = Array.from(allItems).slice(0, splitIndex);
   const page2Items = Array.from(allItems).slice(splitIndex);
