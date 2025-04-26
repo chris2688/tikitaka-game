@@ -1039,18 +1039,21 @@ function captureResult() {
   const originalResultBox = document.querySelector('.result-box');
 
   // 1. 가짜 캡처용 레이어 생성
-  const captureLayer = document.createElement('div');
-  captureLayer.style.position = 'fixed';
-  captureLayer.style.top = '0';
-  captureLayer.style.left = '0';
-  captureLayer.style.width = '100vw';
-  captureLayer.style.height = '100vh';
-  captureLayer.style.background = "url('assets/background.jpg') center/cover no-repeat";
-  captureLayer.style.zIndex = '10000';
-  captureLayer.style.display = 'flex';
-  captureLayer.style.flexDirection = 'column';
-  captureLayer.style.justifyContent = 'center';
-  captureLayer.style.alignItems = 'center';
+const captureLayer = document.createElement('div');
+captureLayer.style.position = 'fixed';
+captureLayer.style.top = '0';
+captureLayer.style.left = '0';
+captureLayer.style.width = '960px';        // ✅ 무조건 고정폭 960px
+captureLayer.style.height = 'auto';         // ✅ 자동 높이
+captureLayer.style.minHeight = '100vh';     // ✅ 최소 높이 유지
+captureLayer.style.background = "url('assets/background.jpg') center/cover no-repeat";
+captureLayer.style.zIndex = '10000';
+captureLayer.style.display = 'flex';
+captureLayer.style.flexDirection = 'column';
+captureLayer.style.justifyContent = 'center';
+captureLayer.style.alignItems = 'center';
+captureLayer.style.padding = '40px 20px';   // ✅ 여백 살짝 추가
+captureLayer.style.boxSizing = 'border-box'; // ✅ 박스 사이즈 안정화
 
 // 2. 기존 결과 복사해서 붙이기
 const clonedResult = originalResultBox.cloneNode(true);
