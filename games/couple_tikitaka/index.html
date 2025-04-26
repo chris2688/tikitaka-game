@@ -1050,7 +1050,7 @@ function captureResult() {
 
   const allItems = answerBox.querySelectorAll('li');
   const totalItems = allItems.length;
-  const splitIndex = 45; // 45개 기준으로 나눈다
+  const splitIndex = 45; // 45개 기준
 
   const originalStyle = {
     width: finalResult.style.width,
@@ -1090,12 +1090,7 @@ function captureResult() {
       link.href = canvas.toDataURL();
       link.click();
 
-      finalResult.style.width = originalStyle.width;
-      finalResult.style.maxWidth = originalStyle.maxWidth;
-      finalResult.style.padding = originalStyle.padding;
-      finalResult.style.background = originalStyle.background;
-      finalResult.style.borderRadius = originalStyle.borderRadius;
-      finalResult.style.boxSizing = originalStyle.boxSizing;
+      restoreOriginalStyle();
     });
   } else {
     // 1장 캡쳐 (1~45개)
@@ -1113,17 +1108,21 @@ function captureResult() {
       link1.href = canvas1.toDataURL();
       link1.click();
 
-      // 2장 캡쳐 (46개 이후)
+      // 2장 캡쳐 준비 (46번부터)
       allItems.forEach((item, idx) => {
         item.style.display = (idx >= splitIndex) ? 'block' : 'none';
       });
 
       const resultSummary = finalResult.querySelector('#resultSummaryBox');
       if (resultSummary) {
-        resultSummary.style.display = 'none'; // 2장엔 성공률 숨김
+        resultSummary.style.display = 'none';
       }
 
-      setTimeout(() => {  // ⭐ 캔버스 준비 시간 확보
+      // 🌟 여기가 추가!
+      // 최소 높이 확보하기 (질문 수가 적을 경우 캔버스 비는 문제 해결)
+      finalResult.style.minHeight = '1200px'; // 무조건 최소 높이 확보
+
+      setTimeout(() => {
         html2canvas(finalResult, {
           backgroundColor: null,
           scrollY: 0,
@@ -1134,21 +1133,26 @@ function captureResult() {
           link2.href = canvas2.toDataURL();
           link2.click();
 
-          // 복구
-          allItems.forEach(item => item.style.display = 'block');
-          if (resultSummary) {
-            resultSummary.style.display = 'block';
-          }
-
-          finalResult.style.width = originalStyle.width;
-          finalResult.style.maxWidth = originalStyle.maxWidth;
-          finalResult.style.padding = originalStyle.padding;
-          finalResult.style.background = originalStyle.background;
-          finalResult.style.borderRadius = originalStyle.borderRadius;
-          finalResult.style.boxSizing = originalStyle.boxSizing;
+          restoreOriginalStyle();
         });
-      }, 100);  // 0.1초 대기 후 캡쳐 (모바일에서 블랙스크린 방지)
+      }, 100);
     });
+  }
+
+  function restoreOriginalStyle() {
+    // 모든 스타일 원복
+    finalResult.style.width = originalStyle.width;
+    finalResult.style.maxWidth = originalStyle.maxWidth;
+    finalResult.style.padding = originalStyle.padding;
+    finalResult.style.background = originalStyle.background;
+    finalResult.style.borderRadius = originalStyle.borderRadius;
+    finalResult.style.boxSizing = originalStyle.boxSizing;
+    finalResult.style.minHeight = ''; // ⭐ 추가로 minHeight 원복
+    finalResult.querySelectorAll('li').forEach(item => item.style.display = 'block');
+    const resultSummary = finalResult.querySelector('#resultSummaryBox');
+    if (resultSummary) {
+      resultSummary.style.display = 'block';
+    }
   }
 }
 
