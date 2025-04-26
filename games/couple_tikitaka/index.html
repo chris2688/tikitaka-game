@@ -1036,7 +1036,6 @@ function captureAnswers() {
 }
 
 
-// 최종 버전 captureResult() 함수
 function captureResult() {
   const finalResult = document.getElementById('finalResult');
   if (!finalResult) return;
@@ -1123,12 +1122,13 @@ function captureResult() {
       li.style.whiteSpace = 'pre-wrap';
       li.style.wordBreak = 'break-word';
 
-      const qText = item.querySelector('.question')?.innerText || '';
-      const a1Text = item.querySelector('.answer1')?.innerText || '';
-      const a2Text = item.querySelector('.answer2')?.innerText || '';
-      const resultText = item.querySelector('.result')?.innerText || '';
+      const divs = item.querySelectorAll('div');
+      const question = divs[0]?.innerText || '';
+      const answer1 = divs[1]?.innerText || '';
+      const answer2 = divs[2]?.innerText || '';
+      const result = divs[3]?.innerText || '';
 
-      li.innerText = `${qText}\n\n· A: ${a1Text}\n· S: ${a2Text}\n· 결과: ${resultText}`;
+      li.innerText = `Q${index + 1}. ${question}\n· A: ${answer1}\n· S: ${answer2}\n· 결과: ${result}`;
       ul.appendChild(li);
     });
 
