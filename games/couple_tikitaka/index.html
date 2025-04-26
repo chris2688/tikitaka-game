@@ -1049,7 +1049,7 @@ function captureResult() {
   const page2Items = Array.from(allItems).slice(splitIndex);
   const totalPages = page2Items.length > 0 ? 2 : 1;
 
-  const nameHeader = finalResult.querySelector('#resultSummaryBox')?.cloneNode(true);
+  const summaryContent = document.querySelector('#resultSummaryBox').cloneNode(true);
 
   function createCaptureLayer(pageItems, pageIndex, totalPages) {
     const captureLayer = document.createElement('div');
@@ -1065,26 +1065,21 @@ function captureResult() {
     captureLayer.style.padding = '20px';
     captureLayer.style.boxSizing = 'border-box';
 
-    // 결과 상단 고정
-    if (nameHeader) {
-      const summaryClone = nameHeader.cloneNode(true);
-      summaryClone.style.backgroundColor = 'rgba(255,255,255,0.85)';
-      summaryClone.style.color = '#000';
-      summaryClone.style.borderRadius = '16px';
-      summaryClone.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
-      summaryClone.style.maxWidth = '640px';
-      summaryClone.style.width = '90%';
-      summaryClone.style.padding = '20px';
-      summaryClone.style.marginBottom = '24px';
-      captureLayer.appendChild(summaryClone);
-    }
+    const resultSummary = summaryContent.cloneNode(true);
+    resultSummary.style.backgroundColor = 'rgba(255,255,255,0.85)';
+    resultSummary.style.color = '#000';
+    resultSummary.style.borderRadius = '16px';
+    resultSummary.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
+    resultSummary.style.maxWidth = '640px';
+    resultSummary.style.width = '90%';
+    resultSummary.style.padding = '20px';
+    resultSummary.style.marginBottom = '24px';
 
     const pageIndicator = document.createElement('div');
-    pageIndicator.innerText = `${pageIndex}/${totalPages}`;
-    pageIndicator.style.fontSize = '18px';
+    pageIndicator.innerText = `페이지 ${pageIndex}/${totalPages}`;
+    pageIndicator.style.fontSize = '16px';
     pageIndicator.style.color = '#000';
-    pageIndicator.style.margin = '8px 0';
-    captureLayer.appendChild(pageIndicator);
+    pageIndicator.style.marginBottom = '12px';
 
     const answerWrapper = document.createElement('div');
     answerWrapper.style.backgroundColor = 'white';
@@ -1105,33 +1100,43 @@ function captureResult() {
     ul.style.listStyle = 'none';
     ul.style.padding = '0';
 
-    pageItems.forEach((li, index) => {
+    pageItems.forEach((li, idx) => {
       const clonedLi = li.cloneNode(true);
-      clonedLi.style.display = 'block';
-      clonedLi.style.width = '100%';
-      clonedLi.style.overflowWrap = 'break-word';
+      clonedLi.style.marginBottom = '24px';
+      clonedLi.style.lineHeight = '1.8';
       clonedLi.style.wordBreak = 'break-word';
       clonedLi.style.whiteSpace = 'normal';
-      clonedLi.style.lineHeight = '1.8';
-      clonedLi.style.marginBottom = '24px';
-      clonedLi.style.textAlign = 'left';
 
-      clonedLi.querySelectorAll('div').forEach(div => {
+      const divs = clonedLi.querySelectorAll('div');
+      divs.forEach((div, index) => {
         div.style.display = 'block';
         div.style.width = '100%';
-        div.style.overflowWrap = 'break-word';
         div.style.wordBreak = 'break-word';
         div.style.whiteSpace = 'normal';
-        div.style.lineHeight = '1.8';
-        div.style.fontSize = '16px';
-        div.style.textAlign = 'left';
+        div.style.lineHeight = '1.6';
+        div.style.fontSize = index === 0 ? '16px' : '14px'; // 질문은 16px, 답변은 14px
+        if (index === 0) div.style.fontWeight = 'bold'; // 질문은 bold
+        if (index > 0) div.style.marginLeft = '12px';   // 답변은 살짝 들여쓰기
       });
+
+      const resultDiv = divs[divs.length - 1];
+      if (resultDiv) {
+        resultDiv.style.color = '#555';
+        const strong = resultDiv.querySelector('span');
+        if (strong) {
+          strong.style.fontSize = '16px';
+          strong.style.fontWeight = 'bold';
+          strong.style.color = strong.innerText.includes('TIKI') ? '#00bfa5' : '#e53935';
+        }
+      }
 
       ul.appendChild(clonedLi);
     });
 
     answerWrapper.appendChild(title);
     answerWrapper.appendChild(ul);
+    captureLayer.appendChild(resultSummary);
+    captureLayer.appendChild(pageIndicator);
     captureLayer.appendChild(answerWrapper);
     document.body.appendChild(captureLayer);
 
@@ -1162,6 +1167,7 @@ function captureResult() {
     }
   });
 }
+
 
     
 
