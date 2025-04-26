@@ -1035,7 +1035,7 @@ function captureAnswers() {
   });
 }
 
-// ✅ 완전히 수정된 captureResult() 함수 (글자 안나오는 문제 해결)
+
 function captureResult() {
   const finalResult = document.getElementById('finalResult');
   if (!finalResult) return;
@@ -1059,6 +1059,7 @@ function captureResult() {
     captureLayer.style.left = '0';
     captureLayer.style.width = '100vw';
     captureLayer.style.minHeight = '100vh';
+    captureLayer.style.minWidth = '640px'; /* ✅ 최소 640px 강제 */
     captureLayer.style.background = "url('assets/background.jpg') center/cover no-repeat";
     captureLayer.style.display = 'flex';
     captureLayer.style.flexDirection = 'column';
@@ -1074,9 +1075,16 @@ function captureResult() {
     summaryClone.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
     summaryClone.style.maxWidth = '640px';
     summaryClone.style.width = '90%';
+    summaryClone.style.minWidth = '640px'; /* ✅ */
     summaryClone.style.padding = '20px';
     summaryClone.style.marginBottom = '24px';
-    summaryClone.querySelectorAll('*').forEach(el => el.style.color = '#000');
+    summaryClone.querySelectorAll('*').forEach(el => {
+      el.style.color = '#000';
+      el.style.lineHeight = '1.6';  /* ✅ 줄간격 여유 */
+      el.style.wordBreak = 'break-word';
+      el.style.whiteSpace = 'normal';
+      el.style.overflowWrap = 'break-word';
+    });
 
     const answerWrapper = document.createElement('div');
     answerWrapper.style.backgroundColor = 'white';
@@ -1085,6 +1093,7 @@ function captureResult() {
     answerWrapper.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
     answerWrapper.style.maxWidth = '640px';
     answerWrapper.style.width = '90%';
+    answerWrapper.style.minWidth = '640px'; /* ✅ */
     answerWrapper.style.textAlign = 'left';
     answerWrapper.style.boxSizing = 'border-box';
 
@@ -1118,23 +1127,24 @@ function captureResult() {
       const clonedLi = li.cloneNode(true);
       clonedLi.style.display = 'block';
       clonedLi.style.width = '100%';
-      clonedLi.style.overflowWrap = 'break-word';
-      clonedLi.style.wordBreak = 'break-word';
-      clonedLi.style.whiteSpace = 'normal';
-      clonedLi.style.lineHeight = '1.8';
       clonedLi.style.marginBottom = '24px';
       clonedLi.style.textAlign = 'left';
+      clonedLi.style.wordBreak = 'break-word';
+      clonedLi.style.whiteSpace = 'normal';
+      clonedLi.style.overflowWrap = 'break-word';
+      clonedLi.style.lineHeight = '1.8'; /* ✅ 답변 줄 간격 늘림 */
 
       clonedLi.querySelectorAll('div').forEach(div => {
         div.style.display = 'block';
         div.style.width = '100%';
-        div.style.overflowWrap = 'break-word';
-        div.style.wordBreak = 'break-word';
-        div.style.whiteSpace = 'normal';
-        div.style.lineHeight = '1.8';
         div.style.fontSize = '16px';
+        div.style.lineHeight = '1.8';  /* ✅ */
         div.style.textAlign = 'left';
         div.style.color = '#000';
+        div.style.wordBreak = 'break-word';
+        div.style.whiteSpace = 'normal';
+        div.style.overflowWrap = 'break-word';
+        div.style.padding = '2px 0';  /* ✅ 간격 여유 */
       });
 
       ul.appendChild(clonedLi);
@@ -1173,6 +1183,7 @@ function captureResult() {
     }
   });
 }
+
 
 
     
