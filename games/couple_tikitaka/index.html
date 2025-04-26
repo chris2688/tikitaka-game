@@ -1066,15 +1066,29 @@ function captureResult() {
 
   // 2-1. 공유용 캡처 이미지에만 질문/답변 스타일 조정
   const clonedAnswerBox = clonedResult.querySelector('#answerSummaryBox');
-  if (clonedAnswerBox) {
-    clonedAnswerBox.querySelectorAll('li > div').forEach(function(div) {
-      div.style.lineHeight = '1.8';        // ✅ 줄 간격 넓게
-      div.style.wordBreak = 'break-word';   // ✅ 단어 단위 줄바꿈
-      div.style.whiteSpace = 'normal';      // ✅ 줄바꿈 허용
-      div.style.display = 'block';          // ✅ 블록 요소로 고정
-      div.style.fontSize = '16px';           // ✅ 글자 크기도 고정
-    });
-  }
+if (clonedAnswerBox) {
+  // li 태그 자체에도 스타일 조정
+  clonedAnswerBox.querySelectorAll('li').forEach(function(li) {
+    li.style.display = 'block';
+    li.style.width = '100%';
+    li.style.overflowWrap = 'break-word';
+    li.style.wordBreak = 'break-word';
+    li.style.whiteSpace = 'normal';
+    li.style.lineHeight = '1.8';
+    li.style.marginBottom = '24px'; // 질문 간 간격도 추가
+  });
+
+  // li 안의 div들도 스타일 조정
+  clonedAnswerBox.querySelectorAll('li > div').forEach(function(div) {
+    div.style.display = 'block';
+    div.style.width = '100%';
+    div.style.overflowWrap = 'break-word';
+    div.style.wordBreak = 'break-word';
+    div.style.whiteSpace = 'normal';
+    div.style.lineHeight = '1.8';
+    div.style.fontSize = '16px';
+  });
+}
 
   captureLayer.appendChild(clonedResult);
   document.body.appendChild(captureLayer);
