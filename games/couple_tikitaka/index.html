@@ -1036,101 +1036,67 @@ function captureAnswers() {
 }
 
 function captureResult() {
-  const originalResultBox = document.getElementById('finalResult'); // ✅ 전체 결과 박스를 복제
-  if (!originalResultBox) {
+  const finalResult = document.getElementById('finalResult');
+  if (!finalResult) {
     alert('결과를 찾을 수 없습니다.');
     return;
   }
 
-  // 1. 가짜 캡처용 레이어 생성
-  const captureLayer = document.createElement('div');
-  captureLayer.style.position = 'fixed';
-  captureLayer.style.top = '0';
-  captureLayer.style.left = '0';
-  captureLayer.style.width = '960px';       // ✅ 캡처용 넓이
-  captureLayer.style.minHeight = '100vh'; 
-  captureLayer.style.height = 'auto';
-  captureLayer.style.background = "url('assets/background.jpg') center/cover no-repeat"; // ✅ 배경
-  captureLayer.style.zIndex = '9999';
-  captureLayer.style.display = 'flex';
-  captureLayer.style.flexDirection = 'column';
-  captureLayer.style.justifyContent = 'center';
-  captureLayer.style.alignItems = 'center';
-  captureLayer.style.opacity = '0';          // ✅ 투명 처리 (보이지 않게)
-  captureLayer.style.pointerEvents = 'none'; 
-  captureLayer.style.boxSizing = 'border-box';
-  captureLayer.style.padding = '40px 20px';
+  // ✅ 원래 스타일 백업
+  const originalStyle = {
+    width: finalResult.style.width,
+    maxWidth: finalResult.style.maxWidth,
+    padding: finalResult.style.padding,
+    background: finalResult.style.background,
+    borderRadius: finalResult.style.borderRadius,
+    boxSizing: finalResult.style.boxSizing
+  };
 
-  // 2. 결과 박스 복제
-  const clonedResult = originalResultBox.cloneNode(true);
+  // ✅ 캡쳐용 스타일 임시 적용
+  finalResult.style.width = '960px';
+  finalResult.style.maxWidth = '960px';
+  finalResult.style.padding = '40px';
+  finalResult.style.background = "url('assets/background.jpg') center/cover no-repeat";
+  finalResult.style.borderRadius = '20px';
+  finalResult.style.boxSizing = 'border-box';
 
-  // 3. 전체 clonedResult 스타일
-  clonedResult.style.display = 'block';
-  clonedResult.style.width = '100%';
-  clonedResult.style.maxWidth = '960px';
-  clonedResult.style.background = 'rgba(255, 255, 255, 0.85)'; 
-  clonedResult.style.padding = '32px';
-  clonedResult.style.borderRadius = '20px';
-  clonedResult.style.boxShadow = '0 8px 20px rgba(0,0,0,0.3)';
-  clonedResult.style.color = '#111';
-  clonedResult.style.fontFamily = "'Pretendard', 'Noto Sans KR', sans-serif";
-  clonedResult.style.fontSize = '18px';
-  clonedResult.style.lineHeight = '1.8';
-  clonedResult.style.wordBreak = 'break-word';
-  clonedResult.style.whiteSpace = 'normal';
-  clonedResult.style.boxSizing = 'border-box';
-  clonedResult.style.transform = 'none'; 
+  // ✅ 내부 텍스트 줄바꿈 스타일 강제 적용
+  finalResult.querySelectorAll('li, li > div').forEach(el => {
+    el.style.display = 'block';
+    el.style.width = '100%';
+    el.style.fontSize = '18px';
+    el.style.lineHeight = '1.8';
+    el.style.wordBreak = 'break-word';
+    el.style.overflowWrap = 'break-word';
+    el.style.whiteSpace = 'normal';
+    el.style.boxSizing = 'border-box';
+  });
 
-  // 4. 내부 질문+답변(li, div) 스타일 강제 정리
-  const answerBox = clonedResult.querySelector('#answerSummaryBox');
-  if (answerBox) {
-    answerBox.querySelectorAll('li').forEach(li => {
-      li.style.display = 'block';
-      li.style.width = '100%';
-      li.style.fontSize = '18px';
-      li.style.lineHeight = '1.8';
-      li.style.wordBreak = 'break-word';
-      li.style.overflowWrap = 'break-word';
-      li.style.whiteSpace = 'normal';
-      li.style.marginBottom = '24px';
-      li.style.boxSizing = 'border-box';
-    });
-
-    answerBox.querySelectorAll('li > div').forEach(div => {
-      div.style.display = 'block';
-      div.style.width = '100%';
-      div.style.fontSize = '18px';
-      div.style.lineHeight = '1.8';
-      div.style.wordBreak = 'break-word';
-      div.style.overflowWrap = 'break-word';
-      div.style.whiteSpace = 'normal';
-      div.style.boxSizing = 'border-box';
-    });
-  }
-
-  captureLayer.appendChild(clonedResult);
-  document.body.appendChild(captureLayer);
-
-  // 5. 캡처
-  html2canvas(captureLayer, {
+  // ✅ 캡처 시작
+  html2canvas(finalResult, {
     backgroundColor: null,
     scrollY: 0,
-    scale: 2
+    scale: 2 // 해상도 2배
   }).then(canvas => {
+    // ✅ 다운로드
     const link = document.createElement('a');
     link.download = '티키타카_결과.png';
     link.href = canvas.toDataURL();
     link.click();
 
-    // 6. 캡처 끝나면 가짜 레이어 삭제
-    document.body.removeChild(captureLayer);
+    // ✅ 캡처 후 스타일 복구
+    finalResult.style.width = originalStyle.width;
+    finalResult.style.maxWidth = originalStyle.maxWidth;
+    finalResult.style.padding = originalStyle.padding;
+    finalResult.style.background = originalStyle.background;
+    finalResult.style.borderRadius = originalStyle.borderRadius;
+    finalResult.style.boxSizing = originalStyle.boxSizing;
 
-    // 7. 공유 완료 후 팝업 띄우기
+    // ✅ 공유 후 팝업 띄우기
     document.getElementById("popupMessage").innerText = "질문답변도 함께 저장할까요?";
     document.getElementById("customPopup").style.display = "flex";
   });
 }
-
 
     
 function downloadAnswers() {
