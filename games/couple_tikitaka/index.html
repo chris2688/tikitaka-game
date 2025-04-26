@@ -1046,7 +1046,7 @@ function captureResult() {
   captureLayer.style.width = '100vw';
   captureLayer.style.height = '100vh';
   captureLayer.style.background = "url('assets/background.jpg') center/cover no-repeat";
-  captureLayer.style.zIndex = '10000'; // 최상단
+  captureLayer.style.zIndex = '10000';
   captureLayer.style.display = 'flex';
   captureLayer.style.flexDirection = 'column';
   captureLayer.style.justifyContent = 'center';
@@ -1055,14 +1055,22 @@ function captureResult() {
   // 2. 기존 결과 복사해서 붙이기
   const clonedResult = originalResultBox.cloneNode(true);
   clonedResult.style.background = 'rgba(255, 255, 255, 0.8)'; // 흐린 흰색 배경
-  clonedResult.style.backdropFilter = 'blur(6px)'; // 흐림효과
+  clonedResult.style.backdropFilter = 'blur(6px)';
   clonedResult.style.padding = '32px';
   clonedResult.style.borderRadius = '20px';
   clonedResult.style.boxShadow = '0 8px 20px rgba(0,0,0,0.3)';
-  clonedResult.style.color = '#111'; // 글자 어두운색으로 명확히
-  clonedResult.style.maxWidth = '600px'; // ✅ 고정폭으로 줄이기
-  clonedResult.style.width = '90%';       // 모바일에서도 깨지지 않게
+  clonedResult.style.color = '#111';
+  clonedResult.style.maxWidth = '600px'; // PC에서는 600px 고정폭
+  clonedResult.style.width = '90%';       // 모바일에서도 대응
   clonedResult.style.boxSizing = 'border-box';
+
+  // 2-1. 공유용 캡처 이미지에만 질문 영역 스타일 조정
+  const clonedAnswerItems = clonedResult.querySelectorAll('#answerSummaryBox li > div:first-child');
+  clonedAnswerItems.forEach(function(div) {
+    div.style.lineHeight = '1.8';        // 줄 간격을 넓게
+    div.style.wordBreak = 'break-word';    // 단어 단위 자연스럽게 줄바꿈
+    div.style.whiteSpace = 'normal';       // 강제 줄바꿈 허용
+  });
 
   captureLayer.appendChild(clonedResult);
   document.body.appendChild(captureLayer);
@@ -1077,10 +1085,10 @@ function captureResult() {
     link1.href = canvas1.toDataURL();
     link1.click();
 
-    // 4. 캡처 끝나면 레이어 제거
+    // 4. 캡처 후 레이어 제거
     document.body.removeChild(captureLayer);
 
-    // 5. 팝업 띄우기
+    // 5. 팝업 띄우기 (캡처 후 추가 작업 등)
     document.getElementById("popupMessage").innerText = "질문답변도 함께 저장할까요?";
     document.getElementById("customPopup").style.display = "flex";
   });
