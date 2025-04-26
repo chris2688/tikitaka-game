@@ -1050,8 +1050,6 @@ function captureResult() {
   const page2Items = Array.from(allItems).slice(splitIndex);
   const totalPages = page2Items.length > 0 ? 2 : 1;
 
-  const finalSummary = document.querySelector('#resultSummaryBox');
-
   function createCaptureLayer(pageItems, pageIndex, totalPages) {
     const captureLayer = document.createElement('div');
     captureLayer.style.position = 'fixed';
@@ -1059,64 +1057,53 @@ function captureResult() {
     captureLayer.style.left = '0';
     captureLayer.style.width = '100vw';
     captureLayer.style.minHeight = '100vh';
-    captureLayer.style.minWidth = '640px'; /* ✅ 최소 640px 강제 */
     captureLayer.style.background = "url('assets/background.jpg') center/cover no-repeat";
     captureLayer.style.display = 'flex';
     captureLayer.style.flexDirection = 'column';
     captureLayer.style.alignItems = 'center';
     captureLayer.style.padding = '20px';
     captureLayer.style.boxSizing = 'border-box';
-    captureLayer.style.zIndex = '9999';
 
-    const summaryClone = finalSummary.cloneNode(true);
-    summaryClone.style.backgroundColor = 'rgba(255,255,255,0.85)';
-    summaryClone.style.color = '#000';
-    summaryClone.style.borderRadius = '16px';
-    summaryClone.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
-    summaryClone.style.maxWidth = '640px';
-    summaryClone.style.width = '90%';
-    summaryClone.style.minWidth = '640px'; /* ✅ */
-    summaryClone.style.padding = '20px';
-    summaryClone.style.marginBottom = '24px';
-    summaryClone.querySelectorAll('*').forEach(el => {
-      el.style.color = '#000';
-      el.style.lineHeight = '1.6';  /* ✅ 줄간격 여유 */
-      el.style.wordBreak = 'break-word';
-      el.style.whiteSpace = 'normal';
-      el.style.overflowWrap = 'break-word';
-    });
+    const resultSummary = document.querySelector('#resultSummaryBox').cloneNode(true);
+    resultSummary.style.backgroundColor = 'rgba(255,255,255,0.85)';
+    resultSummary.style.color = '#000';
+    resultSummary.style.borderRadius = '16px';
+    resultSummary.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
+    resultSummary.style.maxWidth = '640px';
+    resultSummary.style.width = '90%';
+    resultSummary.style.padding = '20px';
+    resultSummary.style.marginBottom = '32px'; // ✅ 헤더와 질문 사이 여백
+    resultSummary.style.boxSizing = 'border-box';
 
     const answerWrapper = document.createElement('div');
     answerWrapper.style.backgroundColor = 'white';
     answerWrapper.style.borderRadius = '16px';
-    answerWrapper.style.padding = '24px';
+    answerWrapper.style.padding = '32px 24px'; // ✅ 좌우 24px, 위아래 넉넉히
     answerWrapper.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
     answerWrapper.style.maxWidth = '640px';
     answerWrapper.style.width = '90%';
-    answerWrapper.style.minWidth = '640px'; /* ✅ */
     answerWrapper.style.textAlign = 'left';
     answerWrapper.style.boxSizing = 'border-box';
 
-    const titleBox = document.createElement('div');
-    titleBox.style.display = 'flex';
-    titleBox.style.justifyContent = 'space-between';
-    titleBox.style.alignItems = 'center';
-    titleBox.style.marginBottom = '16px';
+    const titleWrapper = document.createElement('div');
+    titleWrapper.style.display = 'flex';
+    titleWrapper.style.justifyContent = 'space-between';
+    titleWrapper.style.alignItems = 'center';
+    titleWrapper.style.marginBottom = '16px';
 
     const title = document.createElement('h3');
     title.innerText = '📋 질문 & 답변 정리';
     title.style.color = '#000';
-    title.style.fontSize = '20px';
     title.style.margin = '0';
+    title.style.fontSize = '20px';
 
-    const paging = document.createElement('div');
-    paging.innerText = `${pageIndex}/${totalPages}`;
-    paging.style.color = '#000';
-    paging.style.fontSize = '16px';
-    paging.style.marginLeft = 'auto';
+    const pageInfo = document.createElement('div');
+    pageInfo.innerText = `${pageIndex}/${totalPages}`;
+    pageInfo.style.color = '#333';
+    pageInfo.style.fontSize = '16px';
 
-    titleBox.appendChild(title);
-    titleBox.appendChild(paging);
+    titleWrapper.appendChild(title);
+    titleWrapper.appendChild(pageInfo);
 
     const ul = document.createElement('ul');
     ul.style.listStyle = 'none';
@@ -1128,31 +1115,28 @@ function captureResult() {
       clonedLi.style.display = 'block';
       clonedLi.style.width = '100%';
       clonedLi.style.marginBottom = '24px';
-      clonedLi.style.textAlign = 'left';
-      clonedLi.style.wordBreak = 'break-word';
-      clonedLi.style.whiteSpace = 'normal';
-      clonedLi.style.overflowWrap = 'break-word';
-      clonedLi.style.lineHeight = '1.8'; /* ✅ 답변 줄 간격 늘림 */
+      clonedLi.style.paddingLeft = '8px';
+      clonedLi.style.paddingRight = '8px';
+      clonedLi.style.boxSizing = 'border-box';
 
       clonedLi.querySelectorAll('div').forEach(div => {
         div.style.display = 'block';
         div.style.width = '100%';
-        div.style.fontSize = '16px';
-        div.style.lineHeight = '1.8';  /* ✅ */
-        div.style.textAlign = 'left';
-        div.style.color = '#000';
+        div.style.paddingLeft = '8px';
+        div.style.paddingRight = '8px';
+        div.style.lineHeight = '1.8';
         div.style.wordBreak = 'break-word';
         div.style.whiteSpace = 'normal';
         div.style.overflowWrap = 'break-word';
-        div.style.padding = '2px 0';  /* ✅ 간격 여유 */
+        div.style.boxSizing = 'border-box';
       });
 
       ul.appendChild(clonedLi);
     });
 
-    answerWrapper.appendChild(titleBox);
+    answerWrapper.appendChild(titleWrapper);
     answerWrapper.appendChild(ul);
-    captureLayer.appendChild(summaryClone);
+    captureLayer.appendChild(resultSummary);
     captureLayer.appendChild(answerWrapper);
     document.body.appendChild(captureLayer);
 
@@ -1183,6 +1167,7 @@ function captureResult() {
     }
   });
 }
+
 
 
 
