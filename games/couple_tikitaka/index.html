@@ -1037,123 +1037,72 @@ function captureAnswers() {
 
 function captureResult() {
   const finalResult = document.getElementById('finalResult');
-  if (!finalResult) {
-    alert('결과를 찾을 수 없습니다.');
-    return;
-  }
+  if (!finalResult) return;
 
   const answerBox = finalResult.querySelector('#answerSummaryBox');
-  if (!answerBox) {
-    alert('질문답변을 찾을 수 없습니다.');
-    return;
-  }
+  if (!answerBox) return;
 
   const allItems = answerBox.querySelectorAll('li');
   const totalItems = allItems.length;
-  const splitIndex = 45; // 45개 기준
+  const splitIndex = 45;
 
-  const originalStyle = {
-    width: finalResult.style.width,
-    maxWidth: finalResult.style.maxWidth,
-    padding: finalResult.style.padding,
-    background: finalResult.style.background,
-    borderRadius: finalResult.style.borderRadius,
-    boxSizing: finalResult.style.boxSizing
-  };
+  // 📌 원래 결과 박스를 통째로 복제해서 저장 (완벽 복구용)
+  const originalClone = finalResult.cloneNode(true);
 
-  finalResult.style.width = '960px';
-  finalResult.style.maxWidth = '960px';
-  finalResult.style.padding = '40px';
-  finalResult.style.background = "url('assets/background.jpg') center/cover no-repeat";
-  finalResult.style.borderRadius = '20px';
-  finalResult.style.boxSizing = 'border-box';
+  function createPage(pageItems, pageIndex, totalPages) {
+    let resultSummary = document.querySelector('#resultSummaryBox').cloneNode(true);
+    resultSummary.style.marginBottom = '20px';
 
-  finalResult.querySelectorAll('li, li > div').forEach(el => {
-    el.style.display = 'block';
-    el.style.width = '100%';
-    el.style.fontSize = '18px';
-    el.style.lineHeight = '1.8';
-    el.style.wordBreak = 'break-word';
-    el.style.overflowWrap = 'break-word';
-    el.style.whiteSpace = 'normal';
-    el.style.boxSizing = 'border-box';
-  });
+    let pageIndicator = document.createElement('div');
+    pageIndicator.style.fontSize = '18px';
+    pageIndicator.style.margin = '20px 0';
+    pageIndicator.style.fontWeight = 'bold';
+    pageIndicator.innerText = `${pageIndex}/${totalPages}`;
 
-  if (totalItems <= splitIndex) {
-    html2canvas(finalResult, {
+    let newList = document.createElement('ul');
+    newList.style.listStyle = 'none';
+    newList.style.padding = '0';
+
+    pageItems.forEach(li => newList.appendChild(li.cloneNode(true)));
+
+    // 캡처용 페이지 구조 세팅
+    finalResult.innerHTML = '';
+    finalResult.appendChild(resultSummary);
+    finalResult.appendChild(pageIndicator);
+    finalResult.appendChild(newList);
+
+    return html2canvas(finalResult, {
       backgroundColor: null,
       scrollY: 0,
       scale: 2
-    }).then(canvas => {
-      const link = document.createElement('a');
-      link.download = '티키타카_결과.png';
-      link.href = canvas.toDataURL();
-      link.click();
-
-      restoreOriginalStyle();
     });
-  } else {
-    // 1장 캡쳐 (1~45개)
-    allItems.forEach((item, idx) => {
-      item.style.display = (idx < splitIndex) ? 'block' : 'none';
-    });
+  }
 
-    html2canvas(finalResult, {
-      backgroundColor: null,
-      scrollY: 0,
-      scale: 2
-    }).then(canvas1 => {
-      const link1 = document.createElement('a');
-      link1.download = '티키타카_결과1.png';
-      link1.href = canvas1.toDataURL();
-      link1.click();
+  const page1Items = Array.from(allItems).slice(0, splitIndex);
+  const page2Items = Array.from(allItems).slice(splitIndex);
+  const totalPages = page2Items.length > 0 ? 2 : 1;
 
-      // 2장 캡쳐 준비 (46번부터)
-      allItems.forEach((item, idx) => {
-        item.style.display = (idx >= splitIndex) ? 'block' : 'none';
+  createPage(page1Items, 1, totalPages).then(canvas1 => {
+    const link1 = document.createElement('a');
+    link1.download = totalPages === 1 ? '티키타카_결과.png' : '티키타카_결과1.png';
+    link1.href = canvas1.toDataURL();
+    link1.click();
+
+    if (totalPages === 2) {
+      createPage(page2Items, 2, totalPages).then(canvas2 => {
+        const link2 = document.createElement('a');
+        link2.download = '티키타카_결과2.png';
+        link2.href = canvas2.toDataURL();
+        link2.click();
+
+        // 📌 캡처 끝난 후 복구 (원래 화면으로 되돌림)
+        finalResult.parentNode.replaceChild(originalClone, finalResult);
       });
-
-      const resultSummary = finalResult.querySelector('#resultSummaryBox');
-      if (resultSummary) {
-        resultSummary.style.display = 'none';
-      }
-
-      // 🌟 여기가 추가!
-      // 최소 높이 확보하기 (질문 수가 적을 경우 캔버스 비는 문제 해결)
-      finalResult.style.minHeight = '1200px'; // 무조건 최소 높이 확보
-
-      setTimeout(() => {
-        html2canvas(finalResult, {
-          backgroundColor: null,
-          scrollY: 0,
-          scale: 2
-        }).then(canvas2 => {
-          const link2 = document.createElement('a');
-          link2.download = '티키타카_결과2.png';
-          link2.href = canvas2.toDataURL();
-          link2.click();
-
-          restoreOriginalStyle();
-        });
-      }, 100);
-    });
-  }
-
-  function restoreOriginalStyle() {
-    // 모든 스타일 원복
-    finalResult.style.width = originalStyle.width;
-    finalResult.style.maxWidth = originalStyle.maxWidth;
-    finalResult.style.padding = originalStyle.padding;
-    finalResult.style.background = originalStyle.background;
-    finalResult.style.borderRadius = originalStyle.borderRadius;
-    finalResult.style.boxSizing = originalStyle.boxSizing;
-    finalResult.style.minHeight = ''; // ⭐ 추가로 minHeight 원복
-    finalResult.querySelectorAll('li').forEach(item => item.style.display = 'block');
-    const resultSummary = finalResult.querySelector('#resultSummaryBox');
-    if (resultSummary) {
-      resultSummary.style.display = 'block';
+    } else {
+      // 📌 캡처 끝난 후 복구 (원래 화면으로 되돌림)
+      finalResult.parentNode.replaceChild(originalClone, finalResult);
     }
-  }
+  });
 }
 
 
