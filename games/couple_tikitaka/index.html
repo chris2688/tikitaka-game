@@ -809,8 +809,7 @@ function showQuestion() {
     secondAnswers.push(choice);
     const globalIndex = (currentRound - 1) * questionsPerRound + index;
     const match = choice === firstAnswers[globalIndex];
-    if (match) score++;
-      +    if (match) {
+ if (match) {
       score++;
     } else {
       playWrongSound();
