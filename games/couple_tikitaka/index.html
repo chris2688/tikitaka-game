@@ -1039,7 +1039,6 @@ function captureResult() {
   const finalResult = document.getElementById('finalResult');
   if (!finalResult) return;
 
-  // 📌 원본 통째 복제
   const originalClone = finalResult.cloneNode(true);
 
   const resultSummary = finalResult.querySelector('#resultSummaryBox');
@@ -1056,7 +1055,6 @@ function captureResult() {
   const totalPages = page2Items.length > 0 ? 2 : 1;
 
   function createCapturePage(pageItems, pageIndex) {
-    // 캡처용 레이어 생성
     const captureLayer = document.createElement('div');
     captureLayer.style.position = 'fixed';
     captureLayer.style.top = '0';
@@ -1072,7 +1070,6 @@ function captureResult() {
     captureLayer.style.padding = '40px 20px';
     captureLayer.style.boxSizing = 'border-box';
 
-    // 복제한 결과요약 박스
     const resultBox = resultSummary.cloneNode(true);
     resultBox.style.background = 'rgba(255,255,255,0.85)';
     resultBox.style.padding = '24px';
@@ -1083,14 +1080,12 @@ function captureResult() {
     resultBox.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
     resultBox.style.color = '#111';
 
-    // 페이지 표시
     const pageIndicator = document.createElement('div');
     pageIndicator.innerText = `${pageIndex}/${totalPages}`;
     pageIndicator.style.fontSize = '18px';
     pageIndicator.style.fontWeight = 'bold';
     pageIndicator.style.margin = '16px 0';
 
-    // 복제한 질문답변 박스
     const answerBox = document.createElement('div');
     answerBox.style.background = '#fff';
     answerBox.style.padding = '24px 20px';
@@ -1100,24 +1095,26 @@ function captureResult() {
     answerBox.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
     answerBox.style.boxSizing = 'border-box';
     answerBox.style.color = '#111';
+    answerBox.style.textAlign = 'left'; // ✅ 전체 박스도 좌측 정렬
 
     const title = document.createElement('h3');
     title.innerText = '📋 질문 & 답변 정리';
     title.style.color = '#000';
     title.style.fontSize = '20px';
     title.style.marginBottom = '16px';
+    title.style.textAlign = 'left'; // ✅ 제목도 좌측 정렬
 
     const ul = document.createElement('ul');
     ul.style.listStyle = 'none';
     ul.style.padding = '0';
     ul.style.margin = '0';
+    ul.style.textAlign = 'left'; // ✅ 리스트도 좌측 정렬
 
     pageItems.forEach(li => ul.appendChild(li.cloneNode(true)));
 
     answerBox.appendChild(title);
     answerBox.appendChild(ul);
 
-    // 레이어에 추가
     captureLayer.appendChild(resultBox);
     captureLayer.appendChild(pageIndicator);
     captureLayer.appendChild(answerBox);
@@ -1129,7 +1126,7 @@ function captureResult() {
       scrollY: 0,
       scale: 2
     }).then(canvas => {
-      document.body.removeChild(captureLayer); // 캡처 후 제거
+      document.body.removeChild(captureLayer);
       return canvas;
     });
   }
@@ -1147,7 +1144,6 @@ function captureResult() {
         link2.href = canvas2.toDataURL();
         link2.click();
 
-        // 마지막에 원본 복구
         finalResult.parentNode.replaceChild(originalClone, finalResult);
       });
     } else {
