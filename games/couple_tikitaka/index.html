@@ -1039,71 +1039,123 @@ function captureResult() {
   const finalResult = document.getElementById('finalResult');
   if (!finalResult) return;
 
-  const answerBox = finalResult.querySelector('#answerSummaryBox');
-  if (!answerBox) return;
-
-  const allItems = answerBox.querySelectorAll('li');
-  const totalItems = allItems.length;
-  const splitIndex = 45;
-
-  // 📌 원래 결과 박스를 통째로 복제해서 저장 (완벽 복구용)
+  // 📌 원본 통째 복제
   const originalClone = finalResult.cloneNode(true);
 
-  function createPage(pageItems, pageIndex, totalPages) {
-    let resultSummary = document.querySelector('#resultSummaryBox').cloneNode(true);
-    resultSummary.style.marginBottom = '20px';
+  const resultSummary = finalResult.querySelector('#resultSummaryBox');
+  const answerSummary = finalResult.querySelector('#answerSummaryBox');
 
-    let pageIndicator = document.createElement('div');
-    pageIndicator.style.fontSize = '18px';
-    pageIndicator.style.margin = '20px 0';
-    pageIndicator.style.fontWeight = 'bold';
-    pageIndicator.innerText = `${pageIndex}/${totalPages}`;
+  if (!resultSummary || !answerSummary) return;
 
-    let newList = document.createElement('ul');
-    newList.style.listStyle = 'none';
-    newList.style.padding = '0';
-
-    pageItems.forEach(li => newList.appendChild(li.cloneNode(true)));
-
-    // 캡처용 페이지 구조 세팅
-    finalResult.innerHTML = '';
-    finalResult.appendChild(resultSummary);
-    finalResult.appendChild(pageIndicator);
-    finalResult.appendChild(newList);
-
-    return html2canvas(finalResult, {
-      backgroundColor: null,
-      scrollY: 0,
-      scale: 2
-    });
-  }
+  const allItems = answerSummary.querySelectorAll('li');
+  const totalItems = allItems.length;
+  const splitIndex = 45;
 
   const page1Items = Array.from(allItems).slice(0, splitIndex);
   const page2Items = Array.from(allItems).slice(splitIndex);
   const totalPages = page2Items.length > 0 ? 2 : 1;
 
-  createPage(page1Items, 1, totalPages).then(canvas1 => {
+  function createCapturePage(pageItems, pageIndex) {
+    // 캡처용 레이어 생성
+    const captureLayer = document.createElement('div');
+    captureLayer.style.position = 'fixed';
+    captureLayer.style.top = '0';
+    captureLayer.style.left = '0';
+    captureLayer.style.width = '100vw';
+    captureLayer.style.minHeight = '100vh';
+    captureLayer.style.background = "url('assets/background.jpg') center/cover no-repeat";
+    captureLayer.style.zIndex = '10000';
+    captureLayer.style.display = 'flex';
+    captureLayer.style.flexDirection = 'column';
+    captureLayer.style.alignItems = 'center';
+    captureLayer.style.justifyContent = 'flex-start';
+    captureLayer.style.padding = '40px 20px';
+    captureLayer.style.boxSizing = 'border-box';
+
+    // 복제한 결과요약 박스
+    const resultBox = resultSummary.cloneNode(true);
+    resultBox.style.background = 'rgba(255,255,255,0.85)';
+    resultBox.style.padding = '24px';
+    resultBox.style.borderRadius = '16px';
+    resultBox.style.maxWidth = '600px';
+    resultBox.style.width = '90%';
+    resultBox.style.marginBottom = '24px';
+    resultBox.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
+    resultBox.style.color = '#111';
+
+    // 페이지 표시
+    const pageIndicator = document.createElement('div');
+    pageIndicator.innerText = `${pageIndex}/${totalPages}`;
+    pageIndicator.style.fontSize = '18px';
+    pageIndicator.style.fontWeight = 'bold';
+    pageIndicator.style.margin = '16px 0';
+
+    // 복제한 질문답변 박스
+    const answerBox = document.createElement('div');
+    answerBox.style.background = '#fff';
+    answerBox.style.padding = '24px 20px';
+    answerBox.style.borderRadius = '16px';
+    answerBox.style.maxWidth = '600px';
+    answerBox.style.width = '90%';
+    answerBox.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
+    answerBox.style.boxSizing = 'border-box';
+    answerBox.style.color = '#111';
+
+    const title = document.createElement('h3');
+    title.innerText = '📋 질문 & 답변 정리';
+    title.style.color = '#000';
+    title.style.fontSize = '20px';
+    title.style.marginBottom = '16px';
+
+    const ul = document.createElement('ul');
+    ul.style.listStyle = 'none';
+    ul.style.padding = '0';
+    ul.style.margin = '0';
+
+    pageItems.forEach(li => ul.appendChild(li.cloneNode(true)));
+
+    answerBox.appendChild(title);
+    answerBox.appendChild(ul);
+
+    // 레이어에 추가
+    captureLayer.appendChild(resultBox);
+    captureLayer.appendChild(pageIndicator);
+    captureLayer.appendChild(answerBox);
+
+    document.body.appendChild(captureLayer);
+
+    return html2canvas(captureLayer, {
+      backgroundColor: null,
+      scrollY: 0,
+      scale: 2
+    }).then(canvas => {
+      document.body.removeChild(captureLayer); // 캡처 후 제거
+      return canvas;
+    });
+  }
+
+  createCapturePage(page1Items, 1).then(canvas1 => {
     const link1 = document.createElement('a');
     link1.download = totalPages === 1 ? '티키타카_결과.png' : '티키타카_결과1.png';
     link1.href = canvas1.toDataURL();
     link1.click();
 
     if (totalPages === 2) {
-      createPage(page2Items, 2, totalPages).then(canvas2 => {
+      createCapturePage(page2Items, 2).then(canvas2 => {
         const link2 = document.createElement('a');
         link2.download = '티키타카_결과2.png';
         link2.href = canvas2.toDataURL();
         link2.click();
 
-        // 📌 캡처 끝난 후 복구 (원래 화면으로 되돌림)
+        // 마지막에 원본 복구
         finalResult.parentNode.replaceChild(originalClone, finalResult);
       });
     } else {
-      // 📌 캡처 끝난 후 복구 (원래 화면으로 되돌림)
       finalResult.parentNode.replaceChild(originalClone, finalResult);
     }
   });
 }
+
 
 
     
