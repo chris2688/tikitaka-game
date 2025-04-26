@@ -1040,24 +1040,21 @@ function captureResult() {
 
   // 1. 가짜 캡처용 레이어 생성
   const captureLayer = document.createElement('div');
-  captureLayer.style.position = 'fixed';
+  captureLayer.style.position = 'absolute';   // ✅ 고정 아님, 절대 위치
   captureLayer.style.top = '0';
   captureLayer.style.left = '0';
-  captureLayer.style.width = '960px';        // ✅ 960px 고정
-  captureLayer.style.minHeight = '100vh';    // ✅ 최소 높이
-  captureLayer.style.height = 'auto';        // ✅ 내용에 따라 자동
+  captureLayer.style.width = '960px';          // ✅ 고정 크기
+  captureLayer.style.minHeight = '100vh';
+  captureLayer.style.padding = '40px 20px';
   captureLayer.style.background = "url('assets/background.jpg') center/cover no-repeat";
-  captureLayer.style.zIndex = '10000';
-  captureLayer.style.display = 'block';       // ✅ flex 아님, block
-  captureLayer.style.padding = '40px 20px';   
+  captureLayer.style.zIndex = '-9999';         // ✅ 화면에 안 보이게
+  captureLayer.style.visibility = 'hidden';    // ✅ 완전히 안 보이게
+  captureLayer.style.transform = 'scale(1)';
   captureLayer.style.boxSizing = 'border-box';
-  captureLayer.style.overflow = 'hidden';     // 혹시 넘치는거 방지
 
   // 2. 결과박스 복제
   const clonedResult = originalResultBox.cloneNode(true);
-
-  // 3. clonedResult 기본 스타일
-  clonedResult.style.display = 'block';       // ✅ flex 금지
+  clonedResult.style.display = 'block';
   clonedResult.style.width = '100%';
   clonedResult.style.maxWidth = '960px';
   clonedResult.style.background = 'rgba(255, 255, 255, 0.8)';
@@ -1067,13 +1064,13 @@ function captureResult() {
   clonedResult.style.boxShadow = '0 8px 20px rgba(0,0,0,0.3)';
   clonedResult.style.color = '#111';
   clonedResult.style.fontFamily = "'Pretendard', 'Noto Sans KR', sans-serif";
-  clonedResult.style.fontSize = '18px';        // ✅ 캡처용 폰트 약간 크게
-  clonedResult.style.lineHeight = '1.8';       // ✅ 줄간격 넓게
+  clonedResult.style.fontSize = '18px';
+  clonedResult.style.lineHeight = '1.8';
   clonedResult.style.wordBreak = 'break-word';
   clonedResult.style.whiteSpace = 'normal';
   clonedResult.style.boxSizing = 'border-box';
 
-  // 4. 복제된 내부 li, div 스타일 강제 정리
+  // 3. 복제한 내부 li, div 스타일 정리
   const clonedAnswerBox = clonedResult.querySelector('#answerSummaryBox');
   if (clonedAnswerBox) {
     clonedAnswerBox.querySelectorAll('li').forEach(li => {
@@ -1086,7 +1083,6 @@ function captureResult() {
       li.style.whiteSpace = 'normal';
       li.style.marginBottom = '24px';
       li.style.boxSizing = 'border-box';
-      li.style.paddingBottom = '8px';
     });
 
     clonedAnswerBox.querySelectorAll('li > div').forEach(div => {
@@ -1098,15 +1094,14 @@ function captureResult() {
       div.style.overflowWrap = 'break-word';
       div.style.whiteSpace = 'normal';
       div.style.boxSizing = 'border-box';
-      div.style.marginBottom = '6px';
     });
   }
 
-  // 5. 가짜 레이어에 추가
+  // 4. 캡처용 레이어에 복제 결과 삽입
   captureLayer.appendChild(clonedResult);
   document.body.appendChild(captureLayer);
 
-  // 6. html2canvas로 캡처 시작
+  // 5. html2canvas로 캡처
   html2canvas(captureLayer, {
     backgroundColor: null,
     scrollY: -window.scrollY,
@@ -1117,10 +1112,10 @@ function captureResult() {
     link.href = canvas.toDataURL();
     link.click();
 
-    // 7. 캡처 끝난 뒤 가짜 레이어 제거
+    // 6. 캡처 완료 후 가짜 레이어 제거
     document.body.removeChild(captureLayer);
 
-    // 8. 팝업 띄우기 (질문답변 저장 선택)
+    // 7. 공유 완료 후 팝업 띄우기
     document.getElementById("popupMessage").innerText = "질문답변도 함께 저장할까요?";
     document.getElementById("customPopup").style.display = "flex";
   });
