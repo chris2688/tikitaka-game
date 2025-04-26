@@ -1062,9 +1062,7 @@ function captureResult() {
     captureLayer.style.alignItems = 'center';
     captureLayer.style.padding = '20px';
 
-    const resultSummary = finalResult.querySelector('#resultSummaryBox')
-      ? finalResult.querySelector('#resultSummaryBox').cloneNode(true)
-      : document.createElement('div');
+    const resultSummary = document.querySelector('#resultSummaryBox').cloneNode(true);
     resultSummary.style.backgroundColor = 'rgba(255,255,255,0.85)';
     resultSummary.style.color = '#000';
     resultSummary.style.borderRadius = '16px';
@@ -1097,28 +1095,42 @@ function captureResult() {
     const ul = document.createElement('ul');
     ul.style.listStyle = 'none';
     ul.style.padding = '0';
+    ul.style.margin = '0';
 
     pageItems.forEach(li => {
       const clonedLi = li.cloneNode(true);
       clonedLi.style.display = 'block';
       clonedLi.style.width = '100%';
-      clonedLi.style.overflowWrap = 'break-word';
+      clonedLi.style.marginBottom = '24px';
       clonedLi.style.wordBreak = 'break-word';
       clonedLi.style.whiteSpace = 'normal';
       clonedLi.style.lineHeight = '1.8';
-      clonedLi.style.marginBottom = '24px';
 
-      clonedLi.querySelectorAll('div').forEach(div => {
-        div.style.display = 'block';
-        div.style.width = '100%';
-        div.style.overflowWrap = 'break-word';
-        div.style.wordBreak = 'break-word';
-        div.style.whiteSpace = 'normal';
-        div.style.lineHeight = '1.8';
-        div.style.fontSize = '16px';
+      // 질문 div 추가
+      const questionDiv = document.createElement('div');
+      questionDiv.innerHTML = clonedLi.querySelector('div')?.innerHTML || '';
+      questionDiv.style.fontSize = '16px';
+      questionDiv.style.fontWeight = 'bold';
+      questionDiv.style.marginBottom = '8px';
+      questionDiv.style.lineHeight = '1.6';
+      questionDiv.style.wordBreak = 'break-word';
+      questionDiv.style.whiteSpace = 'normal';
+
+      const answerDivs = Array.from(clonedLi.querySelectorAll('div')).slice(1);
+
+      const newAnswerDivs = answerDivs.map(div => {
+        const newDiv = document.createElement('div');
+        newDiv.innerHTML = div.innerHTML;
+        newDiv.style.fontSize = '14px';
+        newDiv.style.marginLeft = '16px';
+        newDiv.style.lineHeight = '1.4';
+        return newDiv;
       });
 
-      ul.appendChild(clonedLi);
+      const newLi = document.createElement('li');
+      newLi.appendChild(questionDiv);
+      newAnswerDivs.forEach(d => newLi.appendChild(d));
+      ul.appendChild(newLi);
     });
 
     answerWrapper.appendChild(title);
