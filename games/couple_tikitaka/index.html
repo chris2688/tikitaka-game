@@ -1046,108 +1046,116 @@ function captureResult() {
   const answerBox = finalResult.querySelector('#answerSummaryBox');
   if (!answerBox) return;
 
-  const allItems = answerBox.querySelectorAll('li');
+  const allItems = Array.from(answerBox.querySelectorAll('li'));
   const totalItems = allItems.length;
-  const splitIndex = 45;
-  const originalClone = finalResult.cloneNode(true);
+  const splitIndex = 45; // 아이템 45개마다 캡쳐 나누기
 
-  const page1Items = Array.from(allItems).slice(0, splitIndex);
-  const page2Items = Array.from(allItems).slice(splitIndex);
-  const totalPages = page2Items.length > 0 ? 2 : 1;
-
+  // 📌 페이지 만드는 함수
   function createCapturePage(pageItems, pageIndex, totalPages) {
-    return new Promise((resolve) => {
-      const captureLayer = document.createElement('div');
-      captureLayer.style.position = 'fixed';
-      captureLayer.style.top = '0';
-      captureLayer.style.left = '0';
-      captureLayer.style.width = '100vw';
-      captureLayer.style.minHeight = '100vh';
-      captureLayer.style.background = "url('assets/background.jpg') center/cover no-repeat";
-      captureLayer.style.display = 'flex';
-      captureLayer.style.flexDirection = 'column';
-      captureLayer.style.justifyContent = 'flex-start';
-      captureLayer.style.alignItems = 'center';
-      captureLayer.style.padding = '20px';
-      captureLayer.style.zIndex = '9999'; // 다른 요소 위에 올라오게
+    const captureLayer = document.createElement('div');
+    captureLayer.style.position = 'fixed';
+    captureLayer.style.top = '0';
+    captureLayer.style.left = '0';
+    captureLayer.style.width = '100vw';
+    captureLayer.style.minHeight = '100vh';
+    captureLayer.style.background = "url('assets/background.jpg') center/cover no-repeat";
+    captureLayer.style.display = 'flex';
+    captureLayer.style.flexDirection = 'column';
+    captureLayer.style.justifyContent = 'flex-start';
+    captureLayer.style.alignItems = 'center';
+    captureLayer.style.padding = '20px';
+    captureLayer.style.boxSizing = 'border-box';
+    captureLayer.style.zIndex = '9999'; // 캡쳐 레이어가 위로
 
-      const resultSummary = document.querySelector('#resultSummaryBox').cloneNode(true);
-      resultSummary.style.backgroundColor = 'rgba(255,255,255,0.85)';
-      resultSummary.style.color = '#000';
-      resultSummary.style.borderRadius = '16px';
-      resultSummary.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
-      resultSummary.style.maxWidth = '640px';
-      resultSummary.style.width = '90%';
-      resultSummary.style.padding = '20px';
-      resultSummary.style.marginBottom = '24px';
+    // 최상단 결과 요약 부분 복제
+    const resultSummary = document.querySelector('#resultSummaryBox').cloneNode(true);
+    resultSummary.style.backgroundColor = 'rgba(255,255,255,0.85)';
+    resultSummary.style.color = '#000';
+    resultSummary.style.borderRadius = '16px';
+    resultSummary.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
+    resultSummary.style.maxWidth = '640px';
+    resultSummary.style.width = '90%';
+    resultSummary.style.padding = '20px';
+    resultSummary.style.marginBottom = '24px';
 
-      const pageIndicator = document.createElement('div');
-      pageIndicator.innerText = `${pageIndex}/${totalPages}`;
-      pageIndicator.style.fontSize = '18px';
-      pageIndicator.style.color = '#000';
-      pageIndicator.style.margin = '16px 0';
+    // 페이지 넘버 표시
+    const pageIndicator = document.createElement('div');
+    pageIndicator.innerText = `${pageIndex}/${totalPages}`;
+    pageIndicator.style.fontSize = '18px';
+    pageIndicator.style.color = '#000';
+    pageIndicator.style.margin = '16px 0';
 
-      const answerWrapper = document.createElement('div');
-      answerWrapper.style.backgroundColor = 'white';
-      answerWrapper.style.borderRadius = '16px';
-      answerWrapper.style.padding = '24px';
-      answerWrapper.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
-      answerWrapper.style.maxWidth = '640px';
-      answerWrapper.style.width = '90%';
-      answerWrapper.style.textAlign = 'left';
+    // 질문 & 답변 박스
+    const answerWrapper = document.createElement('div');
+    answerWrapper.style.backgroundColor = 'white';
+    answerWrapper.style.borderRadius = '16px';
+    answerWrapper.style.padding = '24px';
+    answerWrapper.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
+    answerWrapper.style.maxWidth = '640px';
+    answerWrapper.style.width = '90%';
+    answerWrapper.style.textAlign = 'left';
+    answerWrapper.style.boxSizing = 'border-box';
 
-      const title = document.createElement('h3');
-      title.innerText = '📋 질문 & 답변 정리';
-      title.style.color = '#000';
-      title.style.marginBottom = '16px';
+    const title = document.createElement('h3');
+    title.innerText = '📋 질문 & 답변 정리';
+    title.style.color = '#000';
+    title.style.marginBottom = '16px';
 
-      const ul = document.createElement('ul');
-      ul.style.listStyle = 'none';
-      ul.style.padding = '0';
+    const ul = document.createElement('ul');
+    ul.style.listStyle = 'none';
+    ul.style.padding = '0';
+    ul.style.margin = '0';
 
-      pageItems.forEach(li => {
-        const clonedLi = li.cloneNode(true);
-        clonedLi.style.display = 'block';
-        clonedLi.style.width = '100%';
-        clonedLi.style.overflowWrap = 'break-word';
-        clonedLi.style.wordBreak = 'break-word';
-        clonedLi.style.whiteSpace = 'normal';
-        clonedLi.style.lineHeight = '1.8';
-        clonedLi.style.marginBottom = '24px';
+    pageItems.forEach(li => {
+      const clonedLi = li.cloneNode(true);
+      clonedLi.style.display = 'block';
+      clonedLi.style.width = '100%';
+      clonedLi.style.overflowWrap = 'break-word';
+      clonedLi.style.wordBreak = 'break-word';
+      clonedLi.style.whiteSpace = 'normal';
+      clonedLi.style.lineHeight = '1.8';
+      clonedLi.style.marginBottom = '24px';
+      clonedLi.style.fontSize = '16px';
 
-        clonedLi.querySelectorAll('div').forEach(div => {
-          div.style.display = 'block';
-          div.style.width = '100%';
-          div.style.overflowWrap = 'break-word';
-          div.style.wordBreak = 'break-word';
-          div.style.whiteSpace = 'normal';
-          div.style.lineHeight = '1.8';
-          div.style.fontSize = '16px';
-        });
-
-        ul.appendChild(clonedLi);
+      // 안의 div들(질문, 답변들) 스타일 통일
+      clonedLi.querySelectorAll('div').forEach(div => {
+        div.style.display = 'block';
+        div.style.width = '100%';
+        div.style.overflowWrap = 'break-word';
+        div.style.wordBreak = 'break-word';
+        div.style.whiteSpace = 'normal';
+        div.style.lineHeight = '1.8';
+        div.style.fontSize = '16px';
+        div.style.marginBottom = '4px'; // 질문, 답변 간격 살짝
       });
 
-      answerWrapper.appendChild(title);
-      answerWrapper.appendChild(ul);
+      ul.appendChild(clonedLi);
+    });
 
-      captureLayer.appendChild(resultSummary);
-      captureLayer.appendChild(pageIndicator);
-      captureLayer.appendChild(answerWrapper);
-      document.body.appendChild(captureLayer);
+    answerWrapper.appendChild(title);
+    answerWrapper.appendChild(ul);
+    captureLayer.appendChild(resultSummary);
+    captureLayer.appendChild(pageIndicator);
+    captureLayer.appendChild(answerWrapper);
+    document.body.appendChild(captureLayer);
 
-      html2canvas(captureLayer, {
-        backgroundColor: null,
-        scrollY: 0,
-        scale: 2,
-        useCORS: true
-      }).then(canvas => {
-        document.body.removeChild(captureLayer);
-        resolve(canvas);
-      });
+    return html2canvas(captureLayer, {
+      backgroundColor: null,
+      scrollY: 0,
+      scale: 2,
+      useCORS: true
+    }).then(canvas => {
+      document.body.removeChild(captureLayer);
+      return canvas;
     });
   }
 
+  // 📌 페이지 분리
+  const page1Items = allItems.slice(0, splitIndex);
+  const page2Items = allItems.slice(splitIndex);
+  const totalPages = page2Items.length > 0 ? 2 : 1;
+
+  // 📌 페이지별 캡처 진행
   createCapturePage(page1Items, 1, totalPages).then(canvas1 => {
     const link1 = document.createElement('a');
     link1.download = totalPages === 1 ? '티키타카_결과.png' : '티키타카_결과1.png';
