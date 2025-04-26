@@ -1060,7 +1060,8 @@ function captureResult() {
   clonedResult.style.borderRadius = '20px';
   clonedResult.style.boxShadow = '0 8px 20px rgba(0,0,0,0.3)';
   clonedResult.style.color = '#111'; // 글자 어두운색으로 명확히
-  clonedResult.style.maxWidth = '90%';
+  clonedResult.style.maxWidth = '600px'; // ✅ 고정폭으로 줄이기
+  clonedResult.style.width = '90%';       // 모바일에서도 깨지지 않게
   clonedResult.style.boxSizing = 'border-box';
 
   captureLayer.appendChild(clonedResult);
