@@ -1035,6 +1035,7 @@ function captureAnswers() {
   });
 }
 
+// ✅ 완전히 수정된 captureResult() 함수 (글자 안나오는 문제 해결)
 function captureResult() {
   const finalResult = document.getElementById('finalResult');
   if (!finalResult) return;
@@ -1043,14 +1044,15 @@ function captureResult() {
   if (!answerBox) return;
 
   const allItems = answerBox.querySelectorAll('li');
+  const totalItems = allItems.length;
   const splitIndex = 45;
   const page1Items = Array.from(allItems).slice(0, splitIndex);
   const page2Items = Array.from(allItems).slice(splitIndex);
   const totalPages = page2Items.length > 0 ? 2 : 1;
 
-  const playerNames = document.querySelector('h2').innerText.split('\u2764'); // 이름 추출 (예시)
+  const finalSummary = document.querySelector('#resultSummaryBox');
 
-  function createCaptureLayer(pageItems, pageIndex) {
+  function createCaptureLayer(pageItems, pageIndex, totalPages) {
     const captureLayer = document.createElement('div');
     captureLayer.style.position = 'fixed';
     captureLayer.style.top = '0';
@@ -1062,85 +1064,86 @@ function captureResult() {
     captureLayer.style.flexDirection = 'column';
     captureLayer.style.alignItems = 'center';
     captureLayer.style.padding = '20px';
+    captureLayer.style.boxSizing = 'border-box';
+    captureLayer.style.zIndex = '9999';
 
-    // 결과 요약 박스 복제
-    const resultSummary = document.querySelector('#resultSummaryBox').cloneNode(true);
-    resultSummary.style.backgroundColor = 'rgba(255,255,255,0.85)';
-    resultSummary.style.color = '#000';
-    resultSummary.style.borderRadius = '16px';
-    resultSummary.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
-    resultSummary.style.maxWidth = '640px';
-    resultSummary.style.width = '90%';
-    resultSummary.style.padding = '24px';
-    resultSummary.style.marginBottom = '24px';
-    resultSummary.querySelectorAll('span').forEach(span => span.style.color = '#000');
+    const summaryClone = finalSummary.cloneNode(true);
+    summaryClone.style.backgroundColor = 'rgba(255,255,255,0.85)';
+    summaryClone.style.color = '#000';
+    summaryClone.style.borderRadius = '16px';
+    summaryClone.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
+    summaryClone.style.maxWidth = '640px';
+    summaryClone.style.width = '90%';
+    summaryClone.style.padding = '20px';
+    summaryClone.style.marginBottom = '24px';
+    summaryClone.querySelectorAll('*').forEach(el => el.style.color = '#000');
 
-    // 페이징 표시 추가 (1/1, 1/2, 2/2)
-    const pageIndicator = document.createElement('div');
-    pageIndicator.innerText = `${pageIndex}/${totalPages}`;
-    pageIndicator.style.fontSize = '16px';
-    pageIndicator.style.color = '#000';
-    pageIndicator.style.marginBottom = '8px';
-
-    // 질문 + 답변 요약 박스
     const answerWrapper = document.createElement('div');
-    answerWrapper.style.backgroundColor = '#fff';
+    answerWrapper.style.backgroundColor = 'white';
     answerWrapper.style.borderRadius = '16px';
     answerWrapper.style.padding = '24px';
     answerWrapper.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
     answerWrapper.style.maxWidth = '640px';
     answerWrapper.style.width = '90%';
     answerWrapper.style.textAlign = 'left';
+    answerWrapper.style.boxSizing = 'border-box';
 
-    const header = document.createElement('div');
-    header.style.display = 'flex';
-    header.style.justifyContent = 'space-between';
-    header.style.alignItems = 'center';
-    header.style.marginBottom = '16px';
+    const titleBox = document.createElement('div');
+    titleBox.style.display = 'flex';
+    titleBox.style.justifyContent = 'space-between';
+    titleBox.style.alignItems = 'center';
+    titleBox.style.marginBottom = '16px';
+
     const title = document.createElement('h3');
-    title.innerText = '\ud83d\udccb \uc9c8\ubb38 & \ub2f5\ubcc0 \uc815\ub9ac';
+    title.innerText = '📋 질문 & 답변 정리';
     title.style.color = '#000';
     title.style.fontSize = '20px';
     title.style.margin = '0';
-    const paging = document.createElement('span');
-    paging.innerText = `${pageIndex}/${totalPages}`;
-    paging.style.fontSize = '16px';
-    paging.style.color = '#666';
 
-    header.appendChild(title);
-    header.appendChild(paging);
+    const paging = document.createElement('div');
+    paging.innerText = `${pageIndex}/${totalPages}`;
+    paging.style.color = '#000';
+    paging.style.fontSize = '16px';
+    paging.style.marginLeft = 'auto';
+
+    titleBox.appendChild(title);
+    titleBox.appendChild(paging);
 
     const ul = document.createElement('ul');
     ul.style.listStyle = 'none';
     ul.style.padding = '0';
+    ul.style.margin = '0';
 
-    pageItems.forEach((li, idx) => {
+    pageItems.forEach(li => {
       const clonedLi = li.cloneNode(true);
       clonedLi.style.display = 'block';
       clonedLi.style.width = '100%';
-      clonedLi.style.marginBottom = '20px';
       clonedLi.style.overflowWrap = 'break-word';
       clonedLi.style.wordBreak = 'break-word';
       clonedLi.style.whiteSpace = 'normal';
       clonedLi.style.lineHeight = '1.8';
+      clonedLi.style.marginBottom = '24px';
+      clonedLi.style.textAlign = 'left';
 
       clonedLi.querySelectorAll('div').forEach(div => {
         div.style.display = 'block';
-        div.style.whiteSpace = 'normal';
+        div.style.width = '100%';
+        div.style.overflowWrap = 'break-word';
         div.style.wordBreak = 'break-word';
-        div.style.lineHeight = '1.6';
+        div.style.whiteSpace = 'normal';
+        div.style.lineHeight = '1.8';
         div.style.fontSize = '16px';
+        div.style.textAlign = 'left';
+        div.style.color = '#000';
       });
 
       ul.appendChild(clonedLi);
     });
 
-    answerWrapper.appendChild(header);
+    answerWrapper.appendChild(titleBox);
     answerWrapper.appendChild(ul);
-
-    captureLayer.appendChild(resultSummary);
+    captureLayer.appendChild(summaryClone);
     captureLayer.appendChild(answerWrapper);
-
     document.body.appendChild(captureLayer);
 
     return html2canvas(captureLayer, {
@@ -1154,15 +1157,14 @@ function captureResult() {
     });
   }
 
-  // 첫번째 페이지 저장
-  createCaptureLayer(page1Items, 1).then(canvas1 => {
+  createCaptureLayer(page1Items, 1, totalPages).then(canvas1 => {
     const link1 = document.createElement('a');
     link1.download = totalPages === 1 ? '티키타카_결과.png' : '티키타카_결과1.png';
     link1.href = canvas1.toDataURL();
     link1.click();
 
     if (totalPages === 2) {
-      createCaptureLayer(page2Items, 2).then(canvas2 => {
+      createCaptureLayer(page2Items, 2, totalPages).then(canvas2 => {
         const link2 = document.createElement('a');
         link2.download = '티키타카_결과2.png';
         link2.href = canvas2.toDataURL();
