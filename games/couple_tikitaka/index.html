@@ -1049,6 +1049,7 @@ function captureResult() {
   }
 
   const allItems = answerBox.querySelectorAll('li');
+  const totalItems = allItems.length;
   const splitIndex = 45; // 45개 기준으로 나눈다
 
   // 원래 스타일 백업
@@ -1069,7 +1070,6 @@ function captureResult() {
   finalResult.style.borderRadius = '20px';
   finalResult.style.boxSizing = 'border-box';
 
-  // 내부 li, div 줄바꿈 스타일 적용
   finalResult.querySelectorAll('li, li > div').forEach(el => {
     el.style.display = 'block';
     el.style.width = '100%';
@@ -1081,48 +1081,19 @@ function captureResult() {
     el.style.boxSizing = 'border-box';
   });
 
-  // 1장: 1~45개만 보이게
-  allItems.forEach((item, idx) => {
-    item.style.display = (idx < splitIndex) ? 'block' : 'none';
-  });
-
-  html2canvas(finalResult, {
-    backgroundColor: null,
-    scrollY: 0,
-    scale: 2
-  }).then(canvas1 => {
-    const link1 = document.createElement('a');
-    link1.download = '티키타카_결과1.png';
-    link1.href = canvas1.toDataURL();
-    link1.click();
-
-    // 2장: 46개 이후만 보이게
-    allItems.forEach((item, idx) => {
-      item.style.display = (idx >= splitIndex) ? 'block' : 'none';
-    });
-
-    // ✅ 성공률/메인 결과 숨기기 (2장에는 질문답변만)
-    const resultSummary = finalResult.querySelector('#resultSummaryBox');
-    if (resultSummary) {
-      resultSummary.style.display = 'none';
-    }
-
+  if (totalItems <= splitIndex) {
+    // ✅ 문제 수가 45개 이하일 때 → 한 장만 캡처
     html2canvas(finalResult, {
       backgroundColor: null,
       scrollY: 0,
       scale: 2
-    }).then(canvas2 => {
-      const link2 = document.createElement('a');
-      link2.download = '티키타카_결과2.png';
-      link2.href = canvas2.toDataURL();
-      link2.click();
+    }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = '티키타카_결과.png';
+      link.href = canvas.toDataURL();
+      link.click();
 
-      // ✅ 캡처 끝나면 화면 복구
-      allItems.forEach(item => item.style.display = 'block');
-      if (resultSummary) {
-        resultSummary.style.display = 'block';
-      }
-
+      // 스타일 복구
       finalResult.style.width = originalStyle.width;
       finalResult.style.maxWidth = originalStyle.maxWidth;
       finalResult.style.padding = originalStyle.padding;
@@ -1130,7 +1101,60 @@ function captureResult() {
       finalResult.style.borderRadius = originalStyle.borderRadius;
       finalResult.style.boxSizing = originalStyle.boxSizing;
     });
-  });
+  } else {
+    // ✅ 문제 수가 46개 이상일 때 → 2장 캡처
+
+    // 1장: 1~45개만 보이게
+    allItems.forEach((item, idx) => {
+      item.style.display = (idx < splitIndex) ? 'block' : 'none';
+    });
+
+    html2canvas(finalResult, {
+      backgroundColor: null,
+      scrollY: 0,
+      scale: 2
+    }).then(canvas1 => {
+      const link1 = document.createElement('a');
+      link1.download = '티키타카_결과1.png';
+      link1.href = canvas1.toDataURL();
+      link1.click();
+
+      // 2장: 46개 이후만 보이게
+      allItems.forEach((item, idx) => {
+        item.style.display = (idx >= splitIndex) ? 'block' : 'none';
+      });
+
+      // ✅ 메인 결과 박스 숨기기 (2장에는 질문만)
+      const resultSummary = finalResult.querySelector('#resultSummaryBox');
+      if (resultSummary) {
+        resultSummary.style.display = 'none';
+      }
+
+      html2canvas(finalResult, {
+        backgroundColor: null,
+        scrollY: 0,
+        scale: 2
+      }).then(canvas2 => {
+        const link2 = document.createElement('a');
+        link2.download = '티키타카_결과2.png';
+        link2.href = canvas2.toDataURL();
+        link2.click();
+
+        // 스타일 복구
+        allItems.forEach(item => item.style.display = 'block');
+        if (resultSummary) {
+          resultSummary.style.display = 'block';
+        }
+
+        finalResult.style.width = originalStyle.width;
+        finalResult.style.maxWidth = originalStyle.maxWidth;
+        finalResult.style.padding = originalStyle.padding;
+        finalResult.style.background = originalStyle.background;
+        finalResult.style.borderRadius = originalStyle.borderRadius;
+        finalResult.style.boxSizing = originalStyle.boxSizing;
+      });
+    });
+  }
 }
 
     
