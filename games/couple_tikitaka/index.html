@@ -1047,10 +1047,9 @@ function captureResult() {
   if (!answerBox) return;
 
   const allItems = Array.from(answerBox.querySelectorAll('li'));
-  const totalItems = allItems.length;
-  const splitIndex = 45; // 아이템 45개마다 캡쳐 나누기
+  const splitIndex = 45;
+  const totalPages = allItems.length > splitIndex ? 2 : 1;
 
-  // 📌 페이지 만드는 함수
   function createCapturePage(pageItems, pageIndex, totalPages) {
     const captureLayer = document.createElement('div');
     captureLayer.style.position = 'fixed';
@@ -1061,13 +1060,11 @@ function captureResult() {
     captureLayer.style.background = "url('assets/background.jpg') center/cover no-repeat";
     captureLayer.style.display = 'flex';
     captureLayer.style.flexDirection = 'column';
-    captureLayer.style.justifyContent = 'flex-start';
     captureLayer.style.alignItems = 'center';
     captureLayer.style.padding = '20px';
     captureLayer.style.boxSizing = 'border-box';
-    captureLayer.style.zIndex = '9999'; // 캡쳐 레이어가 위로
+    captureLayer.style.zIndex = '9999';
 
-    // 최상단 결과 요약 부분 복제
     const resultSummary = document.querySelector('#resultSummaryBox').cloneNode(true);
     resultSummary.style.backgroundColor = 'rgba(255,255,255,0.85)';
     resultSummary.style.color = '#000';
@@ -1078,14 +1075,12 @@ function captureResult() {
     resultSummary.style.padding = '20px';
     resultSummary.style.marginBottom = '24px';
 
-    // 페이지 넘버 표시
     const pageIndicator = document.createElement('div');
     pageIndicator.innerText = `${pageIndex}/${totalPages}`;
     pageIndicator.style.fontSize = '18px';
     pageIndicator.style.color = '#000';
     pageIndicator.style.margin = '16px 0';
 
-    // 질문 & 답변 박스
     const answerWrapper = document.createElement('div');
     answerWrapper.style.backgroundColor = 'white';
     answerWrapper.style.borderRadius = '16px';
@@ -1106,34 +1101,34 @@ function captureResult() {
     ul.style.padding = '0';
     ul.style.margin = '0';
 
-    pageItems.forEach(li => {
-      const clonedLi = li.cloneNode(true);
-      clonedLi.style.display = 'block';
-      clonedLi.style.width = '100%';
-      clonedLi.style.overflowWrap = 'break-word';
-      clonedLi.style.wordBreak = 'break-word';
-      clonedLi.style.whiteSpace = 'normal';
-      clonedLi.style.lineHeight = '1.8';
-      clonedLi.style.marginBottom = '24px';
-      clonedLi.style.fontSize = '16px';
+    pageItems.forEach(item => {
+      const newLi = document.createElement('li');
+      newLi.style.marginBottom = '24px';
+      newLi.style.fontSize = '16px';
+      newLi.style.lineHeight = '1.8';
+      newLi.style.wordBreak = 'break-word';
+      newLi.style.whiteSpace = 'normal';
 
-      // 안의 div들(질문, 답변들) 스타일 통일
-      clonedLi.querySelectorAll('div').forEach(div => {
-        div.style.display = 'block';
-        div.style.width = '100%';
-        div.style.overflowWrap = 'break-word';
-        div.style.wordBreak = 'break-word';
-        div.style.whiteSpace = 'normal';
-        div.style.lineHeight = '1.8';
-        div.style.fontSize = '16px';
-        div.style.marginBottom = '4px'; // 질문, 답변 간격 살짝
+      // 원본 li 안에 div를 찾아 다시 만듦
+      const divs = item.querySelectorAll('div');
+      divs.forEach(div => {
+        const clonedDiv = document.createElement('div');
+        clonedDiv.innerHTML = div.innerHTML; // 내용 복사
+        clonedDiv.style.display = 'block';
+        clonedDiv.style.marginBottom = '4px';
+        clonedDiv.style.wordBreak = 'break-word';
+        clonedDiv.style.whiteSpace = 'normal';
+        clonedDiv.style.lineHeight = '1.8';
+        clonedDiv.style.fontSize = '16px';
+        newLi.appendChild(clonedDiv);
       });
 
-      ul.appendChild(clonedLi);
+      ul.appendChild(newLi);
     });
 
     answerWrapper.appendChild(title);
     answerWrapper.appendChild(ul);
+
     captureLayer.appendChild(resultSummary);
     captureLayer.appendChild(pageIndicator);
     captureLayer.appendChild(answerWrapper);
@@ -1150,12 +1145,9 @@ function captureResult() {
     });
   }
 
-  // 📌 페이지 분리
   const page1Items = allItems.slice(0, splitIndex);
   const page2Items = allItems.slice(splitIndex);
-  const totalPages = page2Items.length > 0 ? 2 : 1;
 
-  // 📌 페이지별 캡처 진행
   createCapturePage(page1Items, 1, totalPages).then(canvas1 => {
     const link1 = document.createElement('a');
     link1.download = totalPages === 1 ? '티키타카_결과.png' : '티키타카_결과1.png';
