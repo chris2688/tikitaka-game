@@ -1036,9 +1036,38 @@ function captureAnswers() {
 }
 
 function captureResult() {
-  const resultTarget = document.querySelector('.result-box');
+  const originalResultBox = document.querySelector('.result-box');
 
-  html2canvas(resultTarget, {
+  // 1. 가짜 캡처용 레이어 생성
+  const captureLayer = document.createElement('div');
+  captureLayer.style.position = 'fixed';
+  captureLayer.style.top = '0';
+  captureLayer.style.left = '0';
+  captureLayer.style.width = '100vw';
+  captureLayer.style.height = '100vh';
+  captureLayer.style.background = "url('assets/background.jpg') center/cover no-repeat";
+  captureLayer.style.zIndex = '10000'; // 최상단
+  captureLayer.style.display = 'flex';
+  captureLayer.style.flexDirection = 'column';
+  captureLayer.style.justifyContent = 'center';
+  captureLayer.style.alignItems = 'center';
+
+  // 2. 기존 결과 복사해서 붙이기
+  const clonedResult = originalResultBox.cloneNode(true);
+  clonedResult.style.background = 'rgba(255, 255, 255, 0.8)'; // 흐린 흰색 배경
+  clonedResult.style.backdropFilter = 'blur(6px)'; // 흐림효과
+  clonedResult.style.padding = '32px';
+  clonedResult.style.borderRadius = '20px';
+  clonedResult.style.boxShadow = '0 8px 20px rgba(0,0,0,0.3)';
+  clonedResult.style.color = '#111'; // 글자 어두운색으로 명확히
+  clonedResult.style.maxWidth = '90%';
+  clonedResult.style.boxSizing = 'border-box';
+
+  captureLayer.appendChild(clonedResult);
+  document.body.appendChild(captureLayer);
+
+  // 3. 캡처 시작
+  html2canvas(captureLayer, {
     backgroundColor: null,
     scrollY: -window.scrollY
   }).then(canvas1 => {
@@ -1047,7 +1076,10 @@ function captureResult() {
     link1.href = canvas1.toDataURL();
     link1.click();
 
-    // 결과 저장 후 질문답변도 함께 저장할지 묻는 팝업 띄우기
+    // 4. 캡처 끝나면 레이어 제거
+    document.body.removeChild(captureLayer);
+
+    // 5. 팝업 띄우기
     document.getElementById("popupMessage").innerText = "질문답변도 함께 저장할까요?";
     document.getElementById("customPopup").style.display = "flex";
   });
