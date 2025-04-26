@@ -1043,15 +1043,14 @@ function captureResult() {
   if (!answerBox) return;
 
   const allItems = answerBox.querySelectorAll('li');
-  const totalItems = allItems.length;
   const splitIndex = 45;
   const page1Items = Array.from(allItems).slice(0, splitIndex);
   const page2Items = Array.from(allItems).slice(splitIndex);
   const totalPages = page2Items.length > 0 ? 2 : 1;
 
-  const summaryContent = document.querySelector('#resultSummaryBox').cloneNode(true);
+  const playerNames = document.querySelector('h2').innerText.split('\u2764'); // 이름 추출 (예시)
 
-  function createCaptureLayer(pageItems, pageIndex, totalPages) {
+  function createCaptureLayer(pageItems, pageIndex) {
     const captureLayer = document.createElement('div');
     captureLayer.style.position = 'fixed';
     captureLayer.style.top = '0';
@@ -1063,38 +1062,53 @@ function captureResult() {
     captureLayer.style.flexDirection = 'column';
     captureLayer.style.alignItems = 'center';
     captureLayer.style.padding = '20px';
-    captureLayer.style.boxSizing = 'border-box';
 
-    const resultSummary = summaryContent.cloneNode(true);
+    // 결과 요약 박스 복제
+    const resultSummary = document.querySelector('#resultSummaryBox').cloneNode(true);
     resultSummary.style.backgroundColor = 'rgba(255,255,255,0.85)';
     resultSummary.style.color = '#000';
     resultSummary.style.borderRadius = '16px';
     resultSummary.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
     resultSummary.style.maxWidth = '640px';
     resultSummary.style.width = '90%';
-    resultSummary.style.padding = '20px';
+    resultSummary.style.padding = '24px';
     resultSummary.style.marginBottom = '24px';
+    resultSummary.querySelectorAll('span').forEach(span => span.style.color = '#000');
 
+    // 페이징 표시 추가 (1/1, 1/2, 2/2)
     const pageIndicator = document.createElement('div');
-    pageIndicator.innerText = `페이지 ${pageIndex}/${totalPages}`;
+    pageIndicator.innerText = `${pageIndex}/${totalPages}`;
     pageIndicator.style.fontSize = '16px';
     pageIndicator.style.color = '#000';
-    pageIndicator.style.marginBottom = '12px';
+    pageIndicator.style.marginBottom = '8px';
 
+    // 질문 + 답변 요약 박스
     const answerWrapper = document.createElement('div');
-    answerWrapper.style.backgroundColor = 'white';
+    answerWrapper.style.backgroundColor = '#fff';
     answerWrapper.style.borderRadius = '16px';
     answerWrapper.style.padding = '24px';
     answerWrapper.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
     answerWrapper.style.maxWidth = '640px';
     answerWrapper.style.width = '90%';
     answerWrapper.style.textAlign = 'left';
-    answerWrapper.style.boxSizing = 'border-box';
 
+    const header = document.createElement('div');
+    header.style.display = 'flex';
+    header.style.justifyContent = 'space-between';
+    header.style.alignItems = 'center';
+    header.style.marginBottom = '16px';
     const title = document.createElement('h3');
-    title.innerText = '📋 질문 & 답변 정리';
+    title.innerText = '\ud83d\udccb \uc9c8\ubb38 & \ub2f5\ubcc0 \uc815\ub9ac';
     title.style.color = '#000';
-    title.style.marginBottom = '16px';
+    title.style.fontSize = '20px';
+    title.style.margin = '0';
+    const paging = document.createElement('span');
+    paging.innerText = `${pageIndex}/${totalPages}`;
+    paging.style.fontSize = '16px';
+    paging.style.color = '#666';
+
+    header.appendChild(title);
+    header.appendChild(paging);
 
     const ul = document.createElement('ul');
     ul.style.listStyle = 'none';
@@ -1102,42 +1116,31 @@ function captureResult() {
 
     pageItems.forEach((li, idx) => {
       const clonedLi = li.cloneNode(true);
-      clonedLi.style.marginBottom = '24px';
-      clonedLi.style.lineHeight = '1.8';
+      clonedLi.style.display = 'block';
+      clonedLi.style.width = '100%';
+      clonedLi.style.marginBottom = '20px';
+      clonedLi.style.overflowWrap = 'break-word';
       clonedLi.style.wordBreak = 'break-word';
       clonedLi.style.whiteSpace = 'normal';
+      clonedLi.style.lineHeight = '1.8';
 
-      const divs = clonedLi.querySelectorAll('div');
-      divs.forEach((div, index) => {
+      clonedLi.querySelectorAll('div').forEach(div => {
         div.style.display = 'block';
-        div.style.width = '100%';
-        div.style.wordBreak = 'break-word';
         div.style.whiteSpace = 'normal';
+        div.style.wordBreak = 'break-word';
         div.style.lineHeight = '1.6';
-        div.style.fontSize = index === 0 ? '16px' : '14px'; // 질문은 16px, 답변은 14px
-        if (index === 0) div.style.fontWeight = 'bold'; // 질문은 bold
-        if (index > 0) div.style.marginLeft = '12px';   // 답변은 살짝 들여쓰기
+        div.style.fontSize = '16px';
       });
-
-      const resultDiv = divs[divs.length - 1];
-      if (resultDiv) {
-        resultDiv.style.color = '#555';
-        const strong = resultDiv.querySelector('span');
-        if (strong) {
-          strong.style.fontSize = '16px';
-          strong.style.fontWeight = 'bold';
-          strong.style.color = strong.innerText.includes('TIKI') ? '#00bfa5' : '#e53935';
-        }
-      }
 
       ul.appendChild(clonedLi);
     });
 
-    answerWrapper.appendChild(title);
+    answerWrapper.appendChild(header);
     answerWrapper.appendChild(ul);
+
     captureLayer.appendChild(resultSummary);
-    captureLayer.appendChild(pageIndicator);
     captureLayer.appendChild(answerWrapper);
+
     document.body.appendChild(captureLayer);
 
     return html2canvas(captureLayer, {
@@ -1151,14 +1154,15 @@ function captureResult() {
     });
   }
 
-  createCaptureLayer(page1Items, 1, totalPages).then(canvas1 => {
+  // 첫번째 페이지 저장
+  createCaptureLayer(page1Items, 1).then(canvas1 => {
     const link1 = document.createElement('a');
     link1.download = totalPages === 1 ? '티키타카_결과.png' : '티키타카_결과1.png';
     link1.href = canvas1.toDataURL();
     link1.click();
 
     if (totalPages === 2) {
-      createCaptureLayer(page2Items, 2, totalPages).then(canvas2 => {
+      createCaptureLayer(page2Items, 2).then(canvas2 => {
         const link2 = document.createElement('a');
         link2.download = '티키타카_결과2.png';
         link2.href = canvas2.toDataURL();
