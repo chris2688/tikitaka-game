@@ -1003,6 +1003,10 @@ document.getElementById("finalResult").innerHTML = `
   </div>
 `; 
 document.getElementById("finalResult").style.display = "block";
+    const finale = new Audio('assets/sounds/final.mp3');
+    finale.volume = 0.5;
+    finale.play();
+          
       }, 1500); // ← 여유 시간 주고 결과창 띄우기
     }
   }
