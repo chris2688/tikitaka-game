@@ -1137,14 +1137,12 @@ function captureResult() {
     resultText = `· 결과: ${rawResult}`;
   }
 
-  li.innerHTML = `
-    <div style="margin-bottom:6px;"><strong>Q${index + 1}.</strong> ${question}</div>
-    <div style="margin-left:16px; margin-bottom:4px;">· A: ${answer1}</div>
-    <div style="margin-left:16px; margin-bottom:4px;">· S: ${answer2}</div>
-    <div style="margin-left:16px;">${resultText}</div>
-  `;
-  ul.appendChild(li);
-});
+li.innerHTML = `
+  <div style="margin-bottom:2px; line-height:1.4;"><strong>Q${index + 1}.</strong> ${question}</div>
+  <div style="margin: 0 0 2px 16px; line-height:1.4;">· A: ${answer1}</div>
+  <div style="margin: 0 0 2px 16px; line-height:1.4;">· S: ${answer2}</div>
+  <div style="margin: 0 0 4px 16px; line-height:1.4;">${resultText}</div>
+`;
 
     document.body.appendChild(captureLayer);
 
