@@ -626,12 +626,13 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("startPrompt").style.display = "none";
     document.getElementById("questionBox").style.display = "none";
     document.getElementById("finalResult").style.display = "none";
-
-    attachButtonSounds();
-
-    document.querySelector('#nameForm button').addEventListener('click', saveNames);
+    
+    const saveButton = document.querySelector('#nameForm button');
+    saveButton.addEventListener('click', function() {
+      playTikiTakaSound(); 
+      saveNames();        
+    });
 });
-
     
     function saveNames() {
       p1 = document.getElementById("player1Name").value;
