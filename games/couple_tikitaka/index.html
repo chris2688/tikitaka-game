@@ -639,7 +639,9 @@ let selectedQuestions = [];
       document.getElementById("startPrompt").style.display = "block";
       document.getElementById("startText").innerHTML = 
   `<span style="color:#88f5e1; font-weight:bold;">${p1}</span>님부터 <strong>TIKI</strong>를 시작해보세요.`;
-    }
+
+      attachButtonSounds(); // ✅ 버튼에 소리 연결
+}
 
 
 function startExtraRound() {
@@ -1206,12 +1208,7 @@ document.addEventListener("keydown", function (e) {
   }
 });
     
-document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("nameForm").style.display = "block";
-  document.querySelectorAll('.button').forEach(btn =>
-    btn.addEventListener('click', playTikiTakaSound)
-  ); 
-});
+
 
 function showAlertPopup(message) {
   document.getElementById("alertPopupMessage").innerText = message;
@@ -1249,9 +1246,21 @@ function closeAlertPopup() {
     // 4) 이름 입력폼 보이기
     document.getElementById("nameForm").style.display = "block";
   }
+  
+</script>
+
+
+<script>
+function attachButtonSounds() {
+  document.querySelectorAll('.button').forEach(btn => {
+    btn.addEventListener('click', playTikiTakaSound);
+  });
+}
+</script>
+
+
 
     
-</script>
 <div id="alertPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.4); z-index: 9999; justify-content: center; align-items: center;">
 <div style="background: white; padding: 24px 32px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); color: #333; max-width: 90%; text-align: center;">
 <p id="alertPopupMessage" style="font-size: 18px;">알림 메시지</p>
