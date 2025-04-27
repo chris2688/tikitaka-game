@@ -1128,7 +1128,8 @@ function captureResult() {
       const answer2 = divs[2]?.innerText || '';
       const result = divs[3]?.innerText || '';
 
-      li.innerText = `Q${index + 1}. ${question}\n· A: ${answer1}\n· S: ${answer2}\n· 결과: ${result}`;
+      li.innerText = `Q${index + 1}. ${question}\n· ${p1}: ${answer1}\n· ${p2}: ${answer2}\n· 결과: ${result}`;
+
       ul.appendChild(li);
     });
 
