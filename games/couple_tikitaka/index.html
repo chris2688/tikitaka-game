@@ -618,18 +618,15 @@ let isFirst = true, index = 0;
 let firstAnswers = [], secondAnswers = [], score = 0;
 let selectedQuestions = [];
 
-     document.addEventListener("DOMContentLoaded", function () {
-
+document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("player1Name").value = "";
     document.getElementById("player2Name").value = "";
 
-    document.getElementById("nameForm").style.display = "none";
-    document.getElementById("startPrompt").style.display = "none";
-    document.getElementById("questionBox").style.display = "none";
-    document.getElementById("finalResult").style.display = "none";
-
-    document.getElementById("nameForm").style.display = "block";
-  });
+    document.getElementById("nameForm").style.display = "block";   // 👉 이름 입력폼은 보이기
+    document.getElementById("startPrompt").style.display = "none"; // 👉 시작 프롬프트 숨기기
+    document.getElementById("questionBox").style.display = "none"; // 👉 질문 박스 숨기기
+    document.getElementById("finalResult").style.display = "none"; // 👉 결과 박스 숨기기
+});
 
     function saveNames() {
       p1 = document.getElementById("player1Name").value;
