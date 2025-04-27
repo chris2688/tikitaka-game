@@ -626,6 +626,9 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("startPrompt").style.display = "none"; // 👉 시작 프롬프트 숨기기
     document.getElementById("questionBox").style.display = "none"; // 👉 질문 박스 숨기기
     document.getElementById("finalResult").style.display = "none"; // 👉 결과 박스 숨기기
+
+attachButtonSounds();
+    
 });
 
     function saveNames() {
@@ -637,7 +640,6 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("startText").innerHTML = 
   `<span style="color:#88f5e1; font-weight:bold;">${p1}</span>님부터 <strong>TIKI</strong>를 시작해보세요.`;
 
-      attachButtonSounds(); // ✅ 버튼에 소리 연결
 }
 
 
