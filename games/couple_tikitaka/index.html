@@ -1126,24 +1126,10 @@ function captureResult() {
       const question = divs[0]?.innerText || '';
       const answer1 = divs[1]?.innerText || '';
       const answer2 = divs[2]?.innerText || '';
-      const rawResult = divs[3]?.innerText || '';
-let resultText = '';
+      const result = divs[3]?.innerText || '';
 
-if (rawResult.includes('TIKI TAKA')) {
-  resultText = `· 결과: ⭕ <span style="color:#00bfa5; font-weight:bold;">TIKI TAKA</span>`;
-} else if (rawResult.includes('불일치')) {
-  resultText = `· 결과: ❌ <span style="color:#e53935; font-weight:bold;">불일치</span>`;
-} else {
-  resultText = `· 결과: ${rawResult}`;
-}
-
-li.innerHTML = `
-  <div style="margin-bottom:8px;"><strong>Q${index + 1}.</strong> ${question}</div>
-  <div style="margin-left:16px;">· A: ${answer1}</div>
-  <div style="margin-left:16px;">· S: ${answer2}</div>
-  <div style="margin-left:16px;">${resultText}</div>
-`;
-ul.appendChild(li);
+      li.innerText = `Q${index + 1}. ${question}\n· A: ${answer1}\n· S: ${answer2}\n· 결과: ${result}`;
+      ul.appendChild(li);
     });
 
     document.body.appendChild(captureLayer);
