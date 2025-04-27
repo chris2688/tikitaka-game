@@ -1123,13 +1123,20 @@ function captureResult() {
       li.style.wordBreak = 'break-word';
 
 const divs = item.querySelectorAll('div');
-const question = divs[0]?.innerText || '';
-const answer1 = divs[1]?.innerText || '';
-const answer2 = divs[2]?.innerText || '';
-const rawResult = (divs[3]?.innerText || '').replace(/^결과:\s*/, '');
 
-li.innerText = `Q${index + 1}. ${question}\n· ${p1}: ${answer1}\n· ${p2}: ${answer2}\n· 결과: ${rawResult}`;
+const rawQuestion = divs[0]?.innerText || '';
+const question = rawQuestion.replace(/^Q\d+\.\s*/, '');  // "Q1. " 제거
 
+const rawAnswer1 = divs[1]?.innerText || '';
+const answer1 = rawAnswer1.replace(/^·\s*[^:]+:\s*/, '');  // "· 이름 :" 제거
+
+const rawAnswer2 = divs[2]?.innerText || '';
+const answer2 = rawAnswer2.replace(/^·\s*[^:]+:\s*/, '');  // "· 이름 :" 제거
+
+const rawResult = divs[3]?.innerText || '';
+const result = rawResult.replace(/^결과:\s*/, '');  // "결과:" 제거
+
+li.innerText = `Q${index + 1}. ${question}\n· ${p1}: ${answer1}\n· ${p2}: ${answer2}\n· 결과: ${result}`;
 
       ul.appendChild(li);
     });
