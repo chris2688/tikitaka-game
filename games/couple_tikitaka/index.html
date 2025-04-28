@@ -1048,89 +1048,16 @@ async function captureResult() {
 
   const allItems = answerBox.querySelectorAll('li');
   const totalItems = allItems.length;
-  const splitIndex = 45; // 45문제당 1페이지
+  const splitIndex = 45; // 45개씩 페이지 분할
   const totalPages = Math.ceil(totalItems.length / splitIndex);
   const resultSummary = finalResult.querySelector('#resultSummaryBox');
 
-  // 캡처에 필요한 데이터 전역 저장
   window.captureData = { allItems, splitIndex, totalPages, resultSummary };
-  capturePageIndex = 1;
+  window.capturePageIndex = 1;
 
   await captureCurrentPage();
 }
 
-async function captureCurrentPage() {
-  const { allItems, splitIndex, totalPages, resultSummary } = window.captureData;
-  const pageItems = Array.from(allItems).slice((capturePageIndex - 1) * splitIndex, capturePageIndex * splitIndex);
-
-  const captureLayer = document.createElement('div');
-  captureLayer.style.position = 'fixed';
-  captureLayer.style.top = '0';
-  captureLayer.style.left = '0';
-  captureLayer.style.width = '100vw';
-  captureLayer.style.minHeight = '100vh';
-  captureLayer.style.background = "url('assets/background.jpg') center/cover no-repeat";
-  captureLayer.style.display = 'flex';
-  captureLayer.style.flexDirection = 'column';
-  captureLayer.style.alignItems = 'center';
-  captureLayer.style.padding = '20px';
-  captureLayer.style.zIndex = '9999';
-
-  const clonedSummary = resultSummary.cloneNode(true);
-  clonedSummary.style.backgroundColor = 'rgba(255,255,255,0.85)';
-  clonedSummary.style.color = '#000';
-  clonedSummary.style.borderRadius = '16px';
-  clonedSummary.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
-  clonedSummary.style.maxWidth = '640px';
-  clonedSummary.style.width = '90%';
-  clonedSummary.style.padding = '20px';
-  clonedSummary.style.marginBottom = '24px';
-  captureLayer.appendChild(clonedSummary);
-
-  const contentBox = document.createElement('div');
-  contentBox.style.backgroundColor = '#fff';
-  contentBox.style.borderRadius = '16px';
-  contentBox.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
-  contentBox.style.maxWidth = '640px';
-  contentBox.style.width = '90%';
-  contentBox.style.padding = '24px';
-  contentBox.style.textAlign = 'left';
-  contentBox.style.fontSize = '16px';
-  contentBox.style.lineHeight = '1.8';
-  contentBox.style.color = '#000';
-  captureLayer.appendChild(contentBox);
-
-  const titleWrapper = document.createElement('div');
-  titleWrapper.style.display = 'flex';
-  titleWrapper.style.justifyContent = 'space-between';
-  titleWrapper.style.alignItems = 'center';
-  titleWrapper.style.marginBottom = '20px';
-  contentBox.appendChild(titleWrapper);
-
-  const title = document.createElement('h3');
-  title.innerText = '📋 질문 & 답변 정리';
-  title.style.margin = '0';
-  title.style.fontSize = '20px';
-  title.style.color = '#000';
-  titleWrapper.appendChild(title);
-
-  const pageNum = document.createElement('div');
-  pageNum.innerText = `${capturePageIndex}/${totalPages}`;
-  pageNum.style.fontSize = '16px';
-  pageNum.style.color = '#000';
-  titleWrapper.appendChild(pageNum);
-
-  const ul = document.createElement('ul');
-  ul.style.listStyle = 'none';
-  ul.style.padding = '0';
-  ul.style.margin = '0';
-  contentBox.appendChild(ul);
-
-  pageItems.forEach((item, index) => {
-    const li = document.createElement('li');
-    li.style.marginBottom = '24px';
-    li.style.whiteSpace = 'pre-wrap';
-    li.style.wordBreak = 'break-word';
 async function captureCurrentPage() {
   const { allItems, splitIndex, totalPages, resultSummary } = window.captureData;
   const pageItems = Array.from(allItems).slice((capturePageIndex - 1) * splitIndex, capturePageIndex * splitIndex);
@@ -1227,7 +1154,6 @@ async function captureCurrentPage() {
 
   document.body.appendChild(captureLayer);
 
-  // 💥 추가해야 했던 부분: 캡처 후 저장
   const canvas = await html2canvas(captureLayer, {
     backgroundColor: null,
     scrollY: 0,
@@ -1238,11 +1164,17 @@ async function captureCurrentPage() {
   document.body.removeChild(captureLayer);
 
   const link = document.createElement('a');
-  link.download = totalPages === 1 ? '티키타카_결과.png' : `티키타카_결과${capturePageIndex}.png`;
+  link.download = `티키타카_결과${capturePageIndex}.png`;
   link.href = canvas.toDataURL();
   link.click();
-}
 
+  if (capturePageIndex < totalPages) {
+    capturePageIndex++;
+    await captureCurrentPage();
+  } else {
+    alert('모든 결과 저장이 완료되었습니다!');
+  }
+}
 
 
 
