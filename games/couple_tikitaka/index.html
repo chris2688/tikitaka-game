@@ -1036,28 +1036,9 @@ function captureAnswers() {
 
 let capturePageIndex = 1;  // 현재 몇 번째 페이지 캡처하는지 기억
 
-async function captureResult() {
-  const finalResult = document.getElementById('finalResult');
-  if (!finalResult) return;
-
-  const answerBox = finalResult.querySelector('#answerSummaryBox');
-  if (!answerBox) return;
-
-  const allItems = answerBox.querySelectorAll('li');
-  const totalItems = allItems.length;
-  const splitIndex = 45; // 45개씩 페이지 분할
-  const totalPages = Math.ceil(totalItems / splitIndex); 
-  const resultSummary = finalResult.querySelector('#resultSummaryBox');
-
-  window.captureData = { allItems, splitIndex, totalPages, resultSummary };
-  capturePageIndex = 1;
-
-  await captureCurrentPage();
-}
-
-async function captureCurrentPage() {
-  const { allItems, splitIndex, totalPages, resultSummary } = window.captureData;
-  const pageItems = Array.from(allItems).slice((capturePageIndex - 1) * splitIndex, capturePageIndex * splitIndex);
+function captureResult() {
+  const resultSummary = document.getElementById('resultSummaryBox');
+  if (!resultSummary) return;
 
   const captureLayer = document.createElement('div');
   captureLayer.style.position = 'fixed';
@@ -1067,8 +1048,8 @@ async function captureCurrentPage() {
   captureLayer.style.minHeight = '100vh';
   captureLayer.style.background = "url('assets/background.jpg') center/cover no-repeat";
   captureLayer.style.display = 'flex';
-  captureLayer.style.flexDirection = 'column';
   captureLayer.style.alignItems = 'center';
+  captureLayer.style.justifyContent = 'center';
   captureLayer.style.padding = '20px';
   captureLayer.style.zIndex = '9999';
 
@@ -1080,98 +1061,23 @@ async function captureCurrentPage() {
   clonedSummary.style.maxWidth = '640px';
   clonedSummary.style.width = '90%';
   clonedSummary.style.padding = '20px';
-  clonedSummary.style.marginBottom = '24px';
   captureLayer.appendChild(clonedSummary);
-
-  const contentBox = document.createElement('div');
-  contentBox.style.backgroundColor = '#fff';
-  contentBox.style.borderRadius = '16px';
-  contentBox.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
-  contentBox.style.maxWidth = '640px';
-  contentBox.style.width = '90%';
-  contentBox.style.padding = '24px';
-  contentBox.style.textAlign = 'left';
-  contentBox.style.fontSize = '16px';
-  contentBox.style.lineHeight = '1.8';
-  contentBox.style.color = '#000';
-  captureLayer.appendChild(contentBox);
-
-  const titleWrapper = document.createElement('div');
-  titleWrapper.style.display = 'flex';
-  titleWrapper.style.justifyContent = 'space-between';
-  titleWrapper.style.alignItems = 'center';
-  titleWrapper.style.marginBottom = '20px';
-  contentBox.appendChild(titleWrapper);
-
-  const title = document.createElement('h3');
-  title.innerText = '📋 질문 & 답변 정리';
-  title.style.margin = '0';
-  title.style.fontSize = '20px';
-  title.style.color = '#000';
-  titleWrapper.appendChild(title);
-
-  const pageNum = document.createElement('div');
-  pageNum.innerText = `${capturePageIndex}/${totalPages}`;
-  pageNum.style.fontSize = '16px';
-  pageNum.style.color = '#000';
-  titleWrapper.appendChild(pageNum);
-
-  const ul = document.createElement('ul');
-  ul.style.listStyle = 'none';
-  ul.style.padding = '0';
-  ul.style.margin = '0';
-  contentBox.appendChild(ul);
-
-  pageItems.forEach((item, index) => {
-    const li = document.createElement('li');
-    li.style.marginBottom = '24px';
-    li.style.whiteSpace = 'pre-wrap';
-    li.style.wordBreak = 'break-word';
-
-    const divs = item.querySelectorAll('div');
-
-    const rawQuestion = divs[0]?.innerText || '';
-    const question = rawQuestion.replace(/^Q\d+\.\s*/, '');
-
-    const rawAnswer1 = divs[1]?.innerText || '';
-    const answer1 = rawAnswer1.replace(/^·\s*[^:]+:\s*/, '');
-
-    const rawAnswer2 = divs[2]?.innerText || '';
-    const answer2 = rawAnswer2.replace(/^·\s*[^:]+:\s*/, '');
-
-    const rawResult = divs[3]?.innerText || '';
-    const result = rawResult.replace(/^결과:\s*/, '');
-
-    const globalQuestionNumber = (capturePageIndex - 1) * splitIndex + index + 1;
-
-    li.innerText = `Q${globalQuestionNumber}. ${question}\n· ${p1}: ${answer1}\n· ${p2}: ${answer2}\n${rawResult}`;
-
-    ul.appendChild(li);
-  });
 
   document.body.appendChild(captureLayer);
 
-  const canvas = await html2canvas(captureLayer, {
+  html2canvas(captureLayer, {
     backgroundColor: null,
     scrollY: 0,
     scale: 2,
     useCORS: true
+  }).then(canvas => {
+    document.body.removeChild(captureLayer);
+    const link = document.createElement('a');
+    link.download = '티키타카_결과.png';
+    link.href = canvas.toDataURL();
+    link.click();
   });
-
-  document.body.removeChild(captureLayer);
-
-  const link = document.createElement('a');
-  link.download = `티키타카_결과${capturePageIndex}.png`;
-  link.href = canvas.toDataURL();
-  link.click();
-
-if (capturePageIndex < window.captureData.totalPages) {
-  capturePageIndex++;
-  await captureCurrentPage();
-} else {
-  alert('모든 결과 저장이 완료되었습니다!');
 }
- }
 
 
 
