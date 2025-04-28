@@ -1064,20 +1064,45 @@ async function captureResult() {
   clonedSummary.style.maxWidth = '640px';
   clonedSummary.style.width = '90%';
   clonedSummary.style.padding = '20px';
-  clonedSummary.style.position = 'relative'; // 워터마크를 위한 기준
+  clonedSummary.style.position = 'relative'; // 워터마크/시간 위치용
 
   captureLayer.appendChild(clonedSummary);
 
-  // 워터마크 추가
-  const watermark = document.createElement('div');
-  watermark.innerText = 'TIKI TAKA';
-  watermark.style.position = 'absolute';
-  watermark.style.bottom = '12px';
-  watermark.style.right = '16px';
-  watermark.style.fontSize = '14px';
-  watermark.style.color = 'rgba(255, 255, 255, 0.6)';
-  watermark.style.fontWeight = 'bold';
-  clonedSummary.appendChild(watermark);
+  // ✅ 워터마크 로고 추가
+  const watermarkLink = document.createElement('a');
+  watermarkLink.href = 'https://www.tikitaka365.com';
+  watermarkLink.target = '_blank';
+  watermarkLink.style.position = 'absolute';
+  watermarkLink.style.bottom = '16px';
+  watermarkLink.style.right = '16px';
+  watermarkLink.style.opacity = '0.8';
+  watermarkLink.style.cursor = 'pointer';
+
+  const watermarkImg = document.createElement('img');
+  watermarkImg.src = 'assets/tikitaka_logo_small.png'; // 작은 로고 경로
+  watermarkImg.style.height = '28px';
+  watermarkImg.style.width = 'auto';
+
+  watermarkLink.appendChild(watermarkImg);
+  clonedSummary.appendChild(watermarkLink);
+
+  // ✅ 날짜와 시간 텍스트 추가
+  const timestamp = document.createElement('div');
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const dd = String(now.getDate()).padStart(2, '0');
+  const hh = String(now.getHours()).padStart(2, '0');
+  const min = String(now.getMinutes()).padStart(2, '0');
+  timestamp.innerText = `${yyyy}-${mm}-${dd} ${hh}:${min}`;
+  timestamp.style.position = 'absolute';
+  timestamp.style.bottom = '16px';
+  timestamp.style.left = '16px';
+  timestamp.style.color = 'rgba(0,0,0,0.6)';
+  timestamp.style.fontSize = '14px';
+  timestamp.style.fontWeight = 'bold';
+
+  clonedSummary.appendChild(timestamp);
 
   document.body.appendChild(captureLayer);
 
@@ -1097,6 +1122,7 @@ async function captureResult() {
 
   if (buttonArea) buttonArea.style.display = 'flex'; // 버튼 다시 보이기
 }
+
 
 
 
