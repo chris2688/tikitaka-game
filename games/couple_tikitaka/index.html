@@ -1064,29 +1064,30 @@ async function captureResult() {
   clonedSummary.style.maxWidth = '640px';
   clonedSummary.style.width = '90%';
   clonedSummary.style.padding = '20px';
-  clonedSummary.style.position = 'relative'; // 워터마크/시간 위치용
+  clonedSummary.style.position = 'relative'; // 워터마크/시간 위치 기준
 
   captureLayer.appendChild(clonedSummary);
 
-  // ✅ 워터마크 로고 추가
+  // ✅ 워터마크 (TIKI TAKA 로고) 추가
   const watermarkLink = document.createElement('a');
   watermarkLink.href = 'https://www.tikitaka365.com';
   watermarkLink.target = '_blank';
   watermarkLink.style.position = 'absolute';
-  watermarkLink.style.bottom = '16px';
+  watermarkLink.style.bottom = '12px';
   watermarkLink.style.right = '16px';
   watermarkLink.style.opacity = '0.8';
   watermarkLink.style.cursor = 'pointer';
 
   const watermarkImg = document.createElement('img');
-  watermarkImg.src = 'assets/tikitaka_logo_small.png'; // 작은 로고 경로
-  watermarkImg.style.height = '28px';
+  watermarkImg.src = 'assets/tikitaka_logo_small.png'; // 업로드해준 작은 로고 경로
+  watermarkImg.style.height = '30px';
   watermarkImg.style.width = 'auto';
+  watermarkImg.style.display = 'block';
 
   watermarkLink.appendChild(watermarkImg);
   clonedSummary.appendChild(watermarkLink);
 
-  // ✅ 날짜와 시간 텍스트 추가
+  // ✅ 날짜/시간 표시 추가
   const timestamp = document.createElement('div');
   const now = new Date();
   const yyyy = now.getFullYear();
@@ -1096,11 +1097,12 @@ async function captureResult() {
   const min = String(now.getMinutes()).padStart(2, '0');
   timestamp.innerText = `${yyyy}-${mm}-${dd} ${hh}:${min}`;
   timestamp.style.position = 'absolute';
-  timestamp.style.bottom = '16px';
+  timestamp.style.bottom = '12px';
   timestamp.style.left = '16px';
-  timestamp.style.color = 'rgba(0,0,0,0.6)';
-  timestamp.style.fontSize = '14px';
-  timestamp.style.fontWeight = 'bold';
+  timestamp.style.color = 'rgba(0,0,0,0.4)';
+  timestamp.style.fontSize = '12px'; /* 기존보다 작게 */
+  timestamp.style.fontWeight = '400'; /* 조금 가볍게 */
+  timestamp.style.letterSpacing = '0.5px'; /* 약간 여유 있게 */
 
   clonedSummary.appendChild(timestamp);
 
