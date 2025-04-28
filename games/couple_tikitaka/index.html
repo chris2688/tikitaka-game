@@ -1154,42 +1154,7 @@ async function captureCurrentPage() {
 
   document.body.appendChild(captureLayer);
 
-  const canvas = await html2canvas(captureLayer, {
-    backgroundColor: null,
-    scrollY: 0,
-    scale: 2,
-    useCORS: true
-  });
 
-  document.body.removeChild(captureLayer);
-
-  const link = document.createElement('a');
-  link.download = `티키타카_결과${capturePageIndex}.png`;
-  link.href = canvas.toDataURL();
-  link.click();
-
-  if (capturePageIndex < window.captureData.totalPages) {
-    showNextPageButton();
-  }
-}
-
-function showNextPageButton() {
-  if (document.getElementById('nextCaptureButton')) return; // 버튼 중복 방지
-
-  const button = document.createElement('button');
-  button.id = 'nextCaptureButton';
-  button.className = 'button';
-  button.innerText = '다음 페이지 저장하기';
-  button.style.marginTop = '30px';
-  button.onclick = async () => {
-    capturePageIndex++;
-    document.getElementById('nextCaptureButton').remove();
-    await captureCurrentPage();
-  };
-
-  // 버튼을 finalResult 아래에 추가
-  document.getElementById('finalResult').appendChild(button);
-}
   }
 }
 
