@@ -1046,11 +1046,11 @@ async function captureResult() {
   const allItems = answerBox.querySelectorAll('li');
   const totalItems = allItems.length;
   const splitIndex = 45; // 45개씩 페이지 분할
-  const totalPages = Math.ceil(totalItems.length / splitIndex);
+  const totalPages = Math.ceil(totalItems / splitIndex); 
   const resultSummary = finalResult.querySelector('#resultSummaryBox');
 
   window.captureData = { allItems, splitIndex, totalPages, resultSummary };
-  window.capturePageIndex = 1;
+  capturePageIndex = 1;
 
   await captureCurrentPage();
 }
