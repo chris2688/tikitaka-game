@@ -1165,12 +1165,13 @@ async function captureCurrentPage() {
   link.href = canvas.toDataURL();
   link.click();
 
-if (window.capturePageIndex < window.captureData.totalPages) {
-  window.capturePageIndex++;
+if (capturePageIndex < window.captureData.totalPages) {
+  capturePageIndex++;
   await captureCurrentPage();
 } else {
   alert('모든 결과 저장이 완료되었습니다!');
 }
+ }
 
 
 
