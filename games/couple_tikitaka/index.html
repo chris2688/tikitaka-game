@@ -1036,6 +1036,8 @@ function captureAnswers() {
 }
 
 
+let capturePageIndex = 1;  // 현재 몇 번째 페이지 캡처하는지 기억
+
 async function captureResult() {
   const finalResult = document.getElementById('finalResult');
   if (!finalResult) return;
@@ -1045,105 +1047,150 @@ async function captureResult() {
 
   const allItems = answerBox.querySelectorAll('li');
   const totalItems = allItems.length;
-  const splitIndex = 45;
-  const page1Items = Array.from(allItems).slice(0, splitIndex);
-  const page2Items = Array.from(allItems).slice(splitIndex);
-  const totalPages = page2Items.length > 0 ? 2 : 1;
-
+  const splitIndex = 45; // 45문제당 1페이지
+  const totalPages = Math.ceil(totalItems.length / splitIndex);
   const resultSummary = finalResult.querySelector('#resultSummaryBox');
 
-  async function createCaptureLayer(pageItems, pageIndex, totalPages) {
-    const captureLayer = document.createElement('div');
-    captureLayer.style.position = 'fixed';
-    captureLayer.style.top = '0';
-    captureLayer.style.left = '0';
-    captureLayer.style.width = '100vw';
-    captureLayer.style.minHeight = '100vh';
-    captureLayer.style.background = "url('assets/background.jpg') center/cover no-repeat";
-    captureLayer.style.display = 'flex';
-    captureLayer.style.flexDirection = 'column';
-    captureLayer.style.alignItems = 'center';
-    captureLayer.style.padding = '20px';
-    captureLayer.style.zIndex = '9999';
+  // 캡처에 필요한 데이터 전역 저장
+  window.captureData = { allItems, splitIndex, totalPages, resultSummary };
+  capturePageIndex = 1;
 
-    const clonedSummary = resultSummary.cloneNode(true);
-    clonedSummary.style.backgroundColor = 'rgba(255,255,255,0.85)';
-    clonedSummary.style.color = '#000';
-    clonedSummary.style.borderRadius = '16px';
-    clonedSummary.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
-    clonedSummary.style.maxWidth = '640px';
-    clonedSummary.style.width = '90%';
-    clonedSummary.style.padding = '20px';
-    clonedSummary.style.marginBottom = '24px';
-    captureLayer.appendChild(clonedSummary);
+  await captureCurrentPage();
+}
 
-    const contentBox = document.createElement('div');
-    contentBox.style.backgroundColor = '#fff';
-    contentBox.style.borderRadius = '16px';
-    contentBox.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
-    contentBox.style.maxWidth = '640px';
-    contentBox.style.width = '90%';
-    contentBox.style.padding = '24px';
-    contentBox.style.textAlign = 'left';
-    contentBox.style.fontSize = '16px';
-    contentBox.style.lineHeight = '1.8';
-    contentBox.style.color = '#000';
-    captureLayer.appendChild(contentBox);
+async function captureCurrentPage() {
+  const { allItems, splitIndex, totalPages, resultSummary } = window.captureData;
+  const pageItems = Array.from(allItems).slice((capturePageIndex - 1) * splitIndex, capturePageIndex * splitIndex);
 
-    const titleWrapper = document.createElement('div');
-    titleWrapper.style.display = 'flex';
-    titleWrapper.style.justifyContent = 'space-between';
-    titleWrapper.style.alignItems = 'center';
-    titleWrapper.style.marginBottom = '20px';
-    contentBox.appendChild(titleWrapper);
+  const captureLayer = document.createElement('div');
+  captureLayer.style.position = 'fixed';
+  captureLayer.style.top = '0';
+  captureLayer.style.left = '0';
+  captureLayer.style.width = '100vw';
+  captureLayer.style.minHeight = '100vh';
+  captureLayer.style.background = "url('assets/background.jpg') center/cover no-repeat";
+  captureLayer.style.display = 'flex';
+  captureLayer.style.flexDirection = 'column';
+  captureLayer.style.alignItems = 'center';
+  captureLayer.style.padding = '20px';
+  captureLayer.style.zIndex = '9999';
 
-    const title = document.createElement('h3');
-    title.innerText = '📋 질문 & 답변 정리';
-    title.style.margin = '0';
-    title.style.fontSize = '20px';
-    title.style.color = '#000';
-    titleWrapper.appendChild(title);
+  const clonedSummary = resultSummary.cloneNode(true);
+  clonedSummary.style.backgroundColor = 'rgba(255,255,255,0.85)';
+  clonedSummary.style.color = '#000';
+  clonedSummary.style.borderRadius = '16px';
+  clonedSummary.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
+  clonedSummary.style.maxWidth = '640px';
+  clonedSummary.style.width = '90%';
+  clonedSummary.style.padding = '20px';
+  clonedSummary.style.marginBottom = '24px';
+  captureLayer.appendChild(clonedSummary);
 
-    const pageNum = document.createElement('div');
-    pageNum.innerText = `${pageIndex}/${totalPages}`;
-    pageNum.style.fontSize = '16px';
-    pageNum.style.color = '#000';
-    titleWrapper.appendChild(pageNum);
+  const contentBox = document.createElement('div');
+  contentBox.style.backgroundColor = '#fff';
+  contentBox.style.borderRadius = '16px';
+  contentBox.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
+  contentBox.style.maxWidth = '640px';
+  contentBox.style.width = '90%';
+  contentBox.style.padding = '24px';
+  contentBox.style.textAlign = 'left';
+  contentBox.style.fontSize = '16px';
+  contentBox.style.lineHeight = '1.8';
+  contentBox.style.color = '#000';
+  captureLayer.appendChild(contentBox);
 
-    const ul = document.createElement('ul');
-    ul.style.listStyle = 'none';
-    ul.style.padding = '0';
-    ul.style.margin = '0';
-    contentBox.appendChild(ul);
+  const titleWrapper = document.createElement('div');
+  titleWrapper.style.display = 'flex';
+  titleWrapper.style.justifyContent = 'space-between';
+  titleWrapper.style.alignItems = 'center';
+  titleWrapper.style.marginBottom = '20px';
+  contentBox.appendChild(titleWrapper);
 
-    pageItems.forEach((item, index) => {
-      const li = document.createElement('li');
-      li.style.marginBottom = '24px';
-      li.style.whiteSpace = 'pre-wrap';
-      li.style.wordBreak = 'break-word';
+  const title = document.createElement('h3');
+  title.innerText = '📋 질문 & 답변 정리';
+  title.style.margin = '0';
+  title.style.fontSize = '20px';
+  title.style.color = '#000';
+  titleWrapper.appendChild(title);
 
-      const divs = item.querySelectorAll('div');
+  const pageNum = document.createElement('div');
+  pageNum.innerText = `${capturePageIndex}/${totalPages}`;
+  pageNum.style.fontSize = '16px';
+  pageNum.style.color = '#000';
+  titleWrapper.appendChild(pageNum);
 
-      const rawQuestion = divs[0]?.innerText || '';
-      const question = rawQuestion.replace(/^Q\d+\.\s*/, '');
+  const ul = document.createElement('ul');
+  ul.style.listStyle = 'none';
+  ul.style.padding = '0';
+  ul.style.margin = '0';
+  contentBox.appendChild(ul);
 
-      const rawAnswer1 = divs[1]?.innerText || '';
-      const answer1 = rawAnswer1.replace(/^·\s*[^:]+:\s*/, '');
+  pageItems.forEach((item, index) => {
+    const li = document.createElement('li');
+    li.style.marginBottom = '24px';
+    li.style.whiteSpace = 'pre-wrap';
+    li.style.wordBreak = 'break-word';
 
-      const rawAnswer2 = divs[2]?.innerText || '';
-      const answer2 = rawAnswer2.replace(/^·\s*[^:]+:\s*/, '');
+    const divs = item.querySelectorAll('div');
 
-      const rawResult = divs[3]?.innerText || '';
-      const result = rawResult.replace(/^결과:\s*/, '');
+    const rawQuestion = divs[0]?.innerText || '';
+    const question = rawQuestion.replace(/^Q\d+\.\s*/, '');
 
-      const globalQuestionNumber = (pageIndex - 1) * splitIndex + index + 1;
+    const rawAnswer1 = divs[1]?.innerText || '';
+    const answer1 = rawAnswer1.replace(/^·\s*[^:]+:\s*/, '');
 
-      li.innerText = `Q${globalQuestionNumber}. ${question}\n· ${p1}: ${answer1}\n· ${p2}: ${answer2}\n${rawResult}`;
+    const rawAnswer2 = divs[2]?.innerText || '';
+    const answer2 = rawAnswer2.replace(/^·\s*[^:]+:\s*/, '');
 
-      ul.appendChild(li);
-    });
+    const rawResult = divs[3]?.innerText || '';
+    const result = rawResult.replace(/^결과:\s*/, '');
 
-    document.body.appendChild(captureLayer);
+    const globalQuestionNumber = (capturePageIndex - 1) * splitIndex + index + 1;
+
+    li.innerText = `Q${globalQuestionNumber}. ${question}\n· ${p1}: ${answer1}\n· ${p2}: ${answer2}\n${rawResult}`;
+
+    ul.appendChild(li);
+  });
+
+  document.body.appendChild(captureLayer);
+
+  const canvas = await html2canvas(captureLayer, {
+    backgroundColor: null,
+    scrollY: 0,
+    scale: 2,
+    useCORS: true
+  });
+
+  document.body.removeChild(captureLayer);
+
+  const link = document.createElement('a');
+  link.download = `티키타카_결과${capturePageIndex}.png`;
+  link.href = canvas.toDataURL();
+  link.click();
+
+  if (capturePageIndex < window.captureData.totalPages) {
+    showNextPageButton();
+  }
+}
+
+function showNextPageButton() {
+  if (document.getElementById('nextCaptureButton')) return; // 버튼 중복 방지
+
+  const button = document.createElement('button');
+  button.id = 'nextCaptureButton';
+  button.className = 'button';
+  button.innerText = '다음 페이지 저장하기';
+  button.style.marginTop = '30px';
+  button.onclick = async () => {
+    capturePageIndex++;
+    document.getElementById('nextCaptureButton').remove();
+    await captureCurrentPage();
+  };
+
+  // 버튼을 finalResult 아래에 추가
+  document.getElementById('finalResult').appendChild(button);
+}
+
 
     const canvas = await html2canvas(captureLayer, {
       backgroundColor: null,
