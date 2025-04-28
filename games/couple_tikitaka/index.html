@@ -1136,7 +1136,9 @@ const answer2 = rawAnswer2.replace(/^·\s*[^:]+:\s*/, '');  // "· 이름 :" 제
 const rawResult = divs[3]?.innerText || '';
 const result = rawResult.replace(/^결과:\s*/, '');  // "결과:" 제거
 
-li.innerText = `Q${index + 1}. ${question}\n· ${p1}: ${answer1}\n· ${p2}: ${answer2}\n${rawResult}`;
+const globalQuestionNumber = (pageIndex - 1) * splitIndex + index + 1; 
+
+ li.innerText = `Q${globalQuestionNumber}. ${question}\n· ${p1}: ${answer1}\n· ${p2}: ${answer2}\n${rawResult}`;
 
       ul.appendChild(li);
     });
