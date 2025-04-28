@@ -1136,7 +1136,7 @@ async function captureResult() {
       const rawResult = divs[3]?.innerText || '';
       const result = rawResult.replace(/^결과:\s*/, '');
 
-      const globalQuestionNumber = (pageIndex - 1) * splitIndex + index + 1; 
+      const globalQuestionNumber = (pageIndex - 1) * splitIndex + index + 1;
 
       li.innerText = `Q${globalQuestionNumber}. ${question}\n· ${p1}: ${answer1}\n· ${p2}: ${answer2}\n${rawResult}`;
 
@@ -1156,6 +1156,7 @@ async function captureResult() {
     return canvas;
   }
 
+  // ✅ 순서대로 캡쳐
   const canvas1 = await createCaptureLayer(page1Items, 1, totalPages);
   const link1 = document.createElement('a');
   link1.download = totalPages === 1 ? '티키타카_결과.png' : '티키타카_결과1.png';
@@ -1170,6 +1171,7 @@ async function captureResult() {
     link2.click();
   }
 }
+
 
 
 
