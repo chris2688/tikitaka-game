@@ -1064,11 +1064,24 @@ async function captureResult() {
   clonedSummary.style.maxWidth = '640px';
   clonedSummary.style.width = '90%';
   clonedSummary.style.padding = '20px';
-  clonedSummary.style.position = 'relative'; // 워터마크, 시간 기준
+  clonedSummary.style.position = 'relative'; // 워터마크/시간 위치 기준
 
   captureLayer.appendChild(clonedSummary);
 
-  // ✅ 날짜/시간 표시 추가
+  // ✅ 오른쪽 위에 로고 이미지 추가
+  const watermarkImg = document.createElement('img');
+  watermarkImg.src = 'assets/tikitaka_logo_small.png'; // 작은 로고 이미지 경로
+  watermarkImg.style.position = 'absolute';
+  watermarkImg.style.top = '16px';
+  watermarkImg.style.right = '16px';
+  watermarkImg.style.height = '30px';
+  watermarkImg.style.width = 'auto';
+  watermarkImg.style.opacity = '0.4'; // 부드러운 투명도
+  watermarkImg.style.pointerEvents = 'none'; // 클릭 방지
+
+  clonedSummary.appendChild(watermarkImg);
+
+  // ✅ 왼쪽 아래에 날짜/시간 추가
   const timestamp = document.createElement('div');
   const now = new Date();
   const yyyy = now.getFullYear();
@@ -1078,41 +1091,27 @@ async function captureResult() {
   const min = String(now.getMinutes()).padStart(2, '0');
   timestamp.innerText = `${yyyy}-${mm}-${dd} ${hh}:${min}`;
   timestamp.style.position = 'absolute';
-  timestamp.style.bottom = '10px';
+  timestamp.style.bottom = '16px';
   timestamp.style.left = '16px';
   timestamp.style.color = 'rgba(0,0,0,0.4)';
   timestamp.style.fontSize = '12px';
   timestamp.style.fontWeight = '400';
   timestamp.style.letterSpacing = '0.5px';
-  timestamp.style.userSelect = 'none';
+
   clonedSummary.appendChild(timestamp);
 
-  // ✅ 홈페이지 주소 표시 추가
+  // ✅ 오른쪽 아래에 홈페이지 주소 추가
   const homepage = document.createElement('div');
   homepage.innerText = 'www.tikitaka365.com';
   homepage.style.position = 'absolute';
-  homepage.style.bottom = '10px';
+  homepage.style.bottom = '16px';
   homepage.style.right = '16px';
   homepage.style.color = 'rgba(0,0,0,0.4)';
   homepage.style.fontSize = '12px';
   homepage.style.fontWeight = '400';
   homepage.style.letterSpacing = '0.5px';
-  homepage.style.userSelect = 'none';
+
   clonedSummary.appendChild(homepage);
-
-  // ✅ 워터마크 로고 이미지 추가 (링크 X)
-  const watermarkImg = document.createElement('img');
-  watermarkImg.src = 'assets/tikitaka_logo_small.png'; // 저장된 로고 경로
-  watermarkImg.style.position = 'absolute';
-  watermarkImg.style.top = '12px';
-  watermarkImg.style.right = '12px';
-  watermarkImg.style.opacity = '0.4';
-  watermarkImg.style.height = '40px';
-  watermarkImg.style.width = 'auto';
-  watermarkImg.style.display = 'block';
-  watermarkImg.style.userSelect = 'none';
-
-  clonedSummary.appendChild(watermarkImg);
 
   document.body.appendChild(captureLayer);
 
@@ -1132,6 +1131,7 @@ async function captureResult() {
 
   if (buttonArea) buttonArea.style.display = 'flex'; // 버튼 다시 보이기
 }
+
 
 
 
