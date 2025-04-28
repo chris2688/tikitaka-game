@@ -1190,31 +1190,6 @@ function showNextPageButton() {
   // 버튼을 finalResult 아래에 추가
   document.getElementById('finalResult').appendChild(button);
 }
-
-
-    const canvas = await html2canvas(captureLayer, {
-      backgroundColor: null,
-      scrollY: 0,
-      scale: 2,
-      useCORS: true
-    });
-
-    document.body.removeChild(captureLayer);
-    return canvas;
-  }
-
-  const canvas1 = await createCaptureLayer(page1Items, 1, totalPages);
-  const link1 = document.createElement('a');
-  link1.download = totalPages === 1 ? '티키타카_결과.png' : '티키타카_결과1.png';
-  link1.href = canvas1.toDataURL();
-  link1.click();
-
-  if (totalPages === 2) {
-    const canvas2 = await createCaptureLayer(page2Items, 2, totalPages);
-    const link2 = document.createElement('a');
-    link2.download = '티키타카_결과2.png';
-    link2.href = canvas2.toDataURL();
-    link2.click();
   }
 }
 
