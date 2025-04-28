@@ -1036,9 +1036,12 @@ function captureAnswers() {
 
 
 
-function captureResult() {
+async function captureResult() {
   const resultSummary = document.getElementById('resultSummaryBox');
   if (!resultSummary) return;
+
+  const buttonArea = document.querySelector('#finalResult div[style*="display: flex"]');
+  if (buttonArea) buttonArea.style.display = 'none'; // 버튼 숨기기
 
   const captureLayer = document.createElement('div');
   captureLayer.style.position = 'fixed';
@@ -1061,23 +1064,40 @@ function captureResult() {
   clonedSummary.style.maxWidth = '640px';
   clonedSummary.style.width = '90%';
   clonedSummary.style.padding = '20px';
+  clonedSummary.style.position = 'relative'; // 워터마크를 위한 기준
+
   captureLayer.appendChild(clonedSummary);
+
+  // 워터마크 추가
+  const watermark = document.createElement('div');
+  watermark.innerText = 'TIKI TAKA';
+  watermark.style.position = 'absolute';
+  watermark.style.bottom = '12px';
+  watermark.style.right = '16px';
+  watermark.style.fontSize = '14px';
+  watermark.style.color = 'rgba(255, 255, 255, 0.6)';
+  watermark.style.fontWeight = 'bold';
+  clonedSummary.appendChild(watermark);
 
   document.body.appendChild(captureLayer);
 
-  html2canvas(captureLayer, {
+  const canvas = await html2canvas(captureLayer, {
     backgroundColor: null,
     scrollY: 0,
     scale: 2,
     useCORS: true
-  }).then(canvas => {
-    document.body.removeChild(captureLayer);
-    const link = document.createElement('a');
-    link.download = '티키타카_결과.png';
-    link.href = canvas.toDataURL();
-    link.click();
   });
+
+  document.body.removeChild(captureLayer);
+
+  const link = document.createElement('a');
+  link.download = '티키타카_결과.png';
+  link.href = canvas.toDataURL();
+  link.click();
+
+  if (buttonArea) buttonArea.style.display = 'flex'; // 버튼 다시 보이기
 }
+
 
 
 
